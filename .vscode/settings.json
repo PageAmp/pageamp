@@ -1,0 +1,16 @@
+{
+	"codedox": {
+		"fileheader": {
+			"templates": {
+				"*": [
+					"${license_mit}"
+				]
+			},
+			"params": {
+				"haxe": {
+					"company": "Ubimte.com"
+				}
+			}
+		}
+	}
+}

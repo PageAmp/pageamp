@@ -1,0 +1,20 @@
+<html>
+<head>
+	<style>
+		body {font-family: sans-serif}
+	</style>
+</head>
+<body>
+
+	<ub1-dataset :name="list"
+	         :server="${makeData()}"
+	         :makeData="${function() {
+	            var names = sysReadDirectory(sysFSPath);
+	            names = stringSort(names);
+	            return names.map(function(s) {return {name:s}});
+	         }}"/>
+
+	<div :foreach="list:/root/item">$data{@name}</div>
+
+</body>
+</html>

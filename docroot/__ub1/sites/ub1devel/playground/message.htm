@@ -1,0 +1,39 @@
+<lib note="message dialog">
+
+	<div :name="messageDialog"
+	     class="modal-background"
+	     s_display="${open ? null : 'none'}"
+	     :open="${false}"
+	     :keydownHandler="${(sysKeydown):function() {
+	        if (open) {
+		        if (sysKeydown.which == 27) open = false;
+		        if (sysKeydown.which == 9) sysKeydown.preventDefault();
+		        sysKeydown.name = null;
+		    }
+	     }}"
+	     :ev_click="${open = false}">
+
+		<div class="modal-dialog"
+		     :ev_click="${ev.stopPropagation()}">
+			<form :name="form" class="mail-form"
+			     :on_open="${c.dom.value = ''}"
+			     :submit="${function() {
+			        //TODO
+			        log(n.dom.value);
+			        log(c.dom.value);
+			        open = false;
+			     }}">
+				<div class="dialog-header">Send us a comment:</div>
+				<input :name="n" type="text" placeholder="Optional Name"/>
+				<textarea :name="c" autofocus="" placeholder="Your Comment"/>
+			</form>
+
+			<div class="dialog-footer">
+				<button :ev_click="${form.submit()}">Send</button>
+				<button :ev_click="${open = false}">Cancel</button>
+			</div>
+		</div>
+
+	</div>
+
+</lib>

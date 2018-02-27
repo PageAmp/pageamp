@@ -1,0 +1,14 @@
+-php docroot/__ub1_test/php
+-cp src
+-main ub1_test.Ub1Suite
+-lib htmlparser
+-lib hscript
+
+--next
+-js docroot/__ub1_test/bin/test.js
+-cp src
+-main ub1_test.Ub1Suite
+-lib htmlparser
+-lib hscript
+-D client
+-debug

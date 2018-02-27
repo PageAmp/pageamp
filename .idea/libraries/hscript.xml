@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="hscript" type="Haxe">
+    <CLASSES>
+      <root url="file:///usr/local/lib/haxe/lib/hscript/2,1,1" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file:///usr/local/lib/haxe/lib/hscript/2,1,1" />
+    </SOURCES>
+  </library>
+</component>

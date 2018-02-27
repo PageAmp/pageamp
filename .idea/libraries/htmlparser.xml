@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="htmlparser" type="Haxe">
+    <CLASSES>
+      <root url="file:///usr/local/lib/haxe/lib/HtmlParser/3,3,0" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file:///usr/local/lib/haxe/lib/HtmlParser/3,3,0" />
+    </SOURCES>
+  </library>
+</component>
