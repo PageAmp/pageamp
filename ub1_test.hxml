@@ -1,14 +1,36 @@
--php docroot/__ub1_test/php
--cp src
--main ub1_test.Ub1Suite
--lib htmlparser
--lib hscript
+# ==============================================================================
+# js ub1_test.Ub1Suite
+# ==============================================================================
 
 --next
--js docroot/__ub1_test/bin/test.js
+-js docroot/__ub1_test/client/bin/test.js
 -cp src
 -main ub1_test.Ub1Suite
 -lib htmlparser
 -lib hscript
 -D client
+-D test
 -debug
+
+# ==============================================================================
+# php ub1_test.Ub1Suite
+# ==============================================================================
+
+--next
+-php docroot/__ub1_test/php
+-cp src
+-main ub1_test.Ub1Suite
+-lib htmlparser
+-lib hscript
+-D server
+-D test
+
+# ==============================================================================
+# js ub1.util.TestPage
+# ==============================================================================
+
+--next
+-js docroot/__ub1_test/bin/testpage.js
+-main ub1.util.TestPage
+-cp src
+-D client

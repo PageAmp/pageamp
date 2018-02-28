@@ -19,40 +19,46 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package ub1_test;
+package ub1_test.react;
 
-import ub1_test.data.*;
-import ub1_test.react.*;
-import ub1_test.util.*;
-import ub1_test.web.*;
 import ub1.util.Test;
+import ub1.react.ValueContext;
+import ub1.react.ValueScope;
+import ub1.web.DomTools;
+using ub1.web.DomTools;
 
-class Ub1Suite extends TestRoot {
+class ScopeTest extends Test {
+	var context: ValueContext;
+	var scope: ValueScope;
 
-	static public function main() {
-		new Ub1Suite(function(p:Test) {
-			new Core(p, function(p:Test) {
-			});
-			new Data(p, function(p:Test) {
-				new DataPathTest(p);
-			});
-			new React(p, function(p:Test) {
-				new ScopeTest(p);
-				new ValueTest(p);
-			});
-			new Util(p, function(p:Test) {
-				new UrlTest(p);
-			});
-			new Web(p, function(p:Test) {
-				new DomToolsTest(p);
-			});
-		}, null, 'http://localhost/__ubr_test/php/index.php?rpc=');
+	public function new(p:Test) {
+		super(p);
+		context = new ValueContext();
+		scope = context.main;
+	}
+
+	public function testScope1() {
+		context.reset();
+		scope.set('v', 3);
+		assert(scope.get('v'), 3);
+		context.refresh();
+		assert(scope.get('v'), 3);
+		scope.set('v', 'foo');
+		assert(scope.get('v'), 'foo');
+		context.refresh();
+		assert(scope.get('v'), 'foo');
+	}
+
+	public function testScope2() {
+		context.reset();
+		scope.set('v', "${3}");
+		assert(scope.get('v'), null);
+		context.refresh();
+		assert(scope.get('v'), 3);
+		scope.set('v', 'foo');
+		assert(scope.get('v'), 'foo');
+		context.refresh();
+		assert(scope.get('v'), 'foo');
 	}
 
 }
-
-class Core extends Test {}
-class Data extends Test {}
-class React extends Test {}
-class Util extends Test {}
-class Web extends Test {}

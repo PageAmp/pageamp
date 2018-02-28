@@ -31,6 +31,7 @@ private class SingleException {
 	public function new() {}
 }
 
+//TODO: range operator
 class DataPath {
 	static var parser: Parser;
 	static var interp: Interp;

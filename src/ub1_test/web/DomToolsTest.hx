@@ -19,40 +19,33 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package ub1_test;
+package ub1_test.web;
 
-import ub1_test.data.*;
-import ub1_test.react.*;
-import ub1_test.util.*;
-import ub1_test.web.*;
 import ub1.util.Test;
+import ub1.web.DomTools;
+using ub1.web.DomTools;
 
-class Ub1Suite extends TestRoot {
+class DomToolsTest extends Test {
 
-	static public function main() {
-		new Ub1Suite(function(p:Test) {
-			new Core(p, function(p:Test) {
-			});
-			new Data(p, function(p:Test) {
-				new DataPathTest(p);
-			});
-			new React(p, function(p:Test) {
-				new ScopeTest(p);
-				new ValueTest(p);
-			});
-			new Util(p, function(p:Test) {
-				new UrlTest(p);
-			});
-			new Web(p, function(p:Test) {
-				new DomToolsTest(p);
-			});
-		}, null, 'http://localhost/__ubr_test/php/index.php?rpc=');
+	public function testTestDoc1() {
+		willDelay();
+	    DomTools.testDoc(null, function(doc:DomDocument, cleanup:TestDocCleanup) {
+    	    var s = doc.domToString();
+    	    assert(s, "<html><head></head><body></body></html>");
+		    cleanup();
+		    didDelay();
+	    });
 	}
-
+	
+	public function testTestDoc2() {
+	    var html = "<html><head><title>foo</title></head><body></body></html>";
+		willDelay();
+	    html.testDoc(function(doc:DomDocument, cleanup:TestDocCleanup) {
+    	    var s = doc.domToString();
+    	    assert(s, html);
+		    cleanup();
+		    didDelay();
+	    });
+	}
+	
 }
-
-class Core extends Test {}
-class Data extends Test {}
-class React extends Test {}
-class Util extends Test {}
-class Web extends Test {}

@@ -5,22 +5,22 @@
 </head>
 <body>
 	<ub1-dataset :name="list"
-	         :server="${makeData()}"
-	         :makeData="${function() {
-	            var names = sysReadDirectory(sysFSPath + '/samples');
-	            names = stringSort(names);
-	            return names.map(function(n) {return {name:n.split('.')[0]}});
-	         }}"/>
+	             :server="${makeData()}"
+	             :makeData="${function() {
+	                var names = sysReadDirectory(sysFSPath + '/samples');
+	                names = stringSort(names);
+	                return names.map(function(n) {return {name:n.split('.')[0]}});
+	             }}"/>
 
 	<ub1-dataset :name="source"
-	         :src="/playground/samples/${sample}.html?ub1_source_in=true"/>
+	             :src="/playground/samples/${sample}.html?ub1_source_in=true"/>
 
 	<ub1-dataset :name="text"
-	         :src="/playground/texts/${sample}.md"/>
+	             :src="/playground/texts/${sample}.md"/>
 
 	<div class="toolbar">
 		<ub1-include href="logo.htm"/>
-		<button :ev_click="${window.open('https://github.com/fcapolini/ub1', '_blank')}"
+		<button :ev_click="${window.open('https://github.com/ubimate/ub1', '_blank')}"
 				title="GitHub Project">
 			<i class="fa fa-fw fa-github" style="margin-left:-1px;font-size:120%"/>
 		</button>
