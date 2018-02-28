@@ -191,7 +191,7 @@ class Test extends BaseNode {
 		var name = Type.getClassName(Type.getClass(this)).split('.').pop();
 		if (nesting == 0) {
 			#if client
-				name = 'ClientJS - $name';
+				name = 'Client - $name';
 			#elseif php
 				name = 'PHP - $name';
 			#end

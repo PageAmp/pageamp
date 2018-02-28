@@ -1,5 +1,7 @@
 # ub1
 
+[[Ub1 Announcement](https://www.linkedin.com/pulse/first-release-upcoming-ubimatecom-groundbreaking-oss-web-capolini/)] [[Online Playground](http://ub1devel.net/playground/)] [[Test Suite](http://ub1devel.net/__ub1_test/index.html)]
+
 Ub1 is a groundbreaking framework for Web developers. It augments HTML to make it:
 
 * [isomprphic](https://en.wikipedia.org/wiki/Isomorphic_JavaScript), capable of working unmodified on both the server and the client, _without requiring a JavaScript back-end (1)_
@@ -12,6 +14,8 @@ Crucially, it adopts an HTML-first approach: it doesn't impose a model on you an
 
 It strives to keep true to HTML's declarative nature, and has remarkably light client runtime of just 40KB (minified, gzipped).
 
+Ub1 is written in the excellent [Haxe language](https://haxe.org/). While you really should check it out for the sake of its own value, you don't need to know or use Haxe to use Ub1. Even creating Ub1's _HTML libraries_ (see below) won't require any Haxe knowledge.
+
 It's currently in alpha stage. An online playground is available [here](http://ub1devel.net/playground/).
 
 ---
@@ -22,7 +26,7 @@ It's currently in alpha stage. An online playground is available [here](http://u
 
 > Server Side Rendering for the rest of us.
 
-Ub1 was built from the ground up with support for [Server Side Rendering](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on a variety of server platforms thanks to the magic of the [Haxe language](https://haxe.org/).
+Ub1 was built from the ground up with support for [Server Side Rendering](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on a variety of server platforms thanks to the magic of Haxe.
 
 Contrary to JavaScript-only technologies like [React.js](https://reactjs.org), [Vue.js](https://vuejs.org/), [Redux](https://redux.js.org/) etc., SSR is not an afterthought and your server-side options are not limited to [Node.js](https://nodejs.org/en/), which isn't a practical choice for the average web site.
 
