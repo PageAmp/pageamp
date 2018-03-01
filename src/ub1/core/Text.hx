@@ -37,7 +37,7 @@ class Text extends Node {
 		this.slot = slot;
 		this.index = index;
 		super(parent, slot, index);
-		if (Node.isDynamicValue(text)) {
+		if (isDynamicValue(null, text)) {
 			var scope = getScope();
 			if (scope != null) {
 				value = scope.set(Element.NODE_PREFIX + page.nextId(), text);

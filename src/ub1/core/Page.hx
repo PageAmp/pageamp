@@ -21,6 +21,7 @@
 
 package ub1.core;
 
+import ub1.react.Value;
 import ub1.util.PropertyTool.Props;
 import ub1.web.DomTools.DomDocument;
 import ub1.util.ArrayTool;
@@ -34,7 +35,7 @@ using StringTools;
 
 class Page extends Element implements ServerPage {
 	public var doc: DomDocument;
-//	public static inline var LANG_ATTR = 'lang';
+	public static inline var LANG_ATTR = Element.ATTRIBUTE_PREFIX + 'lang';
 	public static inline var REDIRECT_ATTR = 'sysRedirect';
 	public static inline var FSPATH_PROP = 'sysFSPath';
 	public static inline var URI_PROP = 'sysURI';
@@ -234,6 +235,17 @@ class Page extends Element implements ServerPage {
 #end
 		set('Xml', Xml).unlink();
 		set('sysCommandKey', commandKey).unlink();
+	}
+
+	override function isDynamicValue(k:String, v:Dynamic): Bool {
+		return k == LANG_ATTR ? true : super.isDynamicValue(k, v);
+	}
+
+	override function newValueDelegate(v:Value) {
+		super.newValueDelegate(v);
+		if (v.name == LANG_ATTR) {
+			v.userdata = doc.domRootElement();
+		}
 	}
 
 }

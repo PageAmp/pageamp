@@ -59,7 +59,7 @@ class ServerTest1 extends Test {
 	TODO: missing protocol, domain
 	 */
 	function test2() {
-		var s = getPage0(2);
+		var s = getVerbatimPage(2);
 		assert(s, '<!DOCTYPE html>\n'
 		+ '<html><head></head><body id="ub1_1">'
 		+ '<script>ub1_props = {'
@@ -86,13 +86,13 @@ class ServerTest1 extends Test {
 	// utilities
 	// =========================================================================
 
-	public static function getPage0(id:Int): String {
+	public static function getVerbatimPage(id:Int): String {
 		var s = Http.requestUrl(BASEURL + id);
 		s = s.replace('\\/', '/');
 		return s;
 	}
 
-	public static function getPage(id:Int): String {
+	public static function getCleanPage(id:Int): String {
 		var s = Http.requestUrl(BASEURL + id);
 		s = removeClient(s);
 		return s;

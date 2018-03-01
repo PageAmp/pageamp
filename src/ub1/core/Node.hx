@@ -94,12 +94,6 @@ class Node extends BaseNode {
 	// util
 	// =========================================================================
 
-	public static inline function isDynamicValue(v:Dynamic) {
-		return v != null
-		&& Std.is(v, String)
-		&& !Value.isConstantExpression(untyped v);
-	}
-
 	public static function makeCamelName(n:String): String {
 		return ~/(\-\w)/g.map(n, function(re:EReg): String {
 			return n.substr(re.matchedPos().pos + 1, 1).toUpperCase();
@@ -122,6 +116,12 @@ class Node extends BaseNode {
 	override function init() {
 		parent == null ? makeScope() : null;
 		id = page.nextId();
+	}
+
+	function isDynamicValue(k:String, v:Dynamic) {
+		return v != null
+		&& Std.is(v, String)
+		&& !Value.isConstantExpression(untyped v);
 	}
 
 	// =========================================================================

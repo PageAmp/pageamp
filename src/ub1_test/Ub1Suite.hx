@@ -42,17 +42,17 @@ class Ub1Suite extends TestRoot {
 				new ClientTest(p);
 			});
 #end
-			new Core(p, function(p:Test) {
-			});
-			new Data(p, function(p:Test) {
-				new DataPathTest(p);
-			});
 #if server
 			new Server(p, function(p:Test) {
 				new ServerTest1(p);
 				new ServerTest2(p);
 			});
 #end
+			new Core(p, function(p:Test) {
+			});
+			new Data(p, function(p:Test) {
+				new DataPathTest(p);
+			});
 			new React(p, function(p:Test) {
 				new ScopeTest(p);
 				new ValueTest(p);

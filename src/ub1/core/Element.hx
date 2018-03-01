@@ -71,7 +71,7 @@ class Element extends Node {
 
 	override public function set(key:String, val:Dynamic, push=true): Value {
 		var ret = null;
-		if (key.startsWith(ATTRIBUTE_PREFIX) && !Node.isDynamicValue(val)) {
+		if (key.startsWith(ATTRIBUTE_PREFIX) && !isDynamicValue(key, val)) {
 			key = Node.makeHyphenName(key.substr(ATTRIBUTE_PREFIX.length));
 			attributeValueCB(e, key, val);
 		} else {

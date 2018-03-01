@@ -54,7 +54,7 @@ A plain HTML page
 
 <style>
 body {
-color: yellow;
+color: red;
 font-family: sans-serif;
 }
 </style>
