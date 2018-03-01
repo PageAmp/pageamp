@@ -34,11 +34,12 @@ using ub1.web.DomTools;
 class Loader {
 
 	public static function loadPage(src:HtmlDocument,
-	                                ?dst:DomDocument,
-	                                ?rootpath:String,
-	                                ?uri:String): ServerPage {
+	                                dst:DomDocument,
+	                                rootpath:String,
+	                                domain:String,
+	                                uri:String): ServerPage {
 		dst == null ? dst = DomTools.defaultDocument() : null;
-		var ret = loadRoot(dst, src, rootpath, uri);
+		var ret = loadRoot(dst, src, rootpath, domain, uri);
 		return ret;
 	}
 
@@ -46,7 +47,7 @@ class Loader {
 		text = normalizeText(text);
 		var src = PreprocessorParser.parseDoc(text);
 		dst == null ? dst = DomTools.defaultDocument() : null;
-		var ret = loadRoot(dst, src, null, null);
+		var ret = loadRoot(dst, src, null, null, null);
 		return ret;
 	}
 
@@ -66,11 +67,14 @@ class Loader {
 	static function loadRoot(doc:DomDocument,
 	                         src:HtmlDocument,
 	                         rootpath:String,
+	                         domain:String,
 	                         uri='/'): Page {
 		var e = src.children[0];
+		var url = new Url(uri);
+		url.domain = domain;
 		var props = loadProps(e, false);
 		props.set(Page.FSPATH_PROP, rootpath);
-		props.set(Page.URI_PROP, new Url(uri));
+		props.set(Page.URI_PROP, url);
 		var ret = new Page(doc, props, function(p:Page) {
 			loadChildren(p, e);
 		});

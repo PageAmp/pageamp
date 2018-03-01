@@ -70,10 +70,10 @@ class Server {
 			if (params.get(SOURCEIN_ARG) == 'true') {
 				outputSourceFile(root, uri);
 			} else {
-				outputPage(root, uri, params);
+				outputPage(root, domain, uri, params);
 			}
 #else
-			outputPage(root, uri, params);
+			outputPage(root, domain, uri, params);
 #end
 		}
 	}
@@ -108,6 +108,7 @@ class Server {
 	}
 
 	static function outputPage(root:String,
+	                           domain:String,
 	                           uri:String,
 	                           params:Map<String,String>) {
 		var src:HtmlDocument = null;
@@ -136,7 +137,7 @@ class Server {
 		}
 		try {
 			var path = new Path(root + uri);
-			var page = Loader.loadPage(src, null, path.dir, Web.getURI());
+			var page = Loader.loadPage(src, null, path.dir, domain, Web.getURI());
 #if !logServer
 	#if devel
 			if (params.get(SOURCEOUT_ARG) == 'true') {

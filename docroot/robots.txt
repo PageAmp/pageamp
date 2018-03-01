@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /__ub1/
+Disallow: /__ub1_test/

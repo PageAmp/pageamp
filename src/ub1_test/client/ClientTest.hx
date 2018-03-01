@@ -19,61 +19,10 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package ub1_test;
+package ub1_test.client;
 
-import ub1_test.data.*;
-import ub1_test.react.*;
-import ub1_test.util.*;
-import ub1_test.web.*;
 import ub1.util.Test;
-#if client
-	import ub1_test.client.*;
-#end
-#if server
-	import ub1_test.server.*;
-#end
 
-class Ub1Suite extends TestRoot {
-
-	static public function main() {
-		new Ub1Suite(function(p:Test) {
-#if client
-			new Client(p, function(p:Test) {
-				new ClientTest(p);
-			});
-#end
-			new Core(p, function(p:Test) {
-			});
-			new Data(p, function(p:Test) {
-				new DataPathTest(p);
-			});
-#if server
-			new Server(p, function(p:Test) {
-				new ServerTest1(p);
-				new ServerTest2(p);
-			});
-#end
-			new React(p, function(p:Test) {
-				new ScopeTest(p);
-				new ValueTest(p);
-			});
-			new Util(p, function(p:Test) {
-				new UrlTest(p);
-			});
-			new Web(p, function(p:Test) {
-				new DomToolsTest(p);
-			});
-		}, null, 'http://localhost/__ubr_test/php/index.php?rpc=');
-	}
+class ClientTest extends Test {
 
 }
-
-class Client extends Test {}
-class Core extends Test {}
-class Data extends Test {}
-class Server extends Test {
-	public static inline var BASEURL = 'http://localhost/__ub1_test/server/';
-}
-class React extends Test {}
-class Util extends Test {}
-class Web extends Test {}

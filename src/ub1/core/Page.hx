@@ -102,6 +102,7 @@ class Page extends Element implements ServerPage {
 		} else {
 			addClient();
 			php.Web.setHeader('Content-type', 'text/html');
+			php.Lib.println('<!DOCTYPE html>');
 			php.Lib.print(toMarkup());
 		}
 #end
