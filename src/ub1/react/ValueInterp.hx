@@ -80,7 +80,8 @@ class ValueInterp extends Interp {
 		currentScope = null;
 	}
 
-	public #if !debug inline #end function evaluate(exp:Expr, scope:ValueScope): Dynamic {
+	#if !debug inline #end
+	public function evaluate(exp:Expr, scope:ValueScope): Dynamic {
 		var ret = null;
 		var old = currentScope;
 		currentScope = scope;
@@ -94,9 +95,10 @@ class ValueInterp extends Interp {
 		return ret;
 	}
 
-	public #if !debug inline #end function evaluateWith(exp:Expr,
-	                                    scope:ValueScope,
-	                                    locals:Map<String,Dynamic>): Dynamic {
+	#if !debug inline #end
+	public function evaluateWith(exp:Expr,
+	                             scope:ValueScope,
+	                             locals:Map<String,Dynamic>): Dynamic {
 		var ret = null;
 		var old = currentScope;
 		currentScope = scope;
@@ -110,8 +112,9 @@ class ValueInterp extends Interp {
 		return ret;
 	}
 
-	public #if !debug inline #end function executeWith(expr:Expr,
-	                                   locals:Map<String,Dynamic>): Dynamic {
+	#if !debug inline #end
+	public function executeWith(expr:Expr,
+	                            locals:Map<String,Dynamic>): Dynamic {
 		depth = 0;
 		this.locals = untyped locals;
 		declared = new Array();
@@ -183,7 +186,8 @@ class ValueInterp extends Interp {
 		}
 	}
 
-	#if !debug inline #end function _resolveWrite(id:String, v:Dynamic) {
+	#if !debug inline #end
+	function _resolveWrite(id:String, v:Dynamic) {
 		// local vars
 		var l = locals.get(id);
 		if (l != null) {

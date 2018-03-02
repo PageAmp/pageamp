@@ -151,7 +151,8 @@ class Value extends DoubleLinkedItem {
 		return null;
 	}
 
-	public #if !debug inline #end function isDynamic(): Bool {
+	#if !debug inline #end
+	public function isDynamic(): Bool {
 		return (exp != null || valueFn != null);
 	}
 
@@ -202,7 +203,8 @@ class Value extends DoubleLinkedItem {
 		}
 	}
 
-	public #if !debug inline #end function refresh(force=false) {
+	#if !debug inline #end
+	public function refresh(force=false) {
 		Ub1Log.value('${name}.refresh()');
 		if (cycle != scope.context.cycle || force) {
 			cycle = scope.context.cycle;
@@ -241,7 +243,8 @@ class Value extends DoubleLinkedItem {
 		}
 	}
 
-	public #if !debug inline #end function setObservableCallback(cb:Int->Void) {
+	#if !debug inline #end
+	public function setObservableCallback(cb:Int->Void) {
 		if (observable == null) {
 			observable = new Observable();
 		}
@@ -253,7 +256,8 @@ class Value extends DoubleLinkedItem {
 	// =========================================================================
 	public static var parser = new Parser();
 
-	public static #if !debug inline #end function isConstantExpression(s:String): Bool {
+	#if !debug inline #end
+	public static function isConstantExpression(s:String): Bool {
 		return ValueParser.isConstantExpression(s);
 	}
 
@@ -283,7 +287,8 @@ class Value extends DoubleLinkedItem {
 	}
 
 	// called only at `pull` time (i.e. during refreshes)
-	#if !debug inline #end function addObserver(o:Observer) {
+	#if !debug inline #end
+	function addObserver(o:Observer) {
 		if (observable == null) {
 			observable = new Observable();
 		}

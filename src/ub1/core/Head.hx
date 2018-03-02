@@ -45,7 +45,8 @@ class Head extends Element {
 	static inline var GOOGLE_FONT = 'https://fonts.googleapis.com/css?family=';
 	var fonts = new Map<String,DomElement>();
 
-	#if !debug inline #end function initStylingApi() {
+	#if !debug inline #end
+	function initStylingApi() {
 
 		set('cssVendorize', function(s:String) {
 			return '$s;\n'

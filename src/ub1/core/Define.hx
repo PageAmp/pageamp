@@ -25,6 +25,7 @@ package ub1.core;
 import ub1.react.ValueScope;
 import ub1.util.BaseNode;
 import ub1.react.Value;
+import ub1.util.PropertyTool;
 using ub1.util.PropertyTool;
 
 /**

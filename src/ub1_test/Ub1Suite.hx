@@ -51,6 +51,7 @@ class Ub1Suite extends TestRoot {
 			});
 #end
 			new Core(p, function(p:Test) {
+				new DefineTest(p);
 				new PageTest(p);
 			});
 			new Data(p, function(p:Test) {

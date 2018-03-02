@@ -45,7 +45,8 @@ class ValueContext {
 		return null;
 	}
 
-	public #if !debug inline #end function get_main() {
+	#if !debug inline #end
+	public function get_main() {
 		return interp.mainScope;
 	}
 
@@ -101,7 +102,8 @@ class ValueContext {
 		}
 	}
 
-	public #if !debug inline #end function nextCycle() {
+	#if !debug inline #end
+	public function nextCycle() {
 		cycleTime = Date.now().getTime();
 		if (++cycle > 1000000) {
 			cycle = 1;
@@ -129,16 +131,19 @@ class ValueContext {
 			return ret;
 		}
 
-	public #if !debug inline #end function newUid(): String {
+	#if !debug inline #end
+	public function newUid(): String {
 		return '${UID_PREFIX}${uidCount++}';
 	}
 
-	public #if !debug inline #end function enterValuePush(): Int {
+	#if !debug inline #end
+	public function enterValuePush(): Int {
 		var ret = ++pushNesting;
 		return ret;
 	}
 
-	public #if !debug inline #end function exitValuePush(): Void {
+	#if !debug inline #end
+	public function exitValuePush(): Void {
 		var ret = --pushNesting;
 		if (ret < 1) {
 			pushNesting = 0;
@@ -159,7 +164,8 @@ class ValueContext {
 	// =========================================================================
 	var pushNesting: Int;
 
-	#if !debug inline #end function callApplyList() {
+	#if !debug inline #end
+	function callApplyList() {
 		while (applyList.length > 0) {
 			applyList.pop()();
 		}

@@ -66,7 +66,8 @@ class Element extends Node {
 		super(parent, slot, index, cb);
 	}
 
-	public #if !debug inline #end function getProp(key:String, ?defval:Dynamic) {
+	#if !debug inline #end
+	public function getProp(key:String, ?defval:Dynamic) {
 		return props.get(key, defval);
 	}
 
@@ -86,16 +87,19 @@ class Element extends Node {
 		return (scope != null ? scope.get(key, pull) : null);
 	}
 
-	public #if !debug inline #end function getBool(key:String, defval:Bool, pull=true): Bool {
+	#if !debug inline #end
+	public function getBool(key:String, defval:Bool, pull=true): Bool {
 		var ret = get(key, pull);
 		return ret != null ? ret == 'true' : defval;
 	}
 
-	public #if !debug inline #end function getInt(key:String, defval:Int, pull=true): Int {
+	#if !debug inline #end
+	public function getInt(key:String, defval:Int, pull=true): Int {
 		return Util.toInt2(get(key, pull), defval);
 	}
 
-	public #if !debug inline #end function getFloat(key:String, defv:Float, pull=true): Float {
+	#if !debug inline #end
+	public function getFloat(key:String, defv:Float, pull=true): Float {
 		return Util.toFloat2(get(key, pull), defv);
 	}
 
@@ -277,7 +281,8 @@ class Element extends Node {
 		}
 	}
 
-	#if !debug inline #end function makeNativeName(n:String, off=0) {
+	#if !debug inline #end
+	function makeNativeName(n:String, off=0) {
 		return Node.makeHyphenName(n.substr(off));
 	}
 
@@ -386,7 +391,8 @@ class Element extends Node {
 	var currDatapathExp: DataPath;
 	var dataQueries: Map<String,DataPath>;
 
-	#if !debug inline #end function initDatabinding() {
+	#if !debug inline #end
+	function initDatabinding() {
 		scope.set('__clone_dp', null);
 		scope.setValueFn('__dp', dpFn);
 		scope.set('dataGet', dataGet).unlink();
@@ -467,7 +473,8 @@ class Element extends Node {
 		public var testCloneUpdates = 0;
 	#end
 
-	#if !debug inline #end function initReplication() {
+	#if !debug inline #end
+	function initReplication() {
 		clones = [];
 		scope.setValueFn('__dps', dpsFn);
 	}

@@ -18,7 +18,7 @@ Crucially, it adopts an HTML-first approach: it doesn't impose a model on you an
 
 It strives to keep true to HTML's declarative nature, and has remarkably light client runtime of just 40KB (minified, gzipped).
 
-Ub1 is written in the excellent [Haxe language](https://haxe.org/). While you really should check it out for the sake of its own value, you don't need to know or use Haxe to use Ub1. Even creating Ub1's _HTML libraries_ (see below) won't require any Haxe knowledge.
+Ub1 is written in the excellent [Haxe language](https://haxe.org/). While you really should check it out because of its merits, you don't need to know or use Haxe to use Ub1. Even creating Ub1's _HTML libraries_ (see below) won't require any knowledge of Haxe.
 
 It's currently in alpha stage. An online playground is available [here](http://ub1devel.net/playground/).
 

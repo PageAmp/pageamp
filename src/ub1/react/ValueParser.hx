@@ -37,7 +37,8 @@ class ValueParser {
 	static var DATA_MARKER1_CODE = 2;
 	static var EXP_MARKER2 = "}";
 
-	static public #if !debug inline #end function isConstantExpression(val: String) {
+	#if !debug inline #end
+	static public function isConstantExpression(val: String) {
 		return (val.indexOf(EXP_MARKER1) < 0 && val.indexOf(DATA_MARKER1) < 0);
 	}
 

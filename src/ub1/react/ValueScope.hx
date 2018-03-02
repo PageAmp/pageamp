@@ -88,7 +88,8 @@ class ValueScope {
 		child.wasRemoved();
 	}
 
-	public #if !debug inline #end function addValue(v:Value) {
+	#if !debug inline #end
+	public function addValue(v:Value) {
 		values.set(v.name, v);
 		v.linkAfter(refreshableList);
 		newValueDelegate != null ? newValueDelegate(v) : null;
@@ -115,7 +116,8 @@ class ValueScope {
 		values = new Map<String,Value>();
 	}
 
-	public #if !debug inline #end function get(key:String, pull=true): Dynamic {
+	#if !debug inline #end
+	public function get(key:String, pull=true): Dynamic {
 		var value:Value = values.get(key);
 		return (value != null ? (pull ? value.get() : value.value) : null);
 	}
@@ -133,7 +135,8 @@ class ValueScope {
 		return ret;
 	}
 
-	public #if !debug inline #end function exists(key:String) {
+	#if !debug inline #end
+	public function exists(key:String) {
 		return values.exists(key);
 	}
 
@@ -152,9 +155,10 @@ class ValueScope {
 		return ret;
 	}
 
-	public #if !debug inline #end function setValueFn(key:String,
-									  fn:Void->Dynamic,
-									  ?val0:Dynamic): Value {
+	#if !debug inline #end
+	public function setValueFn(key:String,
+	                           fn:Void->Dynamic,
+	                           ?val0:Dynamic): Value {
 		var ret = set(key, val0);
 		ret.valueFn = fn;
 		return ret;
@@ -275,12 +279,14 @@ class ValueScope {
 	}
 #end
 
-	public static #if !debug inline #end function toFloat(s:Dynamic, defval=0): Float {
+	#if !debug inline #end
+	public static function toFloat(s:Dynamic, defval=0): Float {
 		var ret = Std.parseFloat(Std.string(s));
 		return (ret != Math.NaN ? ret : defval);
 	}
 
-	public static #if !debug inline #end function toInt(s:Dynamic, defval=0): Int {
+	#if !debug inline #end
+	public static function toInt(s:Dynamic, defval=0): Int {
 		var ret = Std.parseInt(Std.string(s));
 		return (ret != null ? ret : defval);
 	}

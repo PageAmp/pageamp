@@ -174,7 +174,8 @@ class Dataset extends Element implements DataProvider {
 		return ret;
 	}
 
-	#if !debug inline #end function needsReload(src:String): Url {
+	#if !debug inline #end
+	function needsReload(src:String): Url {
 		var caching = Util.toInt2(get(CACHING_PROP, false), URL_CACHING);
 		var time = page.scope.context.cycleTime;
 		var go = false;

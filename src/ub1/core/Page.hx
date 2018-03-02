@@ -25,10 +25,10 @@ package ub1.core;
 import ub1.react.Value;
 import ub1.util.PropertyTool.Props;
 import ub1.web.DomTools.DomDocument;
-import ub1.util.ArrayTool;
 import ub1.util.Set;
 #if server
 	import haxe.Json;
+	import ub1.util.ArrayTool;
 #end
 using ub1.util.PropertyTool;
 using ub1.web.DomTools;
@@ -80,11 +80,13 @@ class Page extends Element implements ServerPage {
 		return ret;
 	}
 
-	public #if !debug inline #end function nextId(): Int {
+	#if !debug inline #end
+	public function nextId(): Int {
 		return currId++;
 	}
 
-	public #if !debug inline #end function domGetByTagName(n:String): ArrayAccess<DomElement> {
+	#if !debug inline #end
+	public function domGetByTagName(n:String): ArrayAccess<DomElement> {
 		return doc.domRootElement().domGetElementsByTagName(n);
 	}
 
