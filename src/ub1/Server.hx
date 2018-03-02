@@ -37,7 +37,7 @@ using ub1.util.PropertyTool;
 using StringTools;
 
 class Server {
-#if devel
+#if demo
 	public static inline var SOURCEIN_ARG = 'ub1_source_in';
 	public static inline var SOURCEOUT_ARG = 'ub1_source_out';
 	public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
@@ -66,7 +66,7 @@ class Server {
 		} else {
 			ext == 'html' ? uri = uri.split('.$ext')[0] : null;
 			uri.endsWith('/') ? uri = uri + 'index' : null;
-#if devel
+#if demo
 			if (params.get(SOURCEIN_ARG) == 'true') {
 				outputSourceFile(root, uri);
 			} else {
@@ -116,7 +116,7 @@ class Server {
 		Ub1Log.server('outputPage($root, $uri)');
 		try {
 			var p = new Preprocessor();
-#if devel
+#if demo
 			if (params.exists(SOURCECOMPILE_ARG)) {
 				src = p.loadText(root + uri + '.html',
 								 root,
@@ -139,7 +139,7 @@ class Server {
 			var path = new Path(root + uri);
 			var page = Loader.loadPage(src, null, path.dir, domain, Web.getURI());
 #if !logServer
-	#if devel
+	#if demo
 			if (params.get(SOURCEOUT_ARG) == 'true') {
 				outputSourceText(root, page.toMarkup());
 			} else {

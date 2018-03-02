@@ -7,7 +7,7 @@
 	<ub1-dataset :name="list"
 	             :server="${makeData()}"
 	             :makeData="${function() {
-	                var names = sysReadDirectory(sysFSPath + '/samples');
+	                var names = pageReadDirectory(pageFSPath + '/samples');
 	                names = stringSort(names);
 	                return names.map(function(n) {return {name:n.split('.')[0]}});
 	             }}"/>
@@ -68,9 +68,9 @@
 					     :datapath="source:/html/body/pre"
 					     :content="$data{text()}"
 					     :on_content="${content != '' ? setContent() : null}"
-					     :keydownHandler="${(sysKeydown):function() {
-					        if (sysKeydown.name == 'CMD-S') {
-					            sysKeydown.preventDefault();
+					     :keydownHandler="${(pageKeydown):function() {
+					        if (pageKeydown.name == 'CMD-S') {
+					            pageKeydown.preventDefault();
 						        submit.prepare();
 						        form.dom.submit();
 					        }
@@ -89,7 +89,7 @@
 					     }}"></div>
 
 					<button class="submit"
-					        title="Refresh Preview [${sysCommandKey}-S]"
+					        title="Refresh Preview [${pageCommandKey}-S]"
 					        :name="submit"
 					        :ev_click="${prepare()}"
 					        :prepare="${function() {
@@ -102,14 +102,14 @@
 
 				<iframe name="view"
 				        class="view"
-				        :on_sysInit="${tickHandler()}"
+				        :on_pageInit="${tickHandler()}"
 				        :tickHandler="${function() {
 				            var w = dom.contentWindow;
 				            w.addEventListener('keydown', keydownHandler);
 				            Timer.delay(tickHandler, 500);
 				        }}"
 				        :keydownHandler="${function(ev) {
-				            if (sysKeydownPatch(ev).name == 'CMD-S') {
+				            if (pageKeydownPatch(ev).name == 'CMD-S') {
 				                ev.preventDefault();
 				                form.submit.prepare();
 						        form.dom.submit();

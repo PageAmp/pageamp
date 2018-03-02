@@ -4,11 +4,11 @@
 	     class="modal-background"
 	     s_display="${open ? null : 'none'}"
 	     :open="${false}"
-	     :keydownHandler="${(sysKeydown):function() {
+	     :keydownHandler="${(pageKeydown):function() {
 	        if (open) {
-		        if (sysKeydown.which == 27) open = false;
-		        if (sysKeydown.which == 9) sysKeydown.preventDefault();
-		        sysKeydown.name = null;
+		        if (pageKeydown.which == 27) open = false;
+		        if (pageKeydown.which == 9) pageKeydown.preventDefault();
+		        pageKeydown.name = null;
 		    }
 	     }}"
 	     :ev_click="${open = false}">

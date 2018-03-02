@@ -9,7 +9,7 @@
 	<ub1-dataset :name="list"
 	         :server="${makeData()}"
 	         :makeData="${function() {
-	            var names = sysReadDirectory(sysFSPath);
+	            var names = pageReadDirectory(pageFSPath);
 	            names = stringSort(names);
 	            return names.map(function(s) {return {name:s}});
 	         }}"/>

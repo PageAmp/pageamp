@@ -1,6 +1,10 @@
 # ub1
 
-[[Ub1 Announcement](https://www.linkedin.com/pulse/first-release-upcoming-ubimatecom-groundbreaking-oss-web-capolini/)] [[Online Playground](http://ub1devel.net/playground/)] [[Test Suite](http://ub1devel.net/__ub1_test/index.html)]
+[[Ub1 Announcement](https://www.linkedin.com/pulse/first-release-upcoming-ubimatecom-groundbreaking-oss-web-capolini/)]
+&nbsp;&nbsp;
+[[Online Playground](http://ub1devel.net/playground/)]
+&nbsp;&nbsp;
+[[Test Suite](http://ub1devel.net/__ub1_test/index.html)]
 
 Ub1 is a groundbreaking framework for Web developers. It augments HTML to make it:
 
@@ -32,10 +36,12 @@ Contrary to JavaScript-only technologies like [React.js](https://reactjs.org), [
 
 In a ub1 server, HTTP requests are served through ub1.Server, configured as single entry point in `.htaccess`:
 
-    RewriteEngine on
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [L,QSA]
+```apacheconfig
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
+```
 
 Requests of files with no extension or with extension `.html` are considered page requests, and loaded in the _same environment the client will have_, only working on a simulated browser DOM, which is then turned into a textual HTML page and sent to the client.
 
@@ -49,18 +55,20 @@ In ub1, all tag attributes prefixed with `:` are logical attributes that don't a
 
 Anywhere in attributes and text you can use `${}` to inject the result of a dynamic expression. In this example:
 
-    <html :color="blue">
-    <head>
-        <style>
-            body {
-                color: ${color};
-            }
-        </style>
-    </head>
-    <body :ev_click="${color = (color == 'red' ? 'blue' : 'red')}">
-        This is ${color}.
-    </body>
-    </html>
+```html
+<html :color="blue">
+<head>
+    <style>
+        body {
+            color: ${color};
+        }
+    </style>
+</head>
+<body :ev_click="${color = (color == 'red' ? 'blue' : 'red')}">
+    This is ${color}.
+</body>
+</html>
+```
 
 clicking in the page will change the color and the text it displays. You can check it out in the [playground](http://ub1devel.local/playground/).
 
@@ -77,19 +85,21 @@ We've only used trivial expressions here, but in `${}` expression you can put ac
 
 Ub1 is optimized as a _content delivery platform_, and content data are first-class citizens in ub1 pages. They are represented by `<ub1-dataset>` tags:
 
-    <html>
-    <body>
-        <ub1-dataset :name="dset"
-                     :src="http://ub1devel.net/playground/data/employees.json"/>
+```html
+<html>
+<body>
+    <ub1-dataset :name="dset"
+                 :src="http://ub1devel.net/playground/data/employees.json"/>
 
-        <table :datapath="dset:/root">
-            <tr :foreach="item">
-                <td>$data{@name}</td>
-                <td>&bull; tel: $data{@phone}</td>
-            </tr>
-        </table>
-    </body>
-    </html>
+    <table :datapath="dset:/root">
+        <tr :foreach="item">
+            <td>$data{@name}</td>
+            <td>&bull; tel: $data{@phone}</td>
+        </tr>
+    </table>
+</body>
+</html>
+```
 
 Data-binding works using `:datapath` attributes and `$data{}` expressions:
 
@@ -111,25 +121,29 @@ Two of the most glaring limitations of plain HTML are:
 
 Ub1 preprocesses your pages adding support for the `<ub1-include>` tag, e.g.:
 
-    <html>
-    <head>
-        <ub1-include href="inc/style.htm"/>
-    </head>
-    <body>
-        ...
-    </body>
-    </html>
+```html
+<html>
+<head>
+    <ub1-include href="inc/style.htm"/>
+</head>
+<body>
+    ...
+</body>
+</html>
+```
 
 Where `inc/style.html` could be:
 
-    <lib note="sample include file">
-        <style>
-            body {
-                color: red;
-                font-family: sans-serif;
-            }
-        </style>
-    </lib>
+```html
+<lib note="sample include file">
+    <style>
+        body {
+            color: red;
+            font-family: sans-serif;
+        }
+    </style>
+</lib>
+```
 
 (the root tag is ignored and can be used for documentation).
 
@@ -137,38 +151,44 @@ _Includes_ should only be used to modularize your source code, splitting it by f
 
 Let's see a classic example. The obvious duplication problem in this code above will be familiar to anybody who ever wrote an HTML page:
 
-    <body>
+```html
+<body>
 
-        <div class="product">
-            <div><span>Name:</span> Thingy</div>
-            <div><span>Price:</span> 1€</div>
-        </div>
+    <div class="product">
+        <div><span>Name:</span> Thingy</div>
+        <div><span>Price:</span> 1€</div>
+    </div>
 
-        <div class="product">
-            <div><span>Name:</span> Widget</div>
-            <div><span>Price:</span> 2€</div>
-        </div>
+    <div class="product">
+        <div><span>Name:</span> Widget</div>
+        <div><span>Price:</span> 2€</div>
+    </div>
 
-    </body>
+</body>
+```
 
 In ub1, this code will produce exactly the same HTML:
 
-    <body>
+```html
+<body>
 
-        <ub1-define tag="app-product:div" class="product">
-            <div><span>Name:</span> ${name}</div>
-            <div><span>Price:</span> ${price}</div>
-        </ub1-define>
-
-        <app-product :name="Thingy" :price="1€"/>
-        <app-product :name="Widget" :price="2€"/>
-
-    </body>
-
-We simply took our duplicated block and turned it into a custom tag named `<app-product>`, which specializes a `<div>` and has dynamic content. We then used it in our code:
+    <ub1-define tag="app-product:div" class="product">
+        <div><span>Name:</span> ${name}</div>
+        <div><span>Price:</span> ${price}</div>
+    </ub1-define>
 
     <app-product :name="Thingy" :price="1€"/>
     <app-product :name="Widget" :price="2€"/>
+
+</body>
+```
+
+We simply took our duplicated block and turned it into a custom tag named `<app-product>`, which specializes a `<div>` and has dynamic content. We then used it in our code:
+
+```html
+<app-product :name="Thingy" :price="1€"/>
+<app-product :name="Widget" :price="2€"/>
+```
 
 by only specifying what it is (a product) and what changes between its instances (name and price).
 

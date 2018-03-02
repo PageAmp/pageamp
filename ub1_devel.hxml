@@ -7,11 +7,10 @@
 -main ub1.Client
 -lib feffects
 -D client
--dce full
+-debug
 
 --next
 -php docroot/__ub1/php
 -main ub1.Server
 -lib HtmlParser
 -D server
--D devel

@@ -36,9 +36,9 @@ using StringTools;
 class Page extends Element implements ServerPage {
 	public var doc: DomDocument;
 	public static inline var LANG_ATTR = Element.ATTRIBUTE_PREFIX + 'lang';
-	public static inline var REDIRECT_ATTR = 'sysRedirect';
-	public static inline var FSPATH_PROP = 'sysFSPath';
-	public static inline var URI_PROP = 'sysURI';
+	public static inline var REDIRECT_ATTR = 'pageRedirect';
+	public static inline var FSPATH_PROP = 'pageFSPath';
+	public static inline var URI_PROP = 'pageURI';
 	public var initializations(default,null) = new Set<String>();
 	public var defines(default,null) = new Map<String, Define>();
 
@@ -46,7 +46,7 @@ class Page extends Element implements ServerPage {
 		this.doc = doc;
 		props = props.set(Element.ELEMENT_PROP, doc.domGetBody());
 		super(null, props, cb);
-		set('sysInit', "");
+		set('pageInit', "");
 		scope.context.refresh();
 	}
 
@@ -97,7 +97,7 @@ class Page extends Element implements ServerPage {
 
 	public function output() {
 #if php
-		var redirect = get('sysRedirect');
+		var redirect = get('pageRedirect');
 		if (redirect != null) {
 			php.Web.redirect(redirect);
 		} else {
@@ -183,7 +183,11 @@ class Page extends Element implements ServerPage {
 		createDomElement('script', null, body).domSetInnerHTML(s);
 		createDomTextNode('\n', body);
 		createDomElement('script', {
+#if release
+			src:'/__ub1/client/bin/ub1.min.js',
+#else
 			src:'/__ub1/client/bin/ub1.js',
+#end
 			async: 'async',
 		}, body);
 		createDomTextNode('\n', body);
@@ -204,8 +208,8 @@ class Page extends Element implements ServerPage {
 		set('log', function(s) trace(s)).unlink();
 		set('window', js.Browser.window).unlink();
 		set(Element.EVENT_PREFIX + 'keydown',
-			"${sysKeydown=sysKeydownPatch(ev)}").unlink();
-		set('sysKeydownPatch', function(ev:Dynamic) {
+			"${pageKeydown=pageKeydownPatch(ev)}").unlink();
+		set('pageKeydownPatch', function(ev:Dynamic) {
 			if (ev != null) {
 				ev.name = ((isMac ? ev.metaKey : ev.ctrlKey) ? 'CMD-' : '')
 						+ ((isMac ? ev.ctrlKey : ev.metaKey) ? 'META-' : '')
@@ -217,12 +221,12 @@ class Page extends Element implements ServerPage {
 			}
 			return ev;
 		}).unlink();
-		set('sysKeydown', null).unlink();
+		set('pageKeydown', null).unlink();
 		set('Timer', haxe.Timer).unlink();
 #else
 		set('log', function(s) {}).unlink();
 //		set('FileSystem', sys.FileSystem).unlink();
-		set('sysReadDirectory', function(path:String): Array<String> {
+		set('pageReadDirectory', function(path:String): Array<String> {
 			var root = sys.FileSystem.fullPath(props.get(Page.FSPATH_PROP));
 			path = sys.FileSystem.fullPath(path);
 			if (path.startsWith(root)) {
@@ -231,10 +235,10 @@ class Page extends Element implements ServerPage {
 				return [];
 			}
 		}).unlink();
-		set('sysMail', php.Lib.mail);
+		set('pageMail', php.Lib.mail);
 #end
 		set('Xml', Xml).unlink();
-		set('sysCommandKey', commandKey).unlink();
+		set('pageCommandKey', commandKey).unlink();
 	}
 
 	override function isDynamicValue(k:String, v:Dynamic): Bool {
