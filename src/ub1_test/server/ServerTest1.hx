@@ -56,7 +56,6 @@ class ServerTest1 extends Test {
 
 	/*
 	minimal file
-	TODO: missing protocol, domain
 	 */
 	function test2() {
 		var s = getVerbatimPage(2);
@@ -89,6 +88,7 @@ class ServerTest1 extends Test {
 	public static function getVerbatimPage(id:Int): String {
 		var s = Http.requestUrl(BASEURL + id);
 		s = s.replace('\\/', '/');
+		s = s.replace('ub1.min.js', 'ub1.js');
 		return s;
 	}
 
@@ -100,7 +100,7 @@ class ServerTest1 extends Test {
 
 	public static function removeClient(s:String): String {
 		s = ~/(<script>ub1_props.+?<\/script>\s)/.replace(s, '');
-		s = ~/(<script src=".+?\/ub1.js".+?<\/script>\s)/.replace(s, '');
+		s = ~/(<script src=".+?\/ub1\.(min\.)?js".+?<\/script>\s)/.replace(s, '');
 		return s;
 	}
 

@@ -98,10 +98,7 @@ cursor: pointer;
 }
 </style>
 </head><body id="ub1_8">
-
-
-Click this
-
+Click this blue text
 </body></html>');
 	}
 
