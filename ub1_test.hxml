@@ -21,3 +21,5 @@
 -js docroot/__ub1_test/bin/testpage.js
 -main ub1.util.TestPage
 -D client
+
+-cmd haxe ub1_devel.hxml

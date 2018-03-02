@@ -186,10 +186,10 @@ class Page extends Element implements ServerPage {
 		createDomElement('script', {
 #if release
 			src:'/__ub1/client/bin/ub1.min.js',
+			async: 'async',
 #else
 			src:'/__ub1/client/bin/ub1.js',
 #end
-			async: 'async',
 		}, body);
 		createDomTextNode('\n', body);
 	}

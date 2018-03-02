@@ -26,6 +26,6 @@ import ub1.util.Test;
 import ub1.web.DomTools;
 using ub1.web.DomTools;
 
-class ClientTest extends Test {
+class ClientTest1 extends Test {
 
 }

@@ -41,7 +41,7 @@ class Ub1Suite extends TestRoot {
 		new Ub1Suite(function(p:Test) {
 #if client
 			new Client(p, function(p:Test) {
-				new ClientTest(p);
+				new ClientTest1(p);
 			});
 #end
 #if server
