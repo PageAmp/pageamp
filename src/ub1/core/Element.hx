@@ -1,23 +1,24 @@
 /*
  * Copyright (c) 2018 Ubimate.com and Ub1 contributors.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
- * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package ub1.core;
 
@@ -65,7 +66,7 @@ class Element extends Node {
 		super(parent, slot, index, cb);
 	}
 
-	public inline function getProp(key:String, ?defval:Dynamic) {
+	public #if !debug inline #end function getProp(key:String, ?defval:Dynamic) {
 		return props.get(key, defval);
 	}
 
@@ -85,16 +86,16 @@ class Element extends Node {
 		return (scope != null ? scope.get(key, pull) : null);
 	}
 
-	public inline function getBool(key:String, defval:Bool, pull=true): Bool {
+	public #if !debug inline #end function getBool(key:String, defval:Bool, pull=true): Bool {
 		var ret = get(key, pull);
 		return ret != null ? ret == 'true' : defval;
 	}
 
-	public inline function getInt(key:String, defval:Int, pull=true): Int {
+	public #if !debug inline #end function getInt(key:String, defval:Int, pull=true): Int {
 		return Util.toInt2(get(key, pull), defval);
 	}
 
-	public inline function getFloat(key:String, defv:Float, pull=true): Float {
+	public #if !debug inline #end function getFloat(key:String, defv:Float, pull=true): Float {
 		return Util.toFloat2(get(key, pull), defv);
 	}
 
@@ -276,7 +277,7 @@ class Element extends Node {
 		}
 	}
 
-	inline function makeNativeName(n:String, off=0) {
+	#if !debug inline #end function makeNativeName(n:String, off=0) {
 		return Node.makeHyphenName(n.substr(off));
 	}
 
@@ -385,7 +386,7 @@ class Element extends Node {
 	var currDatapathExp: DataPath;
 	var dataQueries: Map<String,DataPath>;
 
-	inline function initDatabinding() {
+	#if !debug inline #end function initDatabinding() {
 		scope.set('__clone_dp', null);
 		scope.setValueFn('__dp', dpFn);
 		scope.set('dataGet', dataGet).unlink();
@@ -466,7 +467,7 @@ class Element extends Node {
 		public var testCloneUpdates = 0;
 	#end
 
-	inline function initReplication() {
+	#if !debug inline #end function initReplication() {
 		clones = [];
 		scope.setValueFn('__dps', dpsFn);
 	}

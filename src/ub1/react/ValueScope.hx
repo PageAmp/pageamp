@@ -1,23 +1,24 @@
 /*
  * Copyright (c) 2018 Ubimate.com and Ub1 contributors.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
- * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package ub1.react;
 
@@ -87,7 +88,7 @@ class ValueScope {
 		child.wasRemoved();
 	}
 
-	public inline function addValue(v:Value) {
+	public #if !debug inline #end function addValue(v:Value) {
 		values.set(v.name, v);
 		v.linkAfter(refreshableList);
 		newValueDelegate != null ? newValueDelegate(v) : null;
@@ -114,7 +115,7 @@ class ValueScope {
 		values = new Map<String,Value>();
 	}
 
-	public inline function get(key:String, pull=true): Dynamic {
+	public #if !debug inline #end function get(key:String, pull=true): Dynamic {
 		var value:Value = values.get(key);
 		return (value != null ? (pull ? value.get() : value.value) : null);
 	}
@@ -132,7 +133,7 @@ class ValueScope {
 		return ret;
 	}
 
-	public inline function exists(key:String) {
+	public #if !debug inline #end function exists(key:String) {
 		return values.exists(key);
 	}
 
@@ -151,7 +152,7 @@ class ValueScope {
 		return ret;
 	}
 
-	public inline function setValueFn(key:String,
+	public #if !debug inline #end function setValueFn(key:String,
 									  fn:Void->Dynamic,
 									  ?val0:Dynamic): Value {
 		var ret = set(key, val0);
@@ -274,12 +275,12 @@ class ValueScope {
 	}
 #end
 
-	public static inline function toFloat(s:Dynamic, defval=0): Float {
+	public static #if !debug inline #end function toFloat(s:Dynamic, defval=0): Float {
 		var ret = Std.parseFloat(Std.string(s));
 		return (ret != Math.NaN ? ret : defval);
 	}
 
-	public static inline function toInt(s:Dynamic, defval=0): Int {
+	public static #if !debug inline #end function toInt(s:Dynamic, defval=0): Int {
 		var ret = Std.parseInt(Std.string(s));
 		return (ret != null ? ret : defval);
 	}

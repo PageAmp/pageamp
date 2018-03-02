@@ -1,23 +1,24 @@
 /*
  * Copyright (c) 2018 Ubimate.com and Ub1 contributors.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
- * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package ub1.react;
 
@@ -44,7 +45,7 @@ class ValueContext {
 		return null;
 	}
 
-	public inline function get_main() {
+	public #if !debug inline #end function get_main() {
 		return interp.mainScope;
 	}
 
@@ -100,7 +101,7 @@ class ValueContext {
 		}
 	}
 
-	public inline function nextCycle() {
+	public #if !debug inline #end function nextCycle() {
 		cycleTime = Date.now().getTime();
 		if (++cycle > 1000000) {
 			cycle = 1;
@@ -128,16 +129,16 @@ class ValueContext {
 			return ret;
 		}
 
-	public inline function newUid(): String {
+	public #if !debug inline #end function newUid(): String {
 		return '${UID_PREFIX}${uidCount++}';
 	}
 
-	public inline function enterValuePush(): Int {
+	public #if !debug inline #end function enterValuePush(): Int {
 		var ret = ++pushNesting;
 		return ret;
 	}
 
-	public inline function exitValuePush(): Void {
+	public #if !debug inline #end function exitValuePush(): Void {
 		var ret = --pushNesting;
 		if (ret < 1) {
 			pushNesting = 0;
@@ -158,7 +159,7 @@ class ValueContext {
 	// =========================================================================
 	var pushNesting: Int;
 
-	inline function callApplyList() {
+	#if !debug inline #end function callApplyList() {
 		while (applyList.length > 0) {
 			applyList.pop()();
 		}

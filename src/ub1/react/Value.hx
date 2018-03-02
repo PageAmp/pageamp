@@ -1,23 +1,24 @@
 /*
  * Copyright (c) 2018 Ubimate.com and Ub1 contributors.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
- * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package ub1.react;
 
@@ -150,7 +151,7 @@ class Value extends DoubleLinkedItem {
 		return null;
 	}
 
-	public inline function isDynamic(): Bool {
+	public #if !debug inline #end function isDynamic(): Bool {
 		return (exp != null || valueFn != null);
 	}
 
@@ -201,7 +202,7 @@ class Value extends DoubleLinkedItem {
 		}
 	}
 
-	public inline function refresh(force=false) {
+	public #if !debug inline #end function refresh(force=false) {
 		Ub1Log.value('${name}.refresh()');
 		if (cycle != scope.context.cycle || force) {
 			cycle = scope.context.cycle;
@@ -240,7 +241,7 @@ class Value extends DoubleLinkedItem {
 		}
 	}
 
-	public inline function setObservableCallback(cb:Int->Void) {
+	public #if !debug inline #end function setObservableCallback(cb:Int->Void) {
 		if (observable == null) {
 			observable = new Observable();
 		}
@@ -252,7 +253,7 @@ class Value extends DoubleLinkedItem {
 	// =========================================================================
 	public static var parser = new Parser();
 
-	public static inline function isConstantExpression(s:String): Bool {
+	public static #if !debug inline #end function isConstantExpression(s:String): Bool {
 		return ValueParser.isConstantExpression(s);
 	}
 
@@ -282,7 +283,7 @@ class Value extends DoubleLinkedItem {
 	}
 
 	// called only at `pull` time (i.e. during refreshes)
-	inline function addObserver(o:Observer) {
+	#if !debug inline #end function addObserver(o:Observer) {
 		if (observable == null) {
 			observable = new Observable();
 		}

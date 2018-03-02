@@ -1,23 +1,24 @@
 /*
  * Copyright (c) 2018 Ubimate.com and Ub1 contributors.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
- * Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
- * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package ub1.react;
 
@@ -79,7 +80,7 @@ class ValueInterp extends Interp {
 		currentScope = null;
 	}
 
-	public inline function evaluate(exp:Expr, scope:ValueScope): Dynamic {
+	public #if !debug inline #end function evaluate(exp:Expr, scope:ValueScope): Dynamic {
 		var ret = null;
 		var old = currentScope;
 		currentScope = scope;
@@ -93,7 +94,7 @@ class ValueInterp extends Interp {
 		return ret;
 	}
 
-	public inline function evaluateWith(exp:Expr,
+	public #if !debug inline #end function evaluateWith(exp:Expr,
 	                                    scope:ValueScope,
 	                                    locals:Map<String,Dynamic>): Dynamic {
 		var ret = null;
@@ -109,7 +110,7 @@ class ValueInterp extends Interp {
 		return ret;
 	}
 
-	public inline function executeWith(expr:Expr,
+	public #if !debug inline #end function executeWith(expr:Expr,
 	                                   locals:Map<String,Dynamic>): Dynamic {
 		depth = 0;
 		this.locals = untyped locals;
@@ -182,7 +183,7 @@ class ValueInterp extends Interp {
 		}
 	}
 
-	inline function _resolveWrite(id:String, v:Dynamic) {
+	#if !debug inline #end function _resolveWrite(id:String, v:Dynamic) {
 		// local vars
 		var l = locals.get(id);
 		if (l != null) {
