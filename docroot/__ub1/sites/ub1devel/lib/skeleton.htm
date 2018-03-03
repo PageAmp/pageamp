@@ -1,0 +1,67 @@
+<lib>
+	<style>
+		.row {
+			position: relative;
+			width: 100%;
+			margin: 0 auto;
+			padding: 0 10px;
+			box-sizing: border-box;
+		}
+		@media (min-width: 400px) {.row {
+			padding: 0 5%;
+		}}
+		@media (min-width: 768px) {.row {
+			padding: 0 7%;
+		}}
+		@media (min-width: 1280px) {.row {
+			padding: 0 10%;
+		}}
+		.row.fullwidth {
+			width: 100%;
+			padding: 0;
+		}
+		.container.fullwidth > .row {
+			width: 100%;
+			padding: 0;
+		}
+		.col {
+			position: relative;
+			width: 100%;
+			float: left;
+			margin-bottom: 0;
+			box-sizing: border-box;
+		}
+		@media (min-width: 550px) {
+			.col {margin-left: 4%;margin-bottom: 0;}
+			.col:first-child {margin-left: 0;}
+			.col1.col {width: 4.66666666667%;}
+			.col2.col {width: 13.3333333333%;}
+			.col3.col {width: 22%;}
+			.col4.col {width: 30.6666666667%;}
+			.col5.col {width: 39.3333333333%;}
+			.col6.col {width: 48%;}
+			.col7.col {width: 56.6666666667%;}
+			.col8.col {width: 65.3333333333%;}
+			.col9.col {width: 74.0%;}
+			.col10.col {width: 82.6666666667%;}
+			.col11.col {width: 91.3333333333%;}
+			.col12.col {width: 100%;margin-left: 0;}
+			.off1.col {margin-left: 8.66666666667%;}
+			.off2.col {margin-left: 17.3333333333%;}
+			.off3.col {margin-left: 26%;}
+			.off4.col {margin-left: 34.6666666667%;}
+			.off5.col {margin-left: 43.3333333333%;}
+			.off6.col {margin-left: 52%;}
+			.off7.col {margin-left: 60.6666666667%;}
+			.off8.col {margin-left: 69.3333333333%;}
+			.off9.col {margin-left: 78.0%;}
+			.off10.col {margin-left: 86.6666666667%;}
+			.off11.col {margin-left: 95.3333333333%;}
+		}
+		.container:after, .row:after, .u-cf {
+			content: "";
+			display: table;
+			clear: both;
+		}
+	</style>
+</lib>

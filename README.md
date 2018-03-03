@@ -1,10 +1,10 @@
 # ub1
 
-[[Ub1 Announcement](https://www.linkedin.com/pulse/first-release-upcoming-ubimatecom-groundbreaking-oss-web-capolini/)]
+[Ub1 Announcement](https://www.linkedin.com/pulse/first-release-upcoming-ubimatecom-groundbreaking-oss-web-capolini/)
 &nbsp;&nbsp;
-[[Online Playground](http://ub1devel.net/playground/)]
+[Online Playground](http://ub1devel.net/playground/)
 &nbsp;&nbsp;
-[[Test Suite](http://ub1devel.net/__ub1_test/index.html)]
+[Test Suite](http://ub1devel.net/__ub1_test/index.html)
 
 Ub1 is a groundbreaking framework for Web developers. It augments HTML to make it:
 
