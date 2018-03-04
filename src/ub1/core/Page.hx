@@ -101,6 +101,10 @@ class Page extends Element implements ServerPage {
 #if resizeMonitor
 	public static inline var RESIZE_OBSERVER = 'ub1ResizeObserver';
 	public static inline var RESIZE_CLASS = 'ub1-resize';
+	public static inline var RESIZE_SM = 'SM';
+	public static inline var RESIZE_MD = 'MD';
+	public static inline var RESIZE_LG = 'LG';
+	public static inline var RESIZE_XL = 'XL';
 #if client
 	var ro: ResizeObserver = PropertyTool.get(Browser.window, RESIZE_OBSERVER);
 
@@ -207,10 +211,21 @@ class Page extends Element implements ServerPage {
 		createDomElement('script', null, body).domSetInnerHTML(s);
 		createDomTextNode('\n', body);
 #if resizeMonitor
+		// https://philipwalton.com/articles/responsive-components-a-solution-to-the-container-queries-problem/
 		s = ~/(\s{2,})/g.replace("(function() {
-			function f(ee) {ee.forEach(function(e) {
-				console.log(e.target);
-			})}
+			var breakpoints = {SM: 384, MD: 576, LG: 768, XL: 960};
+			function f(entries) {
+				entries.forEach(function(entry) {
+					Object.keys(breakpoints).forEach(function(breakpoint) {
+						var minWidth = breakpoints[breakpoint];
+						if (entry.contentRect.width >= minWidth) {
+							entry.target.classList.add(breakpoint);
+						} else {
+							entry.target.classList.remove(breakpoint);
+						}
+					});
+				});
+			}
 			var ro = (ResizeObserver != null ? new ResizeObserver(f) : null);
 			if (ro != null) {
 				var l = document.querySelectorAll('[class~="+ RESIZE_CLASS +"]');

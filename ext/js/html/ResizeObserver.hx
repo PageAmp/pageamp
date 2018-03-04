@@ -10,4 +10,5 @@ extern interface ResizeObserverEntries {
 
 extern interface ResizeObserverEntry {
 	public var target: Element;
+	public var contentRect: DOMRectReadOnly;
 }
