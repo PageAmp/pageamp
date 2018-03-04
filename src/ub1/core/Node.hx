@@ -102,7 +102,7 @@ class Node extends BaseNode {
 	}
 
 	public static function makeHyphenName(n:String): String {
-		return ~/([a-z][A-Z])/g.map(n, function(re:EReg): String {
+		return ~/([0-9a-z][A-Z])/g.map(n, function(re:EReg): String {
 			var p = re.matchedPos().pos;
 			return n.substr(p, 1).toLowerCase()
 			+ '-'

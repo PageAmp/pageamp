@@ -213,7 +213,7 @@ class Page extends Element implements ServerPage {
 #if resizeMonitor
 		// https://philipwalton.com/articles/responsive-components-a-solution-to-the-container-queries-problem/
 		s = ~/(\s{2,})/g.replace("(function() {
-			var breakpoints = {SM: 384, MD: 576, LG: 768, XL: 960};
+			var breakpoints = {SM:384, MD:576, LG:768, XL:960};
 			function f(entries) {
 				entries.forEach(function(entry) {
 					Object.keys(breakpoints).forEach(function(breakpoint) {

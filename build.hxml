@@ -1,4 +1,4 @@
--cmd haxe ub1_demo.hxml
+#-cmd haxe ub1_demo.hxml
 #-cmd haxe ub1_devel.hxml
 #-cmd haxe ub1_release.hxml
-#-cmd haxe ub1_test.hxml
+-cmd haxe ub1_test.hxml

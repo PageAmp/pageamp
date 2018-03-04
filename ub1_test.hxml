@@ -1,3 +1,4 @@
+-cp ext
 -cp src
 -cp test
 -D test
