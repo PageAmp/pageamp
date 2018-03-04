@@ -211,6 +211,11 @@ class Page extends Element implements ServerPage {
 		createDomElement('script', null, body).domSetInnerHTML(s);
 		createDomTextNode('\n', body);
 #if resizeMonitor
+		createDomElement('script', {
+			src:'/__ub1/client/res/resize-observer.js',
+		}, body);
+		createDomTextNode('\n', body);
+
 		// https://philipwalton.com/articles/responsive-components-a-solution-to-the-container-queries-problem/
 		s = ~/(\s{2,})/g.replace("(function() {
 			var breakpoints = {SM:384, MD:576, LG:768, XL:960};
