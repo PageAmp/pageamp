@@ -1,5 +1,7 @@
+-cp ext
 -cp src
 -lib hscript
+-D resizeMonitor
 -D demo
 -D release
 --each
@@ -10,7 +12,6 @@
 -lib feffects
 -D client
 -dce full
-
 #-cmd uglifyjs docroot/__ub1/client/bin/ub1.js > docroot/__ub1/client/bin/ub1.min.js
 -cmd /usr/local/bin/node /usr/local/bin/uglifyjs docroot/__ub1/client/bin/ub1.js > docroot/__ub1/client/bin/ub1.min.js
 

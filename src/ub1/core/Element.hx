@@ -176,6 +176,9 @@ class Element extends Node {
 		if (props.exists(FOREACH_PROP)) {
 			e.domSet('style', 'display:none');
 		}
+#if client
+		PropertyTool.set(e, 'ub1', this);
+#end
 	}
 
 	function makeDomElement() {
@@ -215,10 +218,6 @@ class Element extends Node {
 		set('animate', scope.animate).unlink();
 		set('delayedSet', scope.delayedSet).unlink();
 		set('domGet', domGet).unlink();
-#if client
-		PropertyTool.set(e, 'set', set);
-		PropertyTool.set(e, 'get', get);
-#end
 		initDatabinding();
 		initReplication();
 	}
@@ -319,19 +318,38 @@ class Element extends Node {
 	// =========================================================================
 	// class reflection
 	// =========================================================================
+#if !client
 	var classes: Map<String, Bool>;
 	var willApplyClasses = false;
+#else
+	var resizeMonitor = false;
+#end
 
 	function classValueCB(e:DomElement, key:String, v:Dynamic) {
-		classes == null ? classes = new Map<String, Bool>() : null;
 		var flag = Util.isTrue(v != null ? '$v' : '1');
+#if !client
+		classes == null ? classes = new Map<String, Bool>() : null;
 		flag ? classes.set(key, true) : classes.remove(key);
 		if (!willApplyClasses) {
 			willApplyClasses = true;
 			scope.context.addApply(applyClasses);
 		}
+#else
+		if (flag) {
+			e.classList.add(key);
+		} else {
+			e.classList.remove(key);
+		}
+	#if resizeMonitor
+		if (key == Page.RESIZE_CLASS && flag && !resizeMonitor) {
+			resizeMonitor = true;
+			page.observeResize(e);
+		}
+	#end
+#end
 	}
 
+#if !client
 	function applyClasses() {
 		willApplyClasses = false;
 		var sb = new StringBuf();
@@ -344,6 +362,7 @@ class Element extends Node {
 		var s = sb.toString();
 		e.domSet('class', (s.length > 0 ? s : null));
 	}
+#end
 
 	// =========================================================================
 	// style reflection

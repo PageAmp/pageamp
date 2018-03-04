@@ -26,6 +26,10 @@ import ub1.react.Value;
 import ub1.util.PropertyTool.Props;
 import ub1.web.DomTools.DomDocument;
 import ub1.util.Set;
+#if client
+	import js.Browser;
+	import js.html.ResizeObserver;
+#end
 #if server
 	import haxe.Json;
 	import ub1.util.ArrayTool;
@@ -89,6 +93,23 @@ class Page extends Element implements ServerPage {
 	public function domGetByTagName(n:String): ArrayAccess<DomElement> {
 		return doc.domRootElement().domGetElementsByTagName(n);
 	}
+
+	// =========================================================================
+	// ResizeObserver
+	// =========================================================================
+
+#if resizeMonitor
+	public static inline var RESIZE_OBSERVER = 'ub1ResizeObserver';
+	public static inline var RESIZE_CLASS = 'ub1-resize';
+#if client
+	var ro: ResizeObserver = PropertyTool.get(Browser.window, RESIZE_OBSERVER);
+
+	public inline function observeResize(e:DomElement) {
+		trace('observeResize() - ${ro != null}');//tempdebug
+		ro != null ? ro.observe(e) : null;
+	}
+#end
+#end
 
 	// =========================================================================
 	// as ServerPage
@@ -185,6 +206,21 @@ class Page extends Element implements ServerPage {
 		s = ISOPROPS_ID + ' = ' + s + ';';
 		createDomElement('script', null, body).domSetInnerHTML(s);
 		createDomTextNode('\n', body);
+#if resizeMonitor
+		s = ~/(\s{2,})/g.replace("(function() {
+			function f(ee) {ee.forEach(function(e) {
+				console.log(e.target);
+			})}
+			var ro = (ResizeObserver != null ? new ResizeObserver(f) : null);
+			if (ro != null) {
+				var l = document.querySelectorAll('[class~="+ RESIZE_CLASS +"]');
+				for (var e, i = 0; e = l[i]; i++) ro.observe(e);
+			}
+			"+ RESIZE_OBSERVER +" = ro;
+		})();", ' ');
+		createDomElement('script', null, body).domSetInnerHTML(s);
+		createDomTextNode('\n', body);
+#end
 		createDomElement('script', {
 #if release
 			src:'/__ub1/client/bin/ub1.min.js',
@@ -209,7 +245,7 @@ class Page extends Element implements ServerPage {
 		var isMac = ~/^(Mac)/i.match(js.Browser.navigator.platform);
 		isMac ? commandKey = 'CMD' : null;
 		set('log', function(s) trace(s)).unlink();
-		set('window', js.Browser.window).unlink();
+		set('window', Browser.window).unlink();
 		set(Element.EVENT_PREFIX + 'keydown',
 			"${pageKeydown=pageKeydownPatch(ev)}").unlink();
 		set('pageKeydownPatch', function(ev:Dynamic) {
