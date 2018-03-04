@@ -32,6 +32,7 @@ import ub1.util.Set;
 #end
 #if server
 	import haxe.Json;
+	import haxe.Resource;
 	import ub1.util.ArrayTool;
 #end
 using ub1.util.PropertyTool;
@@ -129,13 +130,24 @@ class Page extends Element implements ServerPage {
 		if (redirect != null) {
 			php.Web.redirect(redirect);
 		} else {
-			addClient();
+			var ua = getUserAgent();
+			addClient(ua);
 			php.Web.setHeader('Content-type', 'text/html');
 			php.Lib.println('<!DOCTYPE html>');
 			php.Lib.print(toMarkup());
 		}
 #end
 	}
+
+#if php
+	public static function getUserAgent() : String {
+		var ua = null;
+		try {
+			ua = untyped __php__("$_SERVER['HTTP_USER_AGENT']");
+		} catch (ignored:Dynamic) {}
+		return ua;
+	}
+#end
 
 	// =========================================================================
 	// isomorphism
@@ -146,7 +158,7 @@ class Page extends Element implements ServerPage {
 
 #if server
 	//TODO: pre-parsed hscript should be passed to the client rather than source
-	public function addClient() {
+	public function addClient(ua:String) {
 		function getChildren(props:Props): Array<Props> {
 			var children:Array<Props> = props.get(Page.ISOCHILDREN_PROP);
 			if (children == null) {
@@ -211,10 +223,18 @@ class Page extends Element implements ServerPage {
 		createDomElement('script', null, body).domSetInnerHTML(s);
 		createDomTextNode('\n', body);
 #if resizeMonitor
-		createDomElement('script', {
-			src:'/__ub1/client/res/resize-observer.js',
-		}, body);
-		createDomTextNode('\n', body);
+		var chromeVersion = .0;
+		~/(Chrome\/\d+(\.\d+)?)/.map(ua, function(re:EReg) {
+			var p = re.matchedPos();
+			var s = ua.substr(p.pos, p.len).split('/')[1];
+			chromeVersion = Std.parseFloat(s);
+			return '';
+		});
+		if (chromeVersion < 64) {
+			var src = Resource.getString("resize-observer.js");
+			createDomElement('script', null, body).domSetInnerHTML(src);
+			createDomTextNode('\n', body);
+		}
 
 		// https://philipwalton.com/articles/responsive-components-a-solution-to-the-container-queries-problem/
 		s = ~/(\s{2,})/g.replace("(function() {

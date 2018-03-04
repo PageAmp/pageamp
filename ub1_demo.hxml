@@ -19,4 +19,5 @@
 -php docroot/__ub1/php
 -main ub1.Server
 -lib HtmlParser
+-resource docroot/__ub1/client/res/resize-observer.js@resize-observer.js
 -D server

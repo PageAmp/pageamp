@@ -75,8 +75,7 @@ class ServerTest1 extends Test {
 			+ '},'
 			+ '"n_id":1'
 		+ '};</script>\n'
-		+ "<script>(function() { var breakpoints = {SM:384, MD:576, LG:768, XL:960}; function f(entries) { entries.forEach(function(entry) { Object.keys(breakpoints).forEach(function(breakpoint) { var minWidth = breakpoints[breakpoint]; if (entry.contentRect.width >= minWidth) { entry.target.classList.add(breakpoint); } else { entry.target.classList.remove(breakpoint); } }); }); } var ro = (ResizeObserver != null ? new ResizeObserver(f) : null); if (ro != null) { var l = document.querySelectorAll('[class~=ub1-resize]'); for (var e, i = 0; e = l[i]; i++) ro.observe(e); } ub1ResizeObserver = ro; })();</script>\n"
-		+ '<script src="/__ub1/client/bin/ub1.js"></script>\n'
+		+ '<script src="/__ub1/client/bin/ub1.js" async="async"></script>\n'
 		+ '</body></html>');
 		s = removeClient(s);
 		assert(s, '<!DOCTYPE html>\n'
