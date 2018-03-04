@@ -93,25 +93,39 @@ class Preprocessor {
 
 		var includes = lookupByName(ret, INCLUDE_TAGNAME);
 		for (include in includes) {
-			var href = include.getAttribute(INCLUDE_NAMEATTR);
-			if (href != null) {
-				var basepath = path.dir + '/';
-				href.startsWith('/') ? basepath = this.basepath.toString() : null;
-				var pathname = Path.normalize(basepath + href);
-				var path2 = new Path(pathname);
-				//TODO: check against pathnames outside allowed scope
-				var root = load(path2, nesting + 1).children[0];
-				var p = include.parent;
-				var emptyText = false;
-				while (root.nodes.length > 0) {
-					var e = root.nodes.shift();
-					p.parent.removeChild(e);
-					p.addChild(e, include);
-				}
-				p.removeChild(include);
-			}
+			processInclude(path, include, nesting);
 		}
 		return ret;
+	}
+
+	function processInclude(path:Path, include:HtmlNodeElement, nesting:Int) {
+		var href = include.getAttribute(INCLUDE_NAMEATTR);
+		if (href != null) {
+			var basepath = path.dir + '/';
+			href.startsWith('/') ? basepath = this.basepath.toString() : null;
+			var pathname = Path.normalize(basepath + href);
+			var path2 = new Path(pathname);
+			//TODO: check against pathnames outside allowed scope
+			var root = load(path2, nesting + 1).children[0];
+			includeContent(include, root);
+		}
+	}
+
+	function includeContent(include:HtmlNodeElement, root:HtmlNodeElement) {
+		var p = include.parent;
+		var emptyText = false;
+		while (root.nodes.length > 0) {
+			var e = root.nodes.shift();
+			p.parent.removeChild(e);
+			p.addChild(e, include);
+		}
+		p.removeChild(include);
+		// copy include-level dynamic attributes to include's parent
+		for (a in root.attributes) {
+			if (a.name.startsWith(':')) {
+				p.setAttribute(a.name, a.value);
+			}
+		}
 	}
 #end
 
