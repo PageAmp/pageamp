@@ -123,10 +123,10 @@ class Server {
 								 root,
 								 params.get(SOURCECOMPILE_ARG));
 			} else {
-				src = p.loadFile(root + uri + '.html', root);
+				src = p.loadFile(root + uri, root);
 			}
 #else
-			src = p.loadFile(root + uri + '.html', root);
+			src = p.loadFile(root + uri, root);
 #end
 		} catch (e:Dynamic) {
 			if (!uri.endsWith('/') &&

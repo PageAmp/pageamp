@@ -26,6 +26,7 @@ import ub1.core.Element;
 import ub1.react.Value;
 import htmlparser.*;
 #if !js
+	import sys.FileSystem;
 	import sys.io.File;
 #end
 
@@ -78,7 +79,16 @@ class Preprocessor {
 		if (nesting > MAXNESTING) {
 			throw 'too many nested includes';
 		}
-		var text = File.getContent(path.toString());
+		var s = path.toString();
+		if (path.ext == null) {
+			if (FileSystem.exists(s) && FileSystem.isDirectory(s)) {
+				s = Path.addTrailingSlash(s) + 'index.html';
+				path = new Path(s);
+			} else {
+				s = s + '.html';
+			}
+		}
+		var text = File.getContent(s);
 		return load2(path, text, nesting);
 	}
 
