@@ -52,6 +52,12 @@ class ValueInterp extends Interp {
 		variables.set('num', function(v:Dynamic): Float {
 			return v != null ? v - 0 : 0;
 		});
+		variables.set('int', function(v:Dynamic): Float {
+			return v != null ? Std.parseInt('$v') : 0;
+		});
+		variables.set('float', function(v:Dynamic): Float {
+			return v != null ? Std.parseFloat('$v') : 0;
+		});
 		variables.set('upperCase', function(v:Dynamic): String {
 			return v != null ? '$v'.toUpperCase() : '';
 		});

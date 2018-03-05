@@ -139,4 +139,29 @@ class DefineTest extends Test {
 		});
 	}
 
+	function testSlot1() {
+		willDelay();
+		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
+			var e:Element = null;
+			var page = new Page(doc, null, function(p:Page) {
+				new Define(p, {n_def:'foo', n_ext:'span'}, function(p:Define) {
+					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
+					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
+				});
+				e = new Element(p, {n_tag:'foo'});
+			});
+			assert(doc.domToString(), '<html>'
+			+ '<head></head><body>'
+			+ '<span><b>title: </b><i>text: </i></span>'
+			+ '</body></html>');
+			e.set('title', 'Z');
+			assert(doc.domToString(), '<html>'
+			+ '<head></head><body>'
+			+ '<span><b>title: </b><i>text: </i></span>'
+			+ '</body></html>');
+			cleanup();
+			didDelay();
+		});
+	}
+
 }

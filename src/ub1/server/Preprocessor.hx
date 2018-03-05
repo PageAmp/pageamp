@@ -122,7 +122,7 @@ class Preprocessor {
 		p.removeChild(include);
 		// copy include-level dynamic attributes to include's parent
 		for (a in root.attributes) {
-			if (a.name.startsWith(':')) {
+			if (a.name.startsWith(':') && !p.hasAttribute(a.name)) {
 				p.setAttribute(a.name, a.value);
 			}
 		}
