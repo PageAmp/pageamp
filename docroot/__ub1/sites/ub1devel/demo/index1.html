@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head :bg1="#fff">
+	<meta charset="UTF-8">
+	<title>Ub1 Demo</title>
+	<link rel="stylesheet" href="/res/font-awesome/css/font-awesome.min.css"/>
+	<ub1-include href="style.htm"></ub1-include>
+</head>
+<body class="ub1-resize">
+
+	<div class="sidebar">
+		Sidebar
+	</div>
+
+	<div class="toolbar">
+		<div class="toolbar-left">
+			<ub1-include href="logo.htm"></ub1-include>
+			Playground
+		</div>
+		<div class="toolbar-right">
+			<i class="fa fa-fw fa-flip-horizontal fa-undo"
+			   style="margin-right:14px"></i>
+			<i class="fa fa-fw fa-fw fa-github"
+			   style="float:right;font-size:120%"></i>
+			<i class="fa-fw fa fa-fw fa-twitter"
+			   style="float:right;font-size:120%"></i>
+		</div>
+	</div>
+
+	<div class="main">
+		<div class="editor"></div>
+
+		<div class="preview"></div>
+	</div>
+
+	<div class="bottombar">
+		Bottombar
+	</div>
+
+	<!-- https://ace.c9.io/#nav=embedding -->
+	<script src="/res/ace-builds/src-min-noconflict/ace.js"></script>
+	<script>
+		window.addEventListener('load', function(ev) {
+			var div = document.querySelector('.editor');
+			editor = ace.edit(div);
+			editor.setTheme("ace/theme/chrome");
+			editor.session.setMode("ace/mode/php");
+			editor.setOption('scrollPastEnd', .33);
+			div.style.display = 'block';
+	    });
+	</script>
+</body>
+</html>
