@@ -1,0 +1,46 @@
+<lib :uiControlHeightPx="${41}"
+     :uiItemHeightPx="${31}"
+>
+	<style>
+		.ui-widget {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+		.ui-control {
+			height: ${uiControlHeightPx}px;
+			line-height: ${uiControlHeightPx}px;
+		}
+		.ui-tablist {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		.ui-tablist li {
+			height: ${uiItemHeightPx}px;
+			line-height: ${uiItemHeightPx}px;
+			padding: 0;
+			margin: 0;
+		}
+		.ui-tablist > li > span {
+			display: block;
+			height: ${uiControlHeightPx}px;
+			line-height: ${uiControlHeightPx + 1}px;
+			padding: 0 16px;
+			border-bottom: 1px solid rgba(255,255,255,.1);
+			margin-bottom: -1px;
+		}
+		.ui-tablist > li ol,
+		.ui-tablist > li ul {
+			margin: 10px 0 10px 5px;
+		}
+		.ui-tablist > li ul {
+			list-style-type: none;
+			margin: 10px 0 10px -7px;
+		}
+	</style>
+
+	<ub1-define tag="ui-tablist:ul"
+	            class="ui-widget ui-tablist">
+	</ub1-define>
+</lib>

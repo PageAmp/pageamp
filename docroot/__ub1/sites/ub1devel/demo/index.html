@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head :bg1="#fff">
+<head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Ub1 Demo</title>
 	<link rel="stylesheet" href="/res/font-awesome/css/font-awesome.min.css"/>
-	<ub1-include href="style.htm"/>
+	<ub1-include href="style.htm"></ub1-include>
 </head>
 <body class="ub1-resize">
-
-	<div class="sidebar">
+	<div class="left">
 		Sidebar
 	</div>
 
-	<div class="toolbar">
-		<div class="toolbar-left">
-			<ub1-include href="logo.htm"/>
-			Playground
-		</div>
-		<div class="toolbar-right">
-			<i class="fa fa-fw fa-flip-horizontal fa-undo" s_marginRight="14px"/>
-			<i class="fa fa-fw fa-fw fa-github" s_float="right" s_fontSize="120%"/>
-			<i class="fa-fw fa fa-fw fa-twitter" s_float="right" s_fontSize="120%"/>
-			<!--<i class="fa-fw fa fa-fw fa-linkedin" s_float="right" s_marginRight="14px"/>-->
-			<!--<i class="fa-fw fa fa-fw fa-envelope" s_float="right" s_marginRight="14px"/>-->
-		</div>
-	</div>
-
 	<div class="main">
-		<div class="editor" s_background="#fff">
+		<div class="top">
+			<div class="toolbar-left">
+				<ub1-include href="logo.htm"></ub1-include>
+				Playground
+			</div>
+			<button class="toolbar-button no-large" style="float:right">
+				<i class="fa fa-fw fa-eye"></i>
+			</button>
+			<button class="toolbar-button no-large" style="float:right">
+				<i class="fa fa-fw fa-code"></i>
+			</button>
+			<button class="toolbar-button on-large" style="float:right">
+				<i class="fa fa-fw fa-flip-horizontal fa-undo"></i>
+			</button>
 		</div>
-
-		<div class="preview" s_background="#fff">
+		<div class="center ub1-resize">
+			<div class="code">
+				<div class="editor"></div>
+			</div>
+			<div class="preview"></div>
+			<div class="doc"></div>
 		</div>
-	</div>
-
-	<div class="bottombar">
-		Bottombar
 	</div>
 
 	<!-- https://ace.c9.io/#nav=embedding -->
@@ -47,7 +46,6 @@
 			editor.setTheme("ace/theme/chrome");
 			editor.session.setMode("ace/mode/php");
 			editor.setOption('scrollPastEnd', .33);
-			div.style.display = 'block';
 	    });
 	</script>
 </body>
