@@ -33,13 +33,13 @@ class BaseNode {
 	public var before: BaseNode;
 
 	public function new(parent:BaseNode,
-	                    ?slot:String,
+	                    ?plug:String,
 	                    ?index:Int,
 	                    ?cb:Dynamic->Void) {
 		this.root = ((this.parent = parent) != null ? parent.root : this);
 		init();
 		if (parent != null) {
-			parent.addChild(this, slot, index);
+			parent.addChild(this, plug, index);
 		}
 		cb != null ? cb(this) : null;
 	}
@@ -56,9 +56,9 @@ class BaseNode {
 	}
 
 	public function addChild(child:BaseNode,
-	                         ?slot:String,
+	                         ?plug:String,
 	                         ?before:Int): BaseNode {
-		var p = getSlot(slot);
+		var p = getSlot(plug);
 		if (p._children == null) {
 			p._children = [];
 		}

@@ -26,6 +26,7 @@ import ub1.core.*;
 import ub1.util.Test;
 import ub1.web.DomTools;
 using ub1.web.DomTools;
+using StringTools;
 
 class DefineTest extends Test {
 
@@ -144,20 +145,38 @@ class DefineTest extends Test {
 		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
 			var e:Element = null;
 			var page = new Page(doc, null, function(p:Page) {
-				new Define(p, {n_def:'list', n_ext:'ul'}, function(p:Define) {
-					new Element(p, {n_tag:'span', });
-					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
+				new Define(p, {n_def:'item', n_ext:'li'}, function(p:Define) {
+					new Element(p, {n_tag:'span', n_slot:'title'});
 				});
-				e = new Element(p, {n_tag:'foo'});
+				e = new Element(p, {n_tag:'item'}, function(p:Element) {
+					new Element(p, {n_tag:'i', n_plug:'title', innerText:'x'});
+				});
 			});
-			assert(doc.domToString(), '<html>'
-			+ '<head></head><body>'
-			+ '<span><b>title: </b><i>text: </i></span>'
+			assert(doc.domToString(), '<html><head></head><body>'
+			+ '<li><span><i>x</i></span></li>'
 			+ '</body></html>');
-			e.set('title', 'Z');
-			assert(doc.domToString(), '<html>'
-			+ '<head></head><body>'
-			+ '<span><b>title: </b><i>text: </i></span>'
+			cleanup();
+			didDelay();
+		});
+	}
+
+	function testSlot2() {
+		willDelay();
+		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
+			var e:Element = null;
+			var page = new Page(doc, null, function(p:Page) {
+				new Define(p, {n_def:'item', n_ext:'li'}, function(p:Define) {
+					new Element(p, {n_tag:'span', n_slot:'title'});
+				});
+				new Define(p, {n_def:'bold', n_ext:'item'}, function(p:Define) {
+					new Element(p, {n_tag:'b', n_plug:'title', n_slot:'title'});
+				});
+				e = new Element(p, {n_tag:'bold'}, function(p:Element) {
+					new Element(p, {n_tag:'i', n_plug:'title', innerText:'x'});
+				});
+			});
+			assert(doc.domToString(), '<html><head></head><body>'
+			+ '<li><span><b><i>x</i></b></span></li>'
 			+ '</body></html>');
 			cleanup();
 			didDelay();

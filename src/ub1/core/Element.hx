@@ -44,6 +44,7 @@ class Element extends Node {
 	public static inline var ELEMENT_PROP = NODE_PREFIX + 'e';
 	public static inline var TAG_PROP = NODE_PREFIX + 'tag';
 	public static inline var SLOT_PROP = NODE_PREFIX + 'slot';
+	public static inline var PLUG_PROP = NODE_PREFIX + 'plug';
 	public static inline var INDEX_PROP = NODE_PREFIX + 'index';
 	public static inline var ID_PROP = NODE_PREFIX + 'id';
 	// dynamic
@@ -61,9 +62,9 @@ class Element extends Node {
 
 	public function new(parent:Element, props:Props, ?cb:Dynamic->Void) {
 		this.props = props;
-		var slot:String = props.get(SLOT_PROP);
+		var plug:String = props.get(PLUG_PROP);
 		var index:Int = props.get(INDEX_PROP);
-		super(parent, slot, index, cb);
+		super(parent, plug, index, cb);
 	}
 
 	#if !debug inline #end
@@ -144,6 +145,7 @@ class Element extends Node {
 			for (n in src.nodeChildren) {
 				if (Std.is(n, Element)) {
 					var t = new Element(p, PropertyTool.clone(untyped n.props));
+					collectSlot(t);
 					f(t, untyped n);
 				} if (Std.is(n, Text)) {
 					new Text(p, untyped n.text);
@@ -156,6 +158,14 @@ class Element extends Node {
 			f(untyped p, def);
 		}
 		def != null ? f2(this, def) : null;
+	}
+
+	function collectSlot(n:Element) {
+		var slot = n.props.get(SLOT_PROP);
+		if (slot != null) {
+			slots == null ? slots = new Map<String, BaseNode>() : null;
+			slots.set(slot, n);
+		}
 	}
 
 	// =========================================================================

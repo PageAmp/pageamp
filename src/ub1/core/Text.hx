@@ -32,12 +32,12 @@ class Text extends Node {
 	public var value: Value;
 
 	public function new(parent:Element, text:String,
-	                    ?n:DomTextNode, ?slot:String, ?index:Int) {
+	                    ?n:DomTextNode, ?plug:String, ?index:Int) {
 		this.text = text;
 		this.node = n;
-		this.slot = slot;
+		this.plug = plug;
 		this.index = index;
-		super(parent, slot, index);
+		super(parent, plug, index);
 		if (isDynamicValue(null, text)) {
 			var scope = getScope();
 			if (scope != null) {
@@ -58,7 +58,7 @@ class Text extends Node {
 	}
 
 	override public function cloneTo(parent:Node, ?index:Int): Node {
-		var clone = new Text(cast parent, text, slot, this.index);
+		var clone = new Text(cast parent, text, plug, this.index);
 		return clone;
 	}
 
@@ -67,7 +67,7 @@ class Text extends Node {
 	// =========================================================================
 	public var text: String;
 	var node: DomTextNode;
-	var slot: String;
+	var plug: String;
 	var index: Int;
 	var t: DomTextNode;
 

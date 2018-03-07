@@ -36,8 +36,8 @@ class Node extends BaseNode {
 	public var page(get,null): Page;
 	public inline function get_page(): Page return untyped root;
 
-	function new(parent:Node, ?slot:String, ?index:Int, ?cb:Dynamic->Void) {
-		super(parent, slot, index, cb);
+	function new(parent:Node, ?plug:String, ?index:Int, ?cb:Dynamic->Void) {
+		super(parent, plug, index, cb);
 		var key = Type.getClassName(Type.getClass(this));
 		if (!page.initializations.exists(key)) {
 			page.initializations.add(key);
@@ -53,20 +53,21 @@ class Node extends BaseNode {
 		return null;
 	}
 
+#if test
 	public function toString() {
 		var name = Type.getClassName(Type.getClass(this)).split('.').pop();
 		var content = '';
-		var slot = 'default';
+		var plug = 'default';
 		var scope = 'n';
 		var domNode = getDomNode();
 		if (domNode.domIsElement()) {
-			content = cast(domNode, DomElement).domTagName();
-			slot = cast(this, Element).getProp(Element.SLOT_PROP, 'default');
+			content = DomTools.domTagName(untyped domNode);
+			plug = cast(this, Element).getProp(Element.PLUG_PROP, 'default');
 			this.scope != null ? scope = 'y' : null;
 		} else if (domNode.domIsTextNode()) {
 			content = cast(domNode, DomTextNode).domGetText();
 		}
-		return '$name:${id}:$slot:$scope:$content';
+		return '$name:${id}:$plug:$scope:$content';
 	}
 
 	public function dump() {
@@ -82,6 +83,7 @@ class Node extends BaseNode {
 		f(this, 0);
 		return sb.toString();
 	}
+#end
 
 	// =========================================================================
 	// abstract methods
