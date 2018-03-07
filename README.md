@@ -147,9 +147,9 @@ Where `inc/style.html` could be:
 
 (the root tag is ignored and can be used for documentation).
 
-_Includes_ should only be used to modularize your source code, splitting it by function (e.g. style, data, different sections of your site). For avoiding replicated code, ub1 has a better tool in _custom tags_.
+_Includes_ should only be used to modularize your source code, splitting it by function (e.g. style, data, different sections of your site). In this way you can effectively separate you source code concerns and possibly let different developers or teams work on them.
 
-Let's see a classic example. The obvious duplication problem in this code above will be familiar to anybody who ever wrote an HTML page:
+For avoiding replicated code, ub1 has a better tool in _custom tags_. Let's see a classic example. The obvious duplication problem in this code above will be familiar to anybody who ever wrote an HTML page:
 
 ```html
 <body>

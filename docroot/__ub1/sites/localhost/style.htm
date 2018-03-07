@@ -1,6 +1,16 @@
-<lib :bg1="#fff" :fg1="#456" :bd1="1px solid rgba(0,0,0,.11)"
-     :bg2="#456" :fg2="${cssColorOffset('#456', 100, .66)}" :bd2="0"
-     :bg3="#f5f5f5" :fg3="#345"
+<lib :saturation="${.33}"
+
+     :bg1="#fff"
+     :fg1="#456"
+     :bd1="1px solid rgba(0,0,0,.11)"
+
+     :bg2="${cssColorOffset('#456', 0, saturation)}"
+     :fg2="${cssColorOffset('#456', 100, .66 * saturation)}"
+     :bd2="0"
+
+     :bg3="#f5f5f5"
+     :fg3="${cssColorOffset('#345', 0, saturation)}"
+
      :topHeightPx="${41}"
      :docHeightPc="${50}"
      :leftWidthPx="${220}"
@@ -57,6 +67,7 @@
 		}
 		.toolbar-button {
 			font-size: 16px;
+			background: #fff;
 			width: ${topHeightPx - 1}px;
 			height: ${topHeightPx - 1}px;
 			border: 4px solid #fff;
@@ -64,8 +75,8 @@
 			outline: none;
 		}
 		.toolbar-button:active {
-			background: #eee;
 			color: ${fg3};
+			background: #eee;
 		}
 		span.logo {
 			vertical-align: -11px;
@@ -117,7 +128,7 @@
 			bottom: 0;
 			background: #f6f6f6;
 			padding: 10px;
-			border-top: 1px solid rgba(0,0,0,.06);
+			border-top: 1px solid rgba(0,0,0,.075);
 		}
 
 		.on-large {

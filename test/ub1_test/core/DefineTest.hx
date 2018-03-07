@@ -144,8 +144,8 @@ class DefineTest extends Test {
 		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
 			var e:Element = null;
 			var page = new Page(doc, null, function(p:Page) {
-				new Define(p, {n_def:'foo', n_ext:'span'}, function(p:Define) {
-					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
+				new Define(p, {n_def:'list', n_ext:'ul'}, function(p:Define) {
+					new Element(p, {n_tag:'span', });
 					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
 				});
 				e = new Element(p, {n_tag:'foo'});
