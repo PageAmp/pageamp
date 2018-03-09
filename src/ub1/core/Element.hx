@@ -244,21 +244,16 @@ class Element extends Node {
 	}
 
 	function send(target:Dynamic, key:String, val:Dynamic) {
-		//trace('send(${target != null}, $key, $val)');
 		if (target != null) {
 			if (Std.is(target, Array)) {
-				//trace('send() array');
 				var a:Array<ValueScope> = cast target;
 				for (i in a) {
 					send(i, key, val);
 				}
 			} else if (Std.is(target, ValueScope)) {
-				//trace('send() scope');
-				//cast(target, ValueScope).set(key, val);
 				cast(target, ValueScope).delayedSet(key, val);
 			}
 		}
-		//trace('send() ret');
 	}
 
 	// =========================================================================
