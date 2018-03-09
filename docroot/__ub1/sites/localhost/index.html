@@ -8,7 +8,7 @@
 	<ub1-include href="lib/ui.htm"/>
 	<ub1-include href="style.htm"/>
 </head>
-<body class="ub1-resize" :pageSection="${0}" :sectionItem="${12}">
+<body class="ub1-resize" :pageSection="${1}" :sectionItem="${12}">
 
 	<ub1-dataset :name="samplesData"
 	             :server="${makeData()}"
@@ -22,8 +22,11 @@
 	<div class="left">
 		<ul>
 			<ui-tablist-item c_leftSection
-			           c_selected="${pageSection == 0}"
-			           :title="Samples" :open="${true}">
+			                 c_selected="${open}"
+			                 :title="Samples"
+			                 :open="${pageSection == 0}"
+			                 :on_open="${open ? pageSection = 0 : null}"
+			>
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"
@@ -36,8 +39,11 @@
 			</ui-tablist-item>
 
 			<ui-tablist-item c_leftSection
-			                 c_selected="${pageSection == 0}"
-			                 :title="Pippo" :open="${false}">
+			                 c_selected="${open}"
+			                 :title="Pippo"
+			                 :open="${pageSection == 1}"
+			                 :on_open="${open ? pageSection = 1 : null}"
+			>
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"
@@ -50,8 +56,11 @@
 			</ui-tablist-item>
 
 			<ui-tablist-item c_leftSection
-			                 c_selected="${pageSection == 0}"
-			                 :title="Pluto" :open="${false}">
+			                 c_selected="${open}"
+			                 :title="Pluto"
+			                 :open="${pageSection == 2}"
+			                 :on_open="${open ? pageSection = 2 : null}"
+			>
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"

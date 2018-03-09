@@ -29,6 +29,9 @@ import ub1.data.DataProvider;
 import ub1.react.*;
 import ub1.util.BaseNode;
 import ub1.util.Util;
+#if client
+	import js.html.ResizeObserver;
+#end
 using StringTools;
 using ub1.util.PropertyTool;
 using ub1.web.DomTools;
@@ -394,6 +397,8 @@ class Element extends Node {
 	#if resizeMonitor
 		if (key == Page.RESIZE_CLASS && flag && !resizeMonitor) {
 			resizeMonitor = true;
+			set('resizeWidth', -1).unlink();
+			set('resizeHeight', -1).unlink();
 			page.observeResize(e);
 		}
 	#end

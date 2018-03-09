@@ -241,6 +241,11 @@ class Page extends Element implements ServerPage {
 			var breakpoints = {SM:384, MD:576, LG:768, XL:960};
 			function f(entries) {
 				entries.forEach(function(entry) {
+					var ub1 = entry.target.ub1;
+					if (ub1) {
+						ub1.set('resizeWidth', entry.contentRect.width);
+						ub1.set('resizeHeight', entry.contentRect.height);
+					}
 					Object.keys(breakpoints).forEach(function(breakpoint) {
 						var minWidth = breakpoints[breakpoint];
 						if (entry.contentRect.width >= minWidth) {
