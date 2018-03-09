@@ -29,7 +29,7 @@
 	            :canDeselect="${true}"
 	            :openIcon="<i class=&quot;fa fa-fw fa-caret-down&quot;></i>"
 	            :closedIcon="<i class=&quot;fa fa-fw fa-caret-right&quot;></i>"
-	            :animSecs="${.2/*TODO:cannot access uiAnimSecs*/}"
+	            :animSecs="${.33/*TODO:cannot access uiAnimSecs*/}"
 
 	            :h="${null}"
 	            :flag="${null}"
@@ -84,22 +84,78 @@
 	</ub1-define>
 
 	<ub1-define tag="ui-tablist-item:ui-tree-item"
-	            :canDeselect="${true}"
+	            :canDeselect="${false}"
 	            :openIcon="" :closedIcon=""
+	            :v="${null}"
+	            :h1="${null}"
+	            :h2="${null}"
+	            :mutex="${null}"
 	            :doStart="${function() {
-	                var h2 = header.dom.clientHeight;
-	                flag ? h2 = h2 + content.dom.clientHeight : null;
-	                animate('h', h2, animSecs, 0, didEnd);
-	                content.animate('a', flag ? 1 : .5, animSecs);
+	                this.mutex = null;
+	                h1 = header.dom.clientHeight;
+	                h2 = h1 + content.dom.clientHeight;
 	                if (flag) {
-	                    for (b in getBrothers()) {
-	                        if (b.doClose != null) {
-	                            b.doClose();
-	                        }
-	                    }
+		                this.mutex = getBrothers('open', true);
+		                for (b in this.mutex) {
+			                b.h1 = b.header.dom.clientHeight;
+			                b.h2 = b.h1 + b.content.dom.clientHeight;
+			                b.flag = false;
+		                }
+		                v = 0;
+		                animate('v', 1, animSecs, 0, didEnd);
+	                } else {
+		                v = 1;
+		                animate('v', 0, animSecs, 0, didEnd);
 	                }
+	            }}"
+	            :onV="${(v):function() {
+	                if (v != null) {
+		                h = h1 + ((h2 - h1) * v);
+		                content.a = .5 + (.5 * v);
+		                for (b in this.mutex) {
+		                    b.v = 1 - v;
+		                }
+	                } else {
+	                    h = null;
+	                    content.a = null;
+	                }
+	            }}"
+	            :didEnd="${function() {
+	                //send(this.mutex, 'v', null);
+	                send(this.mutex, 'open', false);
+	                this.mutex = null;
+	                v = null;
+	                open = flag;
 	            }}"
 	>
 	</ub1-define>
 
 </lib>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

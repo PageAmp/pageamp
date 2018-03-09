@@ -23,7 +23,7 @@
 		<ul>
 			<ui-tablist-item c_leftSection
 			           c_selected="${pageSection == 0}"
-			           :title="Samples">
+			           :title="Samples" :open="${true}">
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"
@@ -37,7 +37,7 @@
 
 			<ui-tablist-item c_leftSection
 			                 c_selected="${pageSection == 0}"
-			                 :title="Pippo">
+			                 :title="Pippo" :open="${false}">
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"
@@ -51,7 +51,7 @@
 
 			<ui-tablist-item c_leftSection
 			                 c_selected="${pageSection == 0}"
-			                 :title="Pluto">
+			                 :title="Pluto" :open="${false}">
 				<ol>
 					<li c_leftItem
 					    c_selected="${cloneIndex == sectionItem}"

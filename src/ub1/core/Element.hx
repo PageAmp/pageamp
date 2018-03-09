@@ -217,28 +217,48 @@ class Element extends Node {
 		return ret;
 	}
 
-	function getBrotherScopes() {
+	function getBrotherScopes(?having:String,
+	                          ?equal:Dynamic,
+	                          ?nonEqual:Dynamic) {
 		var ret = [];
-		#if js trace('getBrotherScopes()'); #end
-
-//		if (scope.parent != null) {
-//			for (s in scope.parent.children) {
-//				if (s != scope) {
-//					ret.push(s);
-//				}
-//			}
-//		}
-
 		if (parent != null) {
 			for (node in nodeParent.nodeChildren) {
 				if (node != this && node.scope != null) {
+					var v = (having != null
+							? node.scope.values.get(having)
+							: null);
+					if (having != null && v == null) {
+						continue;
+					}
+					if (equal != null && (v == null || v.value != equal)) {
+						continue;
+					}
+					if (nonEqual != null && v != null && v.value == nonEqual) {
+						continue;
+					}
 					ret.push(node.scope);
 				}
 			}
 		}
-
-		#if js trace('getBrotherScopes(): ' + ret.length); #end
 		return ret;
+	}
+
+	function send(target:Dynamic, key:String, val:Dynamic) {
+		//trace('send(${target != null}, $key, $val)');
+		if (target != null) {
+			if (Std.is(target, Array)) {
+				//trace('send() array');
+				var a:Array<ValueScope> = cast target;
+				for (i in a) {
+					send(i, key, val);
+				}
+			} else if (Std.is(target, ValueScope)) {
+				//trace('send() scope');
+				//cast(target, ValueScope).set(key, val);
+				cast(target, ValueScope).delayedSet(key, val);
+			}
+		}
+		//trace('send() ret');
 	}
 
 	// =========================================================================
@@ -255,6 +275,7 @@ class Element extends Node {
 		set('delayedSet', scope.delayedSet).unlink();
 		set('domGet', domGet).unlink();
 		set('getBrothers', getBrotherScopes).unlink();
+		set('send', send).unlink();
 		initDatabinding();
 		initReplication();
 	}
