@@ -1,4 +1,4 @@
-<lib :saturation="${.33}"
+<lib :saturation="${1}"
 
      :bg1="#fff"
      :fg1="#456"
@@ -16,6 +16,11 @@
      :leftWidthPx="${220}"
      :previewWidthPx="${320}"
 >
+
+	<!-- ******************************************************************* -->
+	<!-- page -->
+	<!-- ******************************************************************* -->
+
 	<style>
 		body {
 			font: 1em/1.5 system-ui, -apple-system, BlinkMacSystemFont,
@@ -38,17 +43,13 @@
 		* {
 			box-sizing: border-box;
 		}
+	</style>
 
-		.left {
-			display: none;
-			position: absolute;
-			left: 0;
-			width: ${leftWidthPx}px;
-			top: 0;
-			bottom: 0;
-			color: ${fg2};
-			background: ${bg2};
-		}
+	<!-- ******************************************************************* -->
+	<!-- main -->
+	<!-- ******************************************************************* -->
+
+	<style>
 		.main {
 			position: absolute;
 			left: 0;
@@ -56,6 +57,7 @@
 			top: 0;
 			bottom: 0;
 		}
+
 		.top {
 			height: ${topHeightPx}px;
 			line-height: ${topHeightPx - 1}px;
@@ -130,7 +132,49 @@
 			padding: 10px;
 			border-top: 1px solid rgba(0,0,0,.075);
 		}
+	</style>
 
+	<!-- ******************************************************************* -->
+	<!-- sidebar -->
+	<!-- ******************************************************************* -->
+
+	<style>
+		.left {
+			display: none;
+			position: absolute;
+			left: 0;
+			width: ${leftWidthPx}px;
+			top: 0;
+			bottom: 0;
+			color: ${fg2};
+			background: ${bg2};
+		}
+		.left ul,
+		.left ol {
+			color: ${fg2};
+			margin: 0;
+		}
+		.left li {
+			user-select: none;
+			cursor: default;
+		}
+		.left-section {
+			list-style-type: none;
+			margin: 0 0 0 -20px;
+		}
+		.left-item {
+			margin: 0 0 0 -13px;
+		}
+		.left li.selected {
+			color: #fff;
+		}
+	</style>
+
+	<!-- ******************************************************************* -->
+	<!-- responsiveness -->
+	<!-- ******************************************************************* -->
+
+	<style>
 		.on-large {
 			display: none;
 		}
@@ -170,4 +214,5 @@
 			}
 		}
 	</style>
+
 </lib>

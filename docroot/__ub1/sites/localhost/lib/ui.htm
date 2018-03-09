@@ -1,51 +1,105 @@
-<lib :uiControlHeightPx="${41}"
+<lib :uiAnimSecs="${.2}"
+     :uiControlHeightPx="${41}"
      :uiItemHeightPx="${31}"
 >
+
 	<style>
-		.ui-widget {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-		}
-		.ui-control {
-			height: ${uiControlHeightPx}px;
-			line-height: ${uiControlHeightPx}px;
-		}
-		.ui-tablist {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-		.ui-tablist li {
-			font-size: 100%;
-			height: ${uiItemHeightPx}px;
-			line-height: ${uiItemHeightPx}px;
-			padding: 0;
-			margin: 0;
-			cursor: default;
-		}
-		.ui-tablist > li {
-			font-size: 100%;
-		}
-		.ui-tablist > li > span {
-			display: block;
-			height: ${uiControlHeightPx}px;
-			line-height: ${uiControlHeightPx + 1}px;
-			padding: 0 16px;
-			border-bottom: 1px solid rgba(255,255,255,.1);
-			margin-bottom: -1px;
-		}
-		.ui-tablist > li ol,
-		.ui-tablist > li ul {
-			margin: 10px 0 10px 10px;
-		}
-		.ui-tablist > li ul {
-			list-style-type: none;
-			margin: 10px 0 10px -7px;
-		}
 	</style>
 
-	<ub1-define tag="ui-tablist:ul"
-	            class="ui-widget ui-tablist">
+	<!--<ub1-define tag="ui-mutex:div"-->
+	            <!--style="display:none"-->
+	            <!--:name="mutex"-->
+	            <!--:call="${function(name, except) {-->
+	                <!--for (b in getBrothers()) {-->
+	                    <!--if (b != except) {-->
+		                    <!--var f = b.get(name);-->
+		                    <!--if (f != null) {-->
+		                        <!--f();-->
+		                    <!--}-->
+	                    <!--}-->
+	                <!--}-->
+	            <!--}}"-->
+	<!--&gt;-->
+	<!--</ub1-define>-->
+
+	<ub1-define tag="ui-tree-item:li"
+
+	            :title=""
+	            :open="${true}"
+	            :canDeselect="${true}"
+	            :openIcon="<i class=&quot;fa fa-fw fa-caret-down&quot;></i>"
+	            :closedIcon="<i class=&quot;fa fa-fw fa-caret-right&quot;></i>"
+	            :animSecs="${.2/*TODO:cannot access uiAnimSecs*/}"
+
+	            :h="${null}"
+	            :flag="${null}"
+	            s_overflow="hidden"
+	            s_height="${h != null ? h + 'px' : null}"
+
+	            :onOpen="${(open):function() {
+	                h = null;
+                    content.s_display = (open ? null : 'none');
+                    content.a = null;
+                    flag = null;
+	            }}"
+
+	            :doOpen="${function() {
+	                if (open || flag != null) return;
+	                h = header.dom.clientHeight;
+	                content.s_display = null;
+	                content.a = .5;
+	                delayedSet('flag', true, 0, doStart);
+	            }}"
+
+	            :doClose="${function() {
+	                if (!open || flag != null) return;
+	                h = header.dom.clientHeight + content.dom.clientHeight;
+	                content.s_display = null;
+	                content.a = 1;
+	                flag = false;
+	                doStart();
+	            }}"
+
+	            :doStart="${function() {
+	                var h2 = header.dom.clientHeight;
+	                flag ? h2 = h2 + content.dom.clientHeight : null;
+	                animate('h', h2, animSecs, 0, didEnd);
+	                content.animate('a', flag ? 1 : .5, animSecs);
+	            }}"
+
+	            :didEnd="${function() {open = flag}}"
+
+	>
+
+		<div :name="header" n_slot="title"
+		     :ev_click="${open ? (canDeselect ? doClose() : null) : doOpen()}"
+		     :innerHtml="${((flag != null ? flag : open)
+		                ? openIcon : closedIcon) + title}"
+		></div>
+
+		<div :name="content" n_slot="default"
+		     :a="${null}" s_opacity="${a != null ? string(a) : null}"
+		></div>
+
 	</ub1-define>
+
+	<ub1-define tag="ui-tablist-item:ui-tree-item"
+	            :canDeselect="${true}"
+	            :openIcon="" :closedIcon=""
+	            :doStart="${function() {
+	                var h2 = header.dom.clientHeight;
+	                flag ? h2 = h2 + content.dom.clientHeight : null;
+	                animate('h', h2, animSecs, 0, didEnd);
+	                content.animate('a', flag ? 1 : .5, animSecs);
+	                if (flag) {
+	                    for (b in getBrothers()) {
+	                        if (b.doClose != null) {
+	                            b.doClose();
+	                        }
+	                    }
+	                }
+	            }}"
+	>
+	</ub1-define>
+
 </lib>

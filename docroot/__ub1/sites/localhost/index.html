@@ -8,7 +8,7 @@
 	<ub1-include href="lib/ui.htm"/>
 	<ub1-include href="style.htm"/>
 </head>
-<body class="ub1-resize">
+<body class="ub1-resize" :pageSection="${0}" :sectionItem="${12}">
 
 	<ub1-dataset :name="samplesData"
 	             :server="${makeData()}"
@@ -20,21 +20,49 @@
 	</ub1-dataset>
 
 	<div class="left">
-		<ui-tablist>
-			<li>
-				<span>Samples</span>
+		<ul>
+			<ui-tablist-item c_leftSection
+			           c_selected="${pageSection == 0}"
+			           :title="Samples">
 				<ol>
-					<li :foreach="samplesData:/root/item">
-						<span c_link
-						      c_selected="${sample == dataGet('@name')}"
-						      :sampleName="${dataGet('@name').split('_')[1]}"
-						      :ev_click="${sample = dataGet('@name')}">
-							${regex('-', 'g').replace(sampleName, ' ')}
-						</span>
+					<li c_leftItem
+					    c_selected="${cloneIndex == sectionItem}"
+					    :foreach="samplesData:/root/item"
+					    :sampleName="${dataGet('@name').split('_')[1]}"
+					    :ev_click="${sectionItem = cloneIndex}">
+						${regex('-', 'g').replace(sampleName, ' ')}
 					</li>
 				</ol>
-			</li>
-		</ui-tablist>
+			</ui-tablist-item>
+
+			<ui-tablist-item c_leftSection
+			                 c_selected="${pageSection == 0}"
+			                 :title="Pippo">
+				<ol>
+					<li c_leftItem
+					    c_selected="${cloneIndex == sectionItem}"
+					    :foreach="samplesData:/root/item"
+					    :sampleName="${dataGet('@name').split('_')[1]}"
+					    :ev_click="${sectionItem = cloneIndex}">
+						${regex('-', 'g').replace(sampleName, ' ')}
+					</li>
+				</ol>
+			</ui-tablist-item>
+
+			<ui-tablist-item c_leftSection
+			                 c_selected="${pageSection == 0}"
+			                 :title="Pluto">
+				<ol>
+					<li c_leftItem
+					    c_selected="${cloneIndex == sectionItem}"
+					    :foreach="samplesData:/root/item"
+					    :sampleName="${dataGet('@name').split('_')[1]}"
+					    :ev_click="${sectionItem = cloneIndex}">
+						${regex('-', 'g').replace(sampleName, ' ')}
+					</li>
+				</ol>
+			</ui-tablist-item>
+		</ul>
 	</div>
 
 	<div class="main">

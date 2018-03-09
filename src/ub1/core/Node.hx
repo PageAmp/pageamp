@@ -159,6 +159,7 @@ class Node extends BaseNode {
 			var ctx = ps.context;
 			scope = new ValueScope(ctx, ps, ctx.newScopeUid(), name);
 			scope.set('parent', ps).unlink();
+			scope.set('getIndex', getIndex).unlink();
 		}
 		name != null ? scope.set('name', name).unlink() : null;
 		scope.newValueDelegate = newValueDelegate;

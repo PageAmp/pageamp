@@ -57,6 +57,7 @@ class Element extends Node {
 	public static inline var FOREACH_PROP = 'foreach';
 	public static inline var SORT_PROP = 'forsort';
 	public static inline var TARGET_PROP = 'fortarget';
+	public static inline var CLONE_INDEX = 'cloneIndex';
 	// (replicated nodes)
 	public static inline var SOURCE_PROP = NODE_PREFIX + 'src';
 
@@ -216,6 +217,30 @@ class Element extends Node {
 		return ret;
 	}
 
+	function getBrotherScopes() {
+		var ret = [];
+		#if js trace('getBrotherScopes()'); #end
+
+//		if (scope.parent != null) {
+//			for (s in scope.parent.children) {
+//				if (s != scope) {
+//					ret.push(s);
+//				}
+//			}
+//		}
+
+		if (parent != null) {
+			for (node in nodeParent.nodeChildren) {
+				if (node != this && node.scope != null) {
+					ret.push(node.scope);
+				}
+			}
+		}
+
+		#if js trace('getBrotherScopes(): ' + ret.length); #end
+		return ret;
+	}
+
 	// =========================================================================
 	// react
 	// =========================================================================
@@ -223,11 +248,13 @@ class Element extends Node {
 	override public function makeScope(?name:String) {
 		name == null ? name = props.get(NAME_PROP) : null;
 		super.makeScope(name);
+		set('this', scope);
 		set('dom', e);
 		set('outer', scope.parent).unlink();
 		set('animate', scope.animate).unlink();
 		set('delayedSet', scope.delayedSet).unlink();
 		set('domGet', domGet).unlink();
+		set('getBrothers', getBrotherScopes).unlink();
 		initDatabinding();
 		initReplication();
 	}
@@ -301,11 +328,7 @@ class Element extends Node {
 
 	function textValueCB(e:DomElement, _, val:Dynamic) {
 		if (val != null) {
-			var s = Std.string(val);
-			s = s.split('<').join('&lt;');
-			e.domSetInnerHTML(s);
-		} else {
-			e.domSetInnerHTML('');
+			e.domSetInnerHTML(Std.string(val).split('<').join('&lt;'));
 		}
 	}
 
@@ -314,7 +337,9 @@ class Element extends Node {
 	// =========================================================================
 
 	function htmlValueCB(e:DomElement, _, val:Dynamic) {
-		e.domSetInnerHTML(val != null ? Std.string(val) : '');
+		if (val != null) {
+			e.domSetInnerHTML(val != null ? Std.string(val) : '');
+		}
 	}
 
 	// =========================================================================
@@ -554,8 +579,6 @@ class Element extends Node {
 				if (index < clones.length) {
 					// reuse existing clone
 					var clone = clones[index];
-					//clone.set('__clone_dp', dp, false);
-					//clone.set('__clone_index', index, false);
 					refreshClone(clone, dp, index);
 					#if test
 						testCloneUpdates++;
@@ -565,7 +588,6 @@ class Element extends Node {
 					var clone = addClone(parent, before, dp, index);
 					if (clone != null) {
 						clones.push(clone);
-						//clone.set('__clone_index', index);
 					}
 				}
 				index++;
@@ -604,8 +626,8 @@ class Element extends Node {
 
 	function refreshClone(clone:Node, dp:Xml, ci:Int) {
 		clone.scope.clonedScope = true;
-		clone.scope.set('__clone_dp', dp, false);
-		clone.scope.set('__clone_index', ci, false);
+		clone.scope.set('__clone_dp', dp, false).unlink();
+		clone.scope.set(CLONE_INDEX, ci, false).unlink();
 		page.scope.context.refresh(clone.scope);
 		#if test
 			testCloneRefreshes++;
