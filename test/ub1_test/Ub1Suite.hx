@@ -25,6 +25,7 @@ package ub1_test;
 import ub1_test.core.*;
 import ub1_test.data.*;
 import ub1_test.react.*;
+import ub1_test.reapp.*;
 import ub1_test.util.*;
 import ub1_test.web.*;
 import ub1.util.Test;
@@ -39,35 +40,41 @@ class Ub1Suite extends TestRoot {
 
 	static public function main() {
 		new Ub1Suite(function(p:Test) {
-#if client
-			new Client(p, function(p:Test) {
-				new ClientTest1(p);
+//#if client
+//			new Client(p, function(p:Test) {
+//				new ClientTest1(p);
+//			});
+//#end
+//#if server
+//			new Server(p, function(p:Test) {
+//				new ServerTest1(p);
+//				new ServerTest2(p);
+//			});
+//#end
+//			new Core(p, function(p:Test) {
+//				new DefineTest(p);
+//				new ElementTest(p);
+//				new PageTest(p);
+//			});
+//			new Data(p, function(p:Test) {
+//				new DataPathTest(p);
+//			});
+//			new React(p, function(p:Test) {
+//				new ScopeTest(p);
+//				new ValueTest(p);
+//			});
+			new Reapp(p, function(p:Test) {
+				new ReTest(p);
+				new ReAppTest(p);
+				new ReNodeTest(p);
+				new ReNodeTest(p);
 			});
-#end
-#if server
-			new Server(p, function(p:Test) {
-				new ServerTest1(p);
-				new ServerTest2(p);
-			});
-#end
-			new Core(p, function(p:Test) {
-				new DefineTest(p);
-				new ElementTest(p);
-				new PageTest(p);
-			});
-			new Data(p, function(p:Test) {
-				new DataPathTest(p);
-			});
-			new React(p, function(p:Test) {
-				new ScopeTest(p);
-				new ValueTest(p);
-			});
-			new Util(p, function(p:Test) {
-				new UrlTest(p);
-			});
-			new Web(p, function(p:Test) {
-				new DomToolsTest(p);
-			});
+//			new Util(p, function(p:Test) {
+//				new UrlTest(p);
+//			});
+//			new Web(p, function(p:Test) {
+//				new DomToolsTest(p);
+//			});
 		}, null, 'http://localhost/__ubr_test/php/index.php?rpc=');
 	}
 
@@ -80,5 +87,6 @@ class Server extends Test {
 	public static inline var BASEURL = 'http://localhost/__ub1_test/server/';
 }
 class React extends Test {}
+class Reapp extends Test {}
 class Util extends Test {}
 class Web extends Test {}

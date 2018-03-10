@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/ext" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/exp" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/client/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/domains" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/php" />
