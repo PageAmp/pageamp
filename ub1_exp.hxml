@@ -1,0 +1,8 @@
+
+-js docroot/__exp/client/bin/app.js
+-cp exp
+-cp ext
+-cp src
+-main reapp.ClassReification
+-lib tink_macro
+-debug
