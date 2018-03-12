@@ -25,7 +25,8 @@ class ClassReification {
 		// =====================================================================
 		// scan
 		// =====================================================================
-		var scanBlock:Expr->MBlock = null;
+		var scopeNr = 0;
+		var scanBlock:NScope->String->Expr->NScope = null;
 
 		function isRecursionCallId(c:Constant): Bool {
 			var ret = false;
@@ -67,16 +68,16 @@ class ClassReification {
 			return ret;
 		}
 
-		function scanVariables(vv:Array<Var>, ret:MBlock) {
+		function scanVariables(p:NScope, f:String, vv:Array<Var>, ret:NScope) {
 			for (v in vv) {
 				var block = checkRecursion(v);
 				if (block != null) {
-					ret.push({
+					ret.fields.push({
 						name: v.name,
-						block: scanBlock(block),
+						child: scanBlock(p, f, block),
 					});
 				} else {
-					ret.push({
+					ret.fields.push({
 						name: v.name,
 						type: v.type,
 						expr: v.expr,
@@ -85,23 +86,28 @@ class ClassReification {
 			}
 		}
 
-		function scanExpressions(ee:Array<Expr>, ret:MBlock) {
+		function scanExpressions(p:NScope, f:String, ee:Array<Expr>, ret:NScope) {
 			for (e in ee) {
 				switch (e.expr) {
 					case ExprDef.EVars(vv):
-						scanVariables(vv, ret);
+						scanVariables(p, f, vv, ret);
 					default:
 						//TODO
 				}
 			}
 		}
 
-		scanBlock = function(block:Expr): MBlock {
+		scanBlock = function(p:NScope, f: String, block:Expr): NScope {
 			trace('scanBlock()');
-			var ret:MBlock = [];
+			var ret:NScope = {
+				nr: ++scopeNr,
+				parent: p,
+				pfield: f,
+				fields: [],
+			};
 			switch (block.expr) {
 				case ExprDef.EBlock(ee):
-					scanExpressions(ee, ret);
+					scanExpressions(p, f, ee, ret);
 				default:
 					//TODO
 			}
@@ -111,21 +117,20 @@ class ClassReification {
 		// =====================================================================
 		// gen
 		// =====================================================================
-		var classNr = 0;
-		var genBlock:MBlock->Expr = null;
+		var genBlock:NScope->Expr = null;
 
-		genBlock = function(mblock): Expr {
-			var className = 'NodeClass' + (++classNr);
-			for (v in mblock) {
-				if (v.block != null) {
-					v.expr = genBlock(v.block);
+		genBlock = function(mblock:NScope): Expr {
+			var className = 'AutoGen' + (mblock.nr);
+			for (v in mblock.fields) {
+				if (v.child != null) {
+					v.expr = genBlock(v.child);
 				}
 			}
 			var c:TypeDefinition = macro class $className {
 				public function new() {}
 			}
 			var fields:Array<Field> = c.fields;
-			for (v in mblock) {
+			for (v in mblock.fields) {
 				fields.push({
 					pos: (v.expr != null ? v.expr.pos : Context.currentPos()),
 					name: v.name,
@@ -141,7 +146,7 @@ class ClassReification {
 		// main
 		// =====================================================================
 
-		var mblock = scanBlock(block);
+		var mblock = scanBlock(null, null, block);
 //		var s = haxe.Json.stringify(mblock);
 //		trace(s);
 
@@ -150,11 +155,16 @@ class ClassReification {
 
 }
 
-typedef MBlock = Array<MVar>;
+typedef NScope = {
+	nr: Int,
+	parent: NScope,
+	pfield: String,
+	fields: Array<NField>,
+}
 
-typedef MVar = {
+typedef NField = {
 	name: String,
 	?type: ComplexType,
 	?expr: Expr,
-	?block: MBlock,
+	?child: NScope,
 }
