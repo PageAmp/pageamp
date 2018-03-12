@@ -4,5 +4,4 @@
 -cp ext
 -cp src
 -main reapp.ClassReification
--lib tink_macro
 -debug
