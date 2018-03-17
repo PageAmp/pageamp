@@ -1,19 +1,18 @@
 package reapp.core;
 
 #if feffects
-	import ubl.reapp.core.ReApp.Appliable;
 	import haxe.Timer;
 	import feffects.Tween;
 	import feffects.easing.Cubic;
 #end
-import ub1.Ub1Log;
-import ub1.util.Observable;
-using ub1.util.ArrayTool;
+import reapp.core.ReLog;
+import reapp.util.Observable;
+using reapp.util.ArrayTool;
 
 /**
 * Reactive parametrized value.
 **/
-class Re<T> implements Applicable {
+class ReValue<T> implements ReApplicable {
 	public var value: T;
 
 	public function new(node:ReNode,
@@ -42,7 +41,7 @@ class Re<T> implements Applicable {
 		refresh();
 		if (node.app.isRefreshing) {
 			// while refreshing, get() performs a "dependencies pull"
-			var v:Re<Dynamic> = node.app.stack.peek();
+			var v:ReValue<Dynamic> = node.app.stack.peek();
 			if (v != null) {
 				// we're being pulled by a dynamic value: make it observe us
 				addObserver(v.observer);
@@ -178,8 +177,8 @@ class Re<T> implements Applicable {
 	}
 
 	// called only at `push` time (i.e. outside of refreshes)
-	function observer(s:Re<Dynamic>, oldValue:Dynamic) {
-		Ub1Log.value('observer() old: "$oldValue", new: "${s.value}"');
+	function observer(s:ReValue<Dynamic>, oldValue:Dynamic) {
+		ReLog.value('observer() old: "$oldValue", new: "${s.value}"');
 		get();
 	}
 

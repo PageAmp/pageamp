@@ -3,5 +3,6 @@
 -cp exp
 -cp ext
 -cp src
--main reapp.ClassReification
+-main reapp.App1
+-dce full
 -debug

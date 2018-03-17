@@ -1,4 +1,4 @@
-package reapp.core;
+package reapp1.core;
 
 #if isoclient
 	import ub1.web.DomTools;

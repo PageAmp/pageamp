@@ -1,70 +1,11 @@
 package reapp.core;
 
-import reapp.core.IsoSource;
-import ub1.util.PropertyTool;
-import ub1.web.DomTools;
-using ub1.util.PropertyTool;
-using ub1.web.DomTools;
+import reapp.core.ReValue;
 
-/**
-* Represents the document's root element and provides the reactive context.
-**/
-class ReApp extends ReElement {
+class ReApp extends ReNode {
 
-	public function new(doc:DomDocument, props:IsoElement, ?cb:Dynamic->Void) {
-		this.doc = doc;
-		super(null, props, cb);
-		// so we set opacity to 1 after refresh
-//		addApplyItem(this);
-		refresh(this);
-	}
-
-	public function newDomElement(name:String,
-	                              ?klass:String,
-	                              ?props:Props,
-	                              ?parent:DomElement,
-	                              ?before:DomNode): DomElement {
-		var ret:DomElement = doc.domCreateElement(name);
-		klass != null ? ret.domSet('class', klass) : null;
-		if (props != null) {
-			for (key in props.keys()) {
-				ret.domSet(key, props.get(key));
-			}
-		}
-		if (parent != null) {
-			parent.domAddChild(ret, before);
-		}
-		return ret;
-	}
-
-	public function newDomTextNode(text:String,
-	                               ?parent:DomElement,
-	                               ?before:DomNode): DomTextNode {
-		var ret:DomTextNode = e.newTextNode(text);
-		if (parent != null) {
-			parent.domAddChild(ret, before);
-		}
-		return ret;
-	}
-
-//	override public function apply() {
-//		super.apply();
-//		op.set(1);
-//	}
-
-	// =========================================================================
-	// private
-	// =========================================================================
-	var doc: DomDocument;
-
-	override function init() {
-		super.init();
-//		head = doc.domGetHead();
-//		var te = head.domGetElementsByTagName('title')[0];
-//		te == null ? te = newElement('title', null, null, head) : null;
-//		title = new Re<String>(this, props.get('title'), function(s) {
-//			te.domSetInnerText(s);
-//		});
+	public function new() {
+		super();
 	}
 
 	// =========================================================================
@@ -73,11 +14,11 @@ class ReApp extends ReElement {
 	public var ctxCycle = 0;
 	public var cycleTime = 0.0;
 	public var isRefreshing = false;
-	public var stack: Array<Re<Dynamic>>;
+	public var stack: Array<ReValue<Dynamic>>;
 	public var isApplying = false;
 
 	public function refresh(node:ReNode) {
-		stack = new Array<Re<Dynamic>>();
+		stack = new Array<ReValue<Dynamic>>();
 		clearDependencies(node);
 		var wasRefreshing = isRefreshing;
 		if (!wasRefreshing) {
@@ -119,14 +60,14 @@ class ReApp extends ReElement {
 		}
 	}
 
-	public function addApplyItem(item:Applicable) {
+	public function addApplyItem(item:ReApplicable) {
 		if (applyList == null) {
 			applyList = [];
 		}
 		applyList.push(item);
 	}
 
-	public function addPostApplyItem(item:Applicable) {
+	public function addPostApplyItem(item:ReApplicable) {
 		if (postApplyList == null) {
 			postApplyList = [];
 		}
@@ -137,14 +78,14 @@ class ReApp extends ReElement {
 	// private
 	// =========================================================================
 	var pushNesting: Int;
-	var applyList: Array<Applicable>;
-	var postApplyList: Array<Applicable>;
+	var applyList: Array<ReApplicable>;
+	var postApplyList: Array<ReApplicable>;
 
 	function clearDependencies(node:ReNode) {
 		for (v in node.getRefreshables()) {
 			v.clearObservers();
 		}
-		for (child in node.children) {
+		for (child in node.getChildren()) {
 			clearDependencies(cast child);
 		}
 	}
@@ -153,7 +94,7 @@ class ReApp extends ReElement {
 		for (v in node.getRefreshables()) {
 			v.get();
 		}
-		for (child in node.children) {
+		for (child in node.getChildren()) {
 			refreshNode(cast child);
 		}
 	}

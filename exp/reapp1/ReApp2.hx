@@ -1,4 +1,4 @@
-package reapp;
+package reapp1;
 
 // https://github.com/andyli/hxAnonCls
 @:build(hxAnonCls.Macros.build())
