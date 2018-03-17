@@ -9,6 +9,10 @@ import reapp.core.ReLog;
 import reapp.util.Observable;
 using reapp.util.ArrayTool;
 
+interface ReApplicable {
+	public function apply(): Void;
+}
+
 /**
 * Reactive parametrized value.
 **/
