@@ -6,3 +6,10 @@
 -main reapp.App1
 -dce full
 -debug
+
+--next
+-php docroot/__exp/php
+-cp exp
+-cp ext
+-cp src
+-main reapp.App1
