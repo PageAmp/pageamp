@@ -1,45 +1,56 @@
 package reapp.core;
 
-import reapp.core.ReContext.ReApplicable;
-import ub1.util.DoubleLinkedItem;
+import reapp.core.ReContext;
 
-class Re<T> implements ReApplicable {
-	public var node: ReNode;
+class Re<T> {
+	public var id: Int;
 	public var ctx: ReContext;
 	public var cycle = 0;
 	public var val: T;
 	public var fun: Void->T;
-	public var next: ReApplicable;
+	public var cb: T->T->Void;
+	public var dsts: Map<Int, Re<Dynamic>>;
 
-	public function new(node:ReNode, val:T, fun:Void->T) {
-		this.node = node;
-		this.ctx = node.app.ctx;
+	public function new(ctx:ReContext, val:T, fun:Void->T) {
+		this.id = ctx.nextId++;
+		this.ctx = ctx;
 		this.val = val;
 		this.fun = fun;
 	}
 
+	public function addSrc(src:Re<Dynamic>): Re<T> {
+		src.dsts == null ? src.dsts = new Map<Int, Re<Dynamic>>() : null;
+		src.dsts.set(id, this);
+		return this;
+	}
+
 	public function get(): T {
-		var ret = val;
+		var old = val;
 		if (fun != null && cycle != ctx.cycle) {
+			cycle = ctx.cycle;
 			try {
-				ret = val = fun();
+				if ((val = fun()) != old || cycle == 1) {
+					cb != null ? cb(old, val) : null;
+				}
 			} catch (e:Dynamic) {
-				ReLog.value(e);
+				ReLog.value('$id: $e');
 			}
 		}
-		return ret;
+		return val;
 	}
 
 	public function set(v:T): T {
-		if (++ctx.pushing == 1) {
-//			ctx.
+		if (v != val) {
+			ctx.enterUpdate();
+			val = v;
+			if (dsts != null) {
+				for (dst in dsts) {
+					ctx.schedule.set(dst.id, dst);
+				}
+			}
+			ctx.exitUpdate();
 		}
-		//TODO
 		return v;
-	}
-
-	public function apply(): Void {
-		//TODO
 	}
 
 }

@@ -1,31 +1,24 @@
 package reapp.core;
 
-import ub1.util.DoubleLinkedItem;
-
-interface ReApplicable {
-	public var next: ReApplicable;
-	public function apply(): Void;
-}
-
 class ReContext {
 	public var cycle = 1;
 	public var time = Date.now().getTime();
-	public var pushing = 0;
-	public var pending = new RePendingList();
+	public var updating = 0;
+	public var schedule = new Map<Int, Re<Dynamic>>();
+	public var nextId = 0;
 
-	public function new() {
-	}
+	public function new() {}
 
-	public inline function enterPush() {
-		if (++pushing == 1) {
+	public inline function enterUpdate() {
+		if (++updating == 1) {
 			nextCycle();
 		}
 	}
 
-	public inline function exitPush() {
-		if (--pushing < 1) {
-			pushing = 0;
-			pending.apply();
+	public inline function exitUpdate() {
+		if (--updating < 1) {
+			updating = 0;
+			refresh();
 		}
 	}
 
@@ -37,12 +30,11 @@ class ReContext {
 		}
 	}
 
-}
-
-class RePendingList implements ReApplicable {
-	public var next: ReApplicable;
-	public function new() {}
-	public function apply(): Void {
-		//TODO
+	public function refresh() {
+		for (value in schedule) {
+			value.get();
+		}
+		schedule = new Map<Int, Re<Dynamic>>();
 	}
+
 }

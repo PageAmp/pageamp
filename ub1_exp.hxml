@@ -4,6 +4,7 @@
 -cp ext
 -cp src
 -main reapp.App1
+-D client
 #-D passiveVars
 -dce full
 -debug
