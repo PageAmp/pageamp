@@ -54,7 +54,7 @@ class ReValue<T> implements ReApplicable {
 		return value;
 	}
 
-	public function set(v:T, force=false) {
+	public function set(v:T, force=false): T {
 		var oldValue = value;
 		if (_set(v) && !node.app.isRefreshing) {
 			// while not refreshing, set() performs a "dependencies push"
@@ -68,6 +68,7 @@ class ReValue<T> implements ReApplicable {
 			}
 			node.app.exitValuePush();
 		}
+		return v;
 	}
 
 #if feffects
