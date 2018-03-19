@@ -1,5 +1,6 @@
-package reapp.core;
+package reapp.app;
 
+import reapp.core.*;
 import ub1.web.DomTools;
 using ub1.web.DomTools;
 

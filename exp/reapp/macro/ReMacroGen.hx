@@ -1,11 +1,11 @@
-package reapp.core.macro;
+package reapp.macro;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 import haxe.macro.MacroStringTools;
 import reapp.core.ReMacro;
-import reapp.core.macro.ReMacroScan;
+import reapp.macro.ReMacroScan;
 
 class ReMacroGen {
 

@@ -1,13 +1,43 @@
-package reapp.core;
+package reapp.app;
 
+import reapp.core.*;
 import ub1.util.BaseNode;
 
 class ReNode extends BaseNode {
 	public static var _ = new Array<ReNode>();
+	public var id: Int;
 	public var app: ReApp;
 	public var nodeParent(get,null): ReNode;
 	public var nodeChildren(get,null): Array<ReNode>;
-	public var vars: Map<String, Re<Dynamic>>;
+	public var values: Map<String, Re<Dynamic>>;
+
+	public function new(parent:BaseNode,
+	                    ?plug:String,
+	                    ?index:Int,
+	                    ?cb:Dynamic->Void) {
+		id = _.length;
+		_.push(this);
+		super(parent, plug, index, cb);
+	}
+
+	public function add(key:String, value:Re<Dynamic>): Re<Dynamic> {
+		values == null ? values = new Map<String, Re<Dynamic>>() : null;
+		values.set(key, value);
+		return value;
+	}
+
+	public function get(key:String): Dynamic {
+		var value = lookupValue(key);
+		return (value != null ? value.get() : null);
+	}
+
+	public function set(key:String, val:Dynamic): Dynamic {
+		var value = lookupValue(key);
+		if (value == null) {
+			add(key, new Re<Dynamic>(app.ctx, val, null));
+		}
+		return val;
+	}
 
 	public inline function get_nodeParent(): ReNode {
 		return untyped parent;
@@ -17,27 +47,9 @@ class ReNode extends BaseNode {
 		return untyped children;
 	}
 
-	public function get(key:String): Dynamic {
-		var value = (vars != null ? vars.get(key) : null);
-		return (value != null ? value.get() : null);
-	}
-
-	public function set(key:String, val:Dynamic): Dynamic {
-		var value = lookupValue(key);
-		if (value == null) {
-			vars == null ? vars = new Map<String, Re<Dynamic>>() : null;
-
-		}
-		return val;
-	}
-
 	// ========================================================================
 	// private
 	// ========================================================================
-
-	override function init() {
-		super.init();
-	}
 
 	function lookupValue(key): Re<Dynamic> {
 		var ret = getValue(key);
@@ -50,7 +62,7 @@ class ReNode extends BaseNode {
 	}
 
 	inline function getValue(key): Re<Dynamic> {
-		return (vars != null ? vars.get(key) : null);
+		return (values != null ? values.get(key) : null);
 	}
 
 }

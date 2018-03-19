@@ -1,4 +1,4 @@
-package reapp.core.macro;
+package reapp.macro;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;

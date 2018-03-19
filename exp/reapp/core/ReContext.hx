@@ -5,7 +5,7 @@ class ReContext {
 	public var time = Date.now().getTime();
 	public var updating = 0;
 	public var schedule = new Map<Int, Re<Dynamic>>();
-	public var nextId = 0;
+	public var currId = 0;
 
 	public function new() {}
 
@@ -23,8 +23,8 @@ class ReContext {
 	}
 
 	public inline function nextCycle() {
-		if (++cycle > 1000000) {
-			// cycle == 1 is reserved to absolute first cycle
+		if (++cycle > 1000000000) {
+			// cycle 1 is reserved to absolute first cycle
 			cycle = 2;
 			time = Date.now().getTime();
 		}

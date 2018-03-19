@@ -1,5 +1,6 @@
 package reapp.core;
 
+import reapp.util.ReLog;
 import reapp.core.ReContext;
 
 class Re<T> {
@@ -12,7 +13,7 @@ class Re<T> {
 	public var dsts: Map<Int, Re<Dynamic>>;
 
 	public function new(ctx:ReContext, val:T, fun:Void->T) {
-		this.id = ctx.nextId++;
+		this.id = ++ctx.currId;
 		this.ctx = ctx;
 		this.val = val;
 		this.fun = fun;

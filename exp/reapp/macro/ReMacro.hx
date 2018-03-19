@@ -1,12 +1,12 @@
-package reapp.core;
+package reapp.macro;
 
 import haxe.macro.Expr;
 //#if macro
 	import haxe.macro.Context;
 	import haxe.macro.ExprTools;
 	import haxe.macro.MacroStringTools;
-	import reapp.core.macro.ReMacroScan;
-	import reapp.core.macro.ReMacroGen;
+	import reapp.macro.ReMacroScan;
+	import reapp.macro.ReMacroGen;
 //#end
 
 class ReMacro {
