@@ -1,4 +1,4 @@
-package reapp.core;
+package reapp2.core;
 
 class ReNode {
 	public static var _ = new Array<ReNode>();
@@ -22,28 +22,28 @@ class ReNode {
 		return (children != null ? children : noChildren);
 	}
 
-//	public function addRefreshable(v:ReValue<Dynamic>) {
-//		if (refreshables == null) {
-//			refreshables = [];
-//		}
-//		refreshables.push(v);
-//	}
+	public function addRefreshable(v:ReValue<Dynamic>) {
+		if (refreshables == null) {
+			refreshables = [];
+		}
+		refreshables.push(v);
+	}
 
-//	public function removeRefreshable(v:ReValue<Dynamic>): Bool {
-//		return (refreshables != null ? refreshables.remove(v) : false);
-//	}
+	public function removeRefreshable(v:ReValue<Dynamic>): Bool {
+		return (refreshables != null ? refreshables.remove(v) : false);
+	}
 
-//	public function getRefreshables(): Array<ReValue<Dynamic>> {
-//		return (refreshables != null ? refreshables : noRefreshables);
-//	}
+	public function getRefreshables(): Array<ReValue<Dynamic>> {
+		return (refreshables != null ? refreshables : noRefreshables);
+	}
 
 	// =========================================================================
 	// private
 	// =========================================================================
 	static var noChildren = new Array<ReNode>();
 	var children: Array<ReNode>;
-//	static var noRefreshables = new Array<ReValue<Dynamic>>();
-//	var refreshables: Array<ReValue<Dynamic>>;
+	static var noRefreshables = new Array<ReValue<Dynamic>>();
+	var refreshables: Array<ReValue<Dynamic>>;
 
 	function wasAddedTo(parent:ReNode): Void {
 		this.parent = parent;

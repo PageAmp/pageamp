@@ -1,13 +1,13 @@
-package reapp.core;
+package reapp2.core;
 
 #if feffects
 	import haxe.Timer;
 	import feffects.Tween;
 	import feffects.easing.Cubic;
 #end
-import reapp.core.ReLog;
-import reapp.util.Observable;
-using reapp.util.ArrayTool;
+import reapp2.core.ReLog;
+import reapp2.util.Observable;
+using reapp2.util.ArrayTool;
 
 interface ReApplicable {
 	public function apply(): Void;

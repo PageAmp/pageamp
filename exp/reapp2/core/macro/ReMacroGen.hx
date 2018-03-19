@@ -1,11 +1,11 @@
-package reapp.core.macro;
+package reapp2.core.macro;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 import haxe.macro.MacroStringTools;
-import reapp.core.ReMacro;
-import reapp.core.macro.ReMacroScan;
+import reapp2.core.ReMacro;
+import reapp2.core.macro.ReMacroScan;
 
 class ReMacroGen {
 
@@ -58,7 +58,7 @@ class ReMacroGen {
 			if (v.child == null) {
 				var t = ComplexType.TPath({
 					pack: ['reapp', 'core'],
-					name: 'Re',
+					name: 'ReValue',
 					params: [TypeParam.TPType(v.type)],
 				});
 				c.fields.push({
