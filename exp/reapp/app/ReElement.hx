@@ -20,15 +20,16 @@ class ReElement extends ReNode {
 	override public function add(key:String, value:Re<Dynamic>): Re<Dynamic> {
 		var ret = super.add(key, value);
 		if (key.startsWith('a_')) {
-			// tag attribute
 			value.key = makeHyphenName(key.substr('a_'.length));
-			value.cb = attributeValueCB;
+			value.cb = switch (key) {
+				case 'a_innerText': textValueCB;
+				case 'a_innerHTML': htmlValueCB;
+				default: attributeValueCB;
+			}
 		} else if (key.startsWith('c_')) {
-			// tag class
 			value.key = makeHyphenName(key.substr('c_'.length));
 			value.cb = classValueCB;
 		} else if (key.startsWith('s_')) {
-			// tag style
 			value.key = makeHyphenName(key.substr('s_'.length));
 			value.cb = styleValueCB;
 		}
@@ -63,6 +64,26 @@ class ReElement extends ReNode {
 		} else {
 			e = cast tag;
 			tag = null;
+		}
+	}
+
+	// =========================================================================
+	// text reflection
+	// =========================================================================
+
+	function textValueCB(v:Re<Dynamic>, old:Dynamic, val:Dynamic) {
+		if (val != null) {
+			e.domSetInnerHTML(Std.string(val).split('<').join('&lt;'));
+		}
+	}
+
+	// =========================================================================
+	// html reflection
+	// =========================================================================
+
+	function htmlValueCB(v:Re<Dynamic>, old:Dynamic, val:Dynamic) {
+		if (val != null) {
+			e.domSetInnerHTML(Std.string(val));
 		}
 	}
 

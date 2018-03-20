@@ -10,24 +10,46 @@ class App1 {
 	public static function main() {
 		var doc = DomTools.defaultDocument();
 		var ctx = new ReContext();
-		var v1;
+		var a_lang:Re<String>;
 		var app = new ReApp(doc, ctx, function(p:ReApp) {
-			v1 = p.add('a_lang', new Re<String>(ctx, 'it', null));
+			a_lang = untyped p.add('a_lang', new Re<String>(ctx, 'it', null));
 			new ReElement(p, doc.domGetBody(), function(p:ReElement) {
 				p.add('a_dataUb1', new Re<String>(ctx, null, function() {
-					return cast(p.get('a_lang'), String) + '-lang';
-				})).addSrc(p.lookup('a_lang'));
+					return a_lang.get() + '-lang';
+				})).addSrc(a_lang);
 				p.add('c_base', new Re<Bool>(ctx, true, null));
 				p.add('c_es', new Re<Bool>(ctx, null, function() {
-					return cast(p.get('a_lang'), String) == 'es';
-				})).addSrc(p.lookup('a_lang'));
+					return a_lang.get() == 'es';
+				})).addSrc(a_lang);
 				p.add('s_textAlign', new Re<String>(ctx, null, function() {
-					return p.get('a_lang') == 'es' ? 'right' : 'left';
-				})).addSrc(p.lookup('a_lang'));
+					return a_lang.get() == 'es' ? 'right' : 'left';
+				})).addSrc(a_lang);
 			});
 		});
-		haxe.Timer.delay(function() v1.set('es'), 1000);
+		haxe.Timer.delay(function() a_lang.set('es'), 1000);
 	}
+
+//	public static function main() {
+//		var doc = DomTools.defaultDocument();
+//		var ctx = new ReContext();
+//		var v1;
+//		var app = new ReApp(doc, ctx, function(p:ReApp) {
+//			v1 = p.add('a_lang', new Re<String>(ctx, 'it', null));
+//			new ReElement(p, doc.domGetBody(), function(p:ReElement) {
+//				p.add('a_dataUb1', new Re<String>(ctx, null, function() {
+//					return cast(p.get('a_lang'), String) + '-lang';
+//				})).addSrc(p.lookup('a_lang'));
+//				p.add('c_base', new Re<Bool>(ctx, true, null));
+//				p.add('c_es', new Re<Bool>(ctx, null, function() {
+//					return cast(p.get('a_lang'), String) == 'es';
+//				})).addSrc(p.lookup('a_lang'));
+//				p.add('s_textAlign', new Re<String>(ctx, null, function() {
+//					return p.get('a_lang') == 'es' ? 'right' : 'left';
+//				})).addSrc(p.lookup('a_lang'));
+//			});
+//		});
+//		haxe.Timer.delay(function() v1.set('es'), 1000);
+//	}
 
 //	public static function main() {
 //		var doc = DomTools.defaultDocument();
