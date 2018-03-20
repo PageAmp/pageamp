@@ -3,27 +3,54 @@ package reapp;
 import reapp.app.*;
 import reapp.core.*;
 import ub1.web.DomTools;
+using ub1.web.DomTools;
 
 class App1 {
 
 	public static function main() {
 		var doc = DomTools.defaultDocument();
-		var v0: Re<Int>;
-		var v1: Re<Int>;
-		var v2: Re<Int>;
-		var app = new ReApp(doc, function(app:ReApp) {
-			v0 = cast app.add('v0', new Re<Int>(app.ctx, 1, null));
-			v1 = cast app.add('v1', new Re<Int>(app.ctx, null, function() {
-				return v0.get() * 2;
-			})).addSrc(v0);
-			v2 = cast app.add('v2', new Re<Int>(app.ctx, null, function() {
-				return v0.get() * 3;
-			})).addSrc(v0);
+		var ctx = new ReContext();
+		var v1;
+		var app = new ReApp(doc, ctx, function(p:ReApp) {
+			v1 = p.add('a_lang', new Re<String>(ctx, 'it', null));
+			new ReElement(p, doc.domGetBody(), function(p:ReElement) {
+				p.add('a_dataUb1', new Re<String>(ctx, null, function() {
+					return cast(p.get('a_lang'), String) + '-lang';
+				})).addSrc(p.lookup('a_lang'));
+				p.add('c_base', new Re<Bool>(ctx, true, null));
+				p.add('c_es', new Re<Bool>(ctx, null, function() {
+					return cast(p.get('a_lang'), String) == 'es';
+				})).addSrc(p.lookup('a_lang'));
+				p.add('s_textAlign', new Re<String>(ctx, null, function() {
+					return p.get('a_lang') == 'es' ? 'right' : 'left';
+				})).addSrc(p.lookup('a_lang'));
+			});
 		});
-		trace('${v0.get()}, ${v1.get()}, ${v2.get()}');
-		v0.set(2);
-		trace('${v0.get()}, ${v1.get()}, ${v2.get()}');
+		haxe.Timer.delay(function() v1.set('es'), 1000);
 	}
+
+//	public static function main() {
+//		var doc = DomTools.defaultDocument();
+//		var ctx = new ReContext();
+//		var n: ReNode;
+//		var a = new ReApp(doc, ctx, function(p:ReApp) {
+//			p.add('v0', new Re<Int>(ctx, 1, null));
+//			p.add('v1', new Re<Int>(ctx, null, function() {
+//				return cast(p.get('v0'), Int) * 2;
+//			})).addSrc(p.lookup('v0'));
+//			p.add('v2', new Re<Int>(ctx, null, function() {
+//				return cast(p.get('v0'), Int) * 3;
+//			})).addSrc(p.lookup('v0'));
+//			n = new ReNode(p, function(p:ReNode) {
+//				p.add('v3', new Re<Int>(ctx, null, function() {
+//					return cast(p.get('v0'), Int) * 4;
+//				})).addSrc(p.lookup('v0'));
+//			});
+//		});
+//		trace('${a.get('v0')}, ${a.get('v1')}, ${a.get('v2')}, ${n.get('v3')}');
+//		a.set('v0', 4);
+//		trace('${a.get('v0')}, ${a.get('v1')}, ${a.get('v2')}, ${n.get('v3')}');
+//	}
 
 //	public static function main() {
 //		var ctx = new ReContext();

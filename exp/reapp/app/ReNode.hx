@@ -1,6 +1,7 @@
 package reapp.app;
 
 import reapp.core.*;
+import reapp.util.ReLog;
 import ub1.util.BaseNode;
 
 class ReNode extends BaseNode {
@@ -23,19 +24,28 @@ class ReNode extends BaseNode {
 	public function add(key:String, value:Re<Dynamic>): Re<Dynamic> {
 		values == null ? values = new Map<String, Re<Dynamic>>() : null;
 		values.set(key, value);
+		value.ctx.outdated.set(value.id, value);
 		return value;
 	}
 
+	public function lookup(key): Re<Dynamic> {
+		var ret = getValue(key);
+		var node = nodeParent;
+		while (ret == null && node != null) {
+			ret = node.getValue(key);
+			node = node.nodeParent;
+		}
+		return ret;
+	}
+
 	public function get(key:String): Dynamic {
-		var value = lookupValue(key);
+		var value = lookup(key);
 		return (value != null ? value.get() : null);
 	}
 
 	public function set(key:String, val:Dynamic): Dynamic {
-		var value = lookupValue(key);
-		if (value == null) {
-			add(key, new Re<Dynamic>(app.ctx, val, null));
-		}
+		var value = lookup(key);
+		value != null ? value.set(val) : ReLog.value('$id.set($key) failed');
 		return val;
 	}
 
@@ -50,16 +60,6 @@ class ReNode extends BaseNode {
 	// ========================================================================
 	// private
 	// ========================================================================
-
-	function lookupValue(key): Re<Dynamic> {
-		var ret = getValue(key);
-		var node = nodeParent;
-		while (ret == null && node != null) {
-			ret = node.getValue(key);
-			node = node.nodeParent;
-		}
-		return ret;
-	}
 
 	inline function getValue(key): Re<Dynamic> {
 		return (values != null ? values.get(key) : null);

@@ -9,7 +9,8 @@ class Re<T> {
 	public var cycle = 0;
 	public var val: T;
 	public var fun: Void->T;
-	public var cb: T->T->Void;
+	public var key: String;
+	public var cb: Re<Dynamic>->T->T->Void;
 	public var dsts: Map<Int, Re<Dynamic>>;
 
 	public function new(ctx:ReContext, val:T, fun:Void->T) {
@@ -26,13 +27,10 @@ class Re<T> {
 	}
 
 	public function get(): T {
-		var old = val;
-		if (fun != null && cycle != ctx.cycle) {
+		if (cycle != ctx.cycle) {
 			cycle = ctx.cycle;
 			try {
-				if ((val = fun()) != old || cycle == 1) {
-					cb != null ? cb(old, val) : null;
-				}
+				_set(fun != null ? fun() : val);
 			} catch (e:Dynamic) {
 				ReLog.value('$id: $e');
 			}
@@ -43,15 +41,22 @@ class Re<T> {
 	public function set(v:T): T {
 		if (v != val) {
 			ctx.enterUpdate();
-			val = v;
+			_set(v);
 			if (dsts != null) {
 				for (dst in dsts) {
-					ctx.schedule.set(dst.id, dst);
+					ctx.outdated.set(dst.id, dst);
 				}
 			}
 			ctx.exitUpdate();
 		}
 		return v;
+	}
+
+	inline function _set(v:T) {
+		if (v != val || cycle == 1) {
+			cb != null ? cb(this, val, v) : null;
+			val = v;
+		}
 	}
 
 }

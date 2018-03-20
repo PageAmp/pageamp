@@ -4,7 +4,8 @@ class ReContext {
 	public var cycle = 1;
 	public var time = Date.now().getTime();
 	public var updating = 0;
-	public var schedule = new Map<Int, Re<Dynamic>>();
+	public var outdated = new Map<Int, Re<Dynamic>>();
+	public var callbacks = new Array<Void->Void>();
 	public var currId = 0;
 
 	public function new() {}
@@ -31,10 +32,18 @@ class ReContext {
 	}
 
 	public function refresh() {
-		for (value in schedule) {
+		// so side-effects don't start new cycles
+		updating++;
+		for (value in outdated) {
 			value.get();
 		}
-		schedule = new Map<Int, Re<Dynamic>>();
+		// restore correct value
+		updating--;
+		outdated = new Map<Int, Re<Dynamic>>();
+		var cb: Void->Void;
+		while ((cb = callbacks.pop()) != null) {
+			cb();
+		}
 	}
 
 }
