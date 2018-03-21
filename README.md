@@ -45,7 +45,7 @@ RewriteRule ^(.*)$ index.php [L,QSA]
 
 Requests of files with no extension or with extension `.html` are considered page requests, and loaded in the _same environment the client will have_, only working on a simulated browser DOM, which is then turned into a textual HTML page and sent to the client.
 
-On the client side, the page is immediately displayed while, asynchronously, ub1's client runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client, ready to interact with the user.
+On the client side, the page is immediately displayed while, asynchronously, ub1's client runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client, which is now ready to interact with the user.
 
 ## Reactivity
 
@@ -81,7 +81,7 @@ Keep in mind that, being also an _isomorphic framework_, what is happening here 
 * on page load, the client instantly shows the pre-rendered markup while, in the background, ub1 client code is asynchronously loaded
 * as soon as the client code starts executing, it reads the JSON state descriptor and gets ready to continue the application execution _from where the server left it_.
 
-We've only used trivial expressions here, but in `${}` expression you can put actual scripting code. It's not, technically, JavaScript, but rather [hscript](https://github.com/HaxeFoundation/hscript). You'd be hard-pressed to notice the difference in most situations, though. Again, you can check it out yourself in the [playground](http://ub1devel.net/playground/).
+We've only used trivial expressions here, but in `${}` expression you can put actual scripting code. It's not, technically, JavaScript, but rather [hscript](https://github.com/HaxeFoundation/hscript). You'd be hard-pressed to notice the difference in most situations, though. It actually resembles JavaScript with only what [Douglas Crockford](https://en.wikipedia.org/wiki/Douglas_Crockford) calls [its good parts](https://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=la_B002N3VYB6_1_1?s=books&ie=UTF8&qid=1521636393&sr=1-1). Again, you can check it out yourself in the [playground](http://ub1devel.net/playground/).
 
 ## Data-binding
 
@@ -155,7 +155,7 @@ Where `inc/style.html` could be:
 
 (the root tag is ignored and can be used for documentation).
 
-_Includes_ should only be used to modularize your source code, splitting it by function (e.g. style, data, different sections of your site). In this way you can effectively separate you source code concerns and possibly let different developers or teams work on them.
+_Includes_ should only be used to modularize your source code, splitting it by function (e.g. style, data, different sections of your site). In this way you can effectively separate you source code concerns based on your own criteria rather than being forced by the underlying technology (e.g. HTML vs JavaScript vs CSS).
 
 ### custom tags
 
