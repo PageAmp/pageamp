@@ -18,7 +18,7 @@ Crucially, it adopts an HTML-first approach: it doesn't impose a model on you an
 
 It strives to keep true to HTML's declarative nature, and has remarkably light client runtime of just 40KB (minified, gzipped).
 
-Ub1 is written in the excellent [Haxe language](https://haxe.org/). While you really should check it out because of its merits, you don't need to know or use Haxe to use Ub1. Even creating Ub1's _HTML libraries_ (see below) won't require any knowledge of Haxe.
+Ub1 is written in the excellent [Haxe language](https://haxe.org/). While you really should check it out because of its own merits, you don't need to know or use Haxe to use Ub1. Even creating Ub1's _HTML libraries_ (see below) won't require any knowledge of Haxe.
 
 It's currently in alpha stage. An online playground is available [here](http://ub1devel.net/playground/).
 
@@ -28,13 +28,13 @@ It's currently in alpha stage. An online playground is available [here](http://u
 
 ## Isomorphism
 
-> Server Side Rendering for the rest of us.
+> Ub1 makes Server Side Rendering viable for the rest of us
 
 Ub1 was built from the ground up with support for [Server Side Rendering](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on a variety of server platforms thanks to the magic of Haxe.
 
-Contrary to JavaScript-only technologies like [React.js](https://reactjs.org), [Vue.js](https://vuejs.org/), [Redux](https://redux.js.org/) etc., SSR is not an afterthought and your server-side options are not limited to [Node.js](https://nodejs.org/en/), which isn't a practical choice for the average web site.
+Compared to JavaScript-only technologies like [React.js](https://reactjs.org), [Vue.js](https://vuejs.org/), [Redux](https://redux.js.org/) etc., SSR is not an afterthought and your server-side options are not limited to [Node.js](https://nodejs.org/en/), which isn't a practical choice for the average web site.
 
-In a ub1 server, HTTP requests are served through ub1.Server, configured as single entry point in `.htaccess`:
+In a ub1 server, HTTP requests are served through a single entry point, configured in `.htaccess` on PHP platforms:
 
 ```apacheconfig
 RewriteEngine on
@@ -45,9 +45,11 @@ RewriteRule ^(.*)$ index.php [L,QSA]
 
 Requests of files with no extension or with extension `.html` are considered page requests, and loaded in the _same environment the client will have_, only working on a simulated browser DOM, which is then turned into a textual HTML page and sent to the client.
 
-On the client side, the page is immediately displayed while, asynchronously, ub1's client runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client.
+On the client side, the page is immediately displayed while, asynchronously, ub1's client runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client, ready to interact with the user.
 
 ## Reactivity
+
+> Ub1 keeps your pages up to date in the simplest possible way
 
 Just as React.js and Vue.js, ub1 is a _reactive framework_, where changes to logical values automatically propagate.
 
@@ -83,6 +85,8 @@ We've only used trivial expressions here, but in `${}` expression you can put ac
 
 ## Data-binding
 
+> Ub1 adds a formal, simple representation of dynamic data to plain HTML
+
 Ub1 is optimized as a _content delivery platform_, and content data are first-class citizens in ub1 pages. They are represented by `<ub1-dataset>` tags:
 
 ```html
@@ -114,10 +118,14 @@ Thanks to _isomorphism_, data sets exist in both the client and the server. This
 
 ## DRYness
 
+> Ub1 lets you include page fragments and declare your own tags
+
 Two of the most glaring limitations of plain HTML are:
 
 * it doesn't support source code modularization
 * it doesn't support code reuse.
+
+### includes
 
 Ub1 preprocesses your pages adding support for the `<ub1-include>` tag, e.g.:
 
@@ -148,6 +156,8 @@ Where `inc/style.html` could be:
 (the root tag is ignored and can be used for documentation).
 
 _Includes_ should only be used to modularize your source code, splitting it by function (e.g. style, data, different sections of your site). In this way you can effectively separate you source code concerns and possibly let different developers or teams work on them.
+
+### custom tags
 
 For avoiding replicated code, ub1 has a better tool in _custom tags_. Let's see a classic example. The obvious duplication problem in this code above will be familiar to anybody who ever wrote an HTML page:
 
@@ -194,6 +204,8 @@ by only specifying what it is (a product) and what changes between its instances
 
 ## HTML component libraries
 
+> Ub1 adds support for reusable components to HTML itself
+
 _Custom tags_ are ub1's first step towards **HTML components**. They are fine within single projects, but they're still not reusable across projects since their styling is done outside of their definition.
 
 In order to reuse them in another project, you'd still need to include their related CSS by hand, taking care of possible naming conflicts.
@@ -213,3 +225,5 @@ In ub1, an _HTML component_ is a _custom tag_ that:
 * in case the defined component specializes another component, it makes sure the other component's `<style>` tags are included before its own.
 
 Nested `<style>` tags handling is designed to allow component designers to provide baseline styling, leaving component consumers the maximum freedom to customize it either through CSS overriding (by redeclaring components' CSS classes) or by setting the skin attributes a library could provide.
+
+_**NOTE**: style nesting is used to associate each component with its own baseline styling, but thanks to ub1 includes you can of course keep your CSS separated from your component's markup at the source level, and just include it into your component declaration._
