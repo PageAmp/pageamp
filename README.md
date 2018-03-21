@@ -81,7 +81,7 @@ Keep in mind that, being also an _isomorphic framework_, what is happening here 
 * on page load, the client instantly shows the pre-rendered markup while, in the background, ub1 client code is asynchronously loaded
 * as soon as the client code starts executing, it reads the JSON state descriptor and gets ready to continue the application execution _from where the server left it_.
 
-We've only used trivial expressions here, but in `${}` expression you can put actual scripting code. It's not, technically, JavaScript, but rather [hscript](https://github.com/HaxeFoundation/hscript). You'd be hard-pressed to notice the difference in most situations, though. It actually resembles JavaScript with only what [Douglas Crockford](https://en.wikipedia.org/wiki/Douglas_Crockford) calls [its good parts](https://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=la_B002N3VYB6_1_1?s=books&ie=UTF8&qid=1521636393&sr=1-1). Again, you can check it out yourself in the [playground](http://ub1devel.net/playground/).
+We've only used trivial expressions here, but in `${}` expression you can put actual scripting code. It's not, technically, JavaScript, but rather [hscript](https://github.com/HaxeFoundation/hscript). You'd be hard-pressed to notice the difference in most situations, though. It actually resembles JavaScript with only its [good parts](https://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=la_B002N3VYB6_1_1?s=books&ie=UTF8&qid=1521636393&sr=1-1). Again, you can check it out yourself in the [playground](http://ub1devel.net/playground/).
 
 ## Data-binding
 
