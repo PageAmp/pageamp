@@ -4,6 +4,7 @@
 -cp ext
 -cp src
 -main reapp.App1
+-lib hscript
 -D client
 -dce full
 -debug

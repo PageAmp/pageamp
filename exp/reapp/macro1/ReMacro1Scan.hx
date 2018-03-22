@@ -1,4 +1,4 @@
-package reapp.macro;
+package reapp.macro1;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -6,7 +6,7 @@ import haxe.macro.ExprTools;
 import haxe.macro.MacroStringTools;
 import reapp.core.ReMacro;
 
-class ReMacroScan {
+class ReMacro1Scan {
 	static inline var APP_CALL = 'APP';
 	static inline var NODE_CALL = 'NODE';
 	static var RESERVED_CALLS = [APP_CALL, NODE_CALL];
@@ -25,7 +25,7 @@ class ReMacroScan {
 		var fun = null;
 		fun = function(s:ReScope, prefix:String) {
 			var p = prefix + '    ';
-			sb.add('[class ${ReMacro.CLASS_PREFIX}${s.nr}');
+			sb.add('[class ${ReMacro1.CLASS_PREFIX}${s.nr}');
 			sb.add(' extends ${s.superc}] {\n');
 			for (f in s.fields) {
 				sb.add('${p}${f.name}');
@@ -201,15 +201,15 @@ class ReMacroScan {
 						deps.set(key, f);
 					}
 					if (s != null && s != p) {
-						var k = '${ReMacro.CLASS_PREFIX}${s.nr}';
-						var ia = ReMacro.INSTANCE_ARRAY;
+						var k = '${ReMacro1.CLASS_PREFIX}${s.nr}';
+						var ia = ReMacro1.INSTANCE_ARRAY;
 						var src = 'cast(reapp.core.ReNode.$ia[${s.nr}],$k).$id';
 						return untyped Context.parse(src, e.pos);
 					} else {
 						return e;
 					}
 				case ExprDef.EConst(Constant.CString(s)):
-					ReMacro.formatString(s, e.pos);
+					ReMacro1.formatString(s, e.pos);
 				default:
 					ExprTools.map(e, f);
 			}

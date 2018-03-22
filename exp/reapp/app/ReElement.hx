@@ -17,8 +17,10 @@ class ReElement extends ReNode {
 		super(parent, plug, index, cb);
 	}
 
-	override public function add(key:String, value:Re<Dynamic>): Re<Dynamic> {
-		var ret = super.add(key, value);
+	override public function add(key:String,
+	                             value:Re<Dynamic>,
+	                             ?deps:Array<String>): Re<Dynamic> {
+		var ret = super.add(key, value, deps);
 		if (key.startsWith('a_')) {
 			value.key = makeHyphenName(key.substr('a_'.length));
 			value.cb = switch (key) {

@@ -1,20 +1,20 @@
-package reapp.macro;
+package reapp.macro1;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.ExprTools;
 import haxe.macro.MacroStringTools;
 import reapp.core.ReMacro;
-import reapp.macro.ReMacroScan;
+import reapp.macro1.ReMacro1Scan;
 
-class ReMacroGen {
+class ReMacro1Gen {
 
 	public static function gen(scope:ReScope): Expr {
 		genClasses(scope);
 		var steps = new Array<Expr>();
 		genObjects(scope, steps);
 		initObjects(scope, scope, steps);
-		var src = 'cast(reapp.core.ReNode.${ReMacro.INSTANCE_ARRAY}[0], Node0)';
+		var src = 'cast(reapp.core.ReNode.${ReMacro1.INSTANCE_ARRAY}[0], Node0)';
 		steps.push(untyped Context.parse(src, currentPos()));
 		return {
 			expr: ExprDef.EBlock(steps),
@@ -27,7 +27,7 @@ class ReMacroGen {
 	}
 
 	static function genClasses(scope:ReScope) {
-		var className = ReMacro.CLASS_PREFIX + scope.nr;
+		var className = ReMacro1.CLASS_PREFIX + scope.nr;
 		var pack = scope.superc.split('.');
 		var name = pack.pop();
 		var superPath = {pack:pack, name:name};
@@ -118,8 +118,8 @@ class ReMacroGen {
 #end
 			} else if (v.child != null) {
 				var nr = v.child.nr;
-				var name = ReMacro.CLASS_PREFIX + nr;
-				var ia = ReMacro.INSTANCE_ARRAY;
+				var name = ReMacro1.CLASS_PREFIX + nr;
+				var ia = ReMacro1.INSTANCE_ARRAY;
 				var src = '${v.name} = cast(addChild('
 						+ 'reapp.core.ReNode.$ia[$nr]), $name)';
 				inits.push(untyped Context.parse(src, currentPos()));
@@ -161,8 +161,8 @@ class ReMacroGen {
 	}
 
 	static function genObjects(scope:ReScope, steps:Array<Expr>) {
-		var className = ReMacro.CLASS_PREFIX + scope.nr;
-		var ia = ReMacro.INSTANCE_ARRAY;
+		var className = ReMacro1.CLASS_PREFIX + scope.nr;
+		var ia = ReMacro1.INSTANCE_ARRAY;
 		var src = 'reapp.core.ReNode.$ia[${scope.nr}] = new $className()';
 		steps.push(untyped Context.parse(src, currentPos()));
 		for (v in scope.fields) {
