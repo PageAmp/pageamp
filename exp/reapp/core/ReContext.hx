@@ -34,8 +34,8 @@ class ReContext {
 	public function refresh() {
 		// so side-effects don't start new cycles
 		updating++;
-		for (value in outdated) {
-			value.get();
+		for (v in outdated) {
+			v.value;
 		}
 		// restore correct value
 		updating--;

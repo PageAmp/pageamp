@@ -12,7 +12,8 @@ class App1 {
 		var doc = DomTools.defaultDocument();
 		var app = RE.APP(doc, function() {
 			var lang = 'it';
-			var a_lang = lang;
+			lang = 'en';
+			trace(lang);
 		});
 	}
 
@@ -66,10 +67,10 @@ class App1 {
 
 }
 
-class App {
-	public function new(doc:DomDocument, cb:Void->Void) {}
-}
-
-class Tag {
-	public function new(e:Dynamic, cb:Void->Void) {}
-}
+//class App {
+//	public function new(doc:DomDocument, cb:Void->Void) {}
+//}
+//
+//class Tag {
+//	public function new(e:Dynamic, cb:Void->Void) {}
+//}

@@ -4,26 +4,33 @@ import reapp.app.*;
 import reapp.core.*;
 import haxe.macro.Expr;
 //#if macro
-	import haxe.macro.Context;
-	import haxe.macro.ExprTools;
-	import haxe.macro.MacroStringTools;
-	import haxe.macro.TypeTools;
+import haxe.macro.Context;
+import haxe.macro.ExprTools;
+import haxe.macro.MacroStringTools;
+import haxe.macro.TypeTools;
 //#end
 
 class RE {
 
 	macro public static function APP(doc:Expr, callback:Expr) {
 //#if macro
-		callback = patchCallback(callback);
-		return macro {
+		var scope:ReScope = {
+			parent: null,
+			names: new Map<String, Bool>(),
+		}
+		callback = patchCallback(callback, scope);
+		var ret = macro {
 			var _ctx_ = new ReContext();
 			new ReApp($doc, _ctx_, $callback);
 		}
+		//trace(ExprTools.toString(ret));
+		return ret;
 //#end
 	}
 
 //#if macro
-	static function patchCallback(callback:Expr): Expr {
+	static function patchCallback(callback:Expr, scope:ReScope): Expr {
+		callback = formatStrings(callback);
 		var nodeType = getComplexType('ReNode');
 		switch (callback.expr) {
 			case ExprDef.EFunction(_, f):
@@ -31,7 +38,7 @@ class RE {
 					expr: ExprDef.EFunction(null, {
 						args: [{name:'_n_', type:nodeType}],
 						ret: null,
-						expr: patchCallbackBody(f.expr),
+						expr: patchCallbackBody(f.expr, scope),
 					}),
 					pos: callback.pos,
 				}
@@ -41,55 +48,99 @@ class RE {
 		}
 	}
 
-	static function patchCallbackBody(block:Expr): Expr {
+	static function formatStrings(e:Expr): Expr {
+		return switch (e.expr) {
+			case ExprDef.EConst(Constant.CString(s)):
+				formatString(s, e.pos);
+			default:
+				ExprTools.map(e, formatStrings);
+		}
+	}
+
+	static function patchCallbackBody(block:Expr, scope:ReScope): Expr {
 		switch (block.expr) {
 			case ExprDef.EBlock(ee):
-				return patchIds(block);
+				return patchIds(block, scope);
 			default:
 				error('block expected', block.pos);
 				return macro null;
 		}
 	}
 
-	static function patchIds(e:Expr): Expr {
-		return switch (e.expr) {
-			case EVars(vv):
-				patchDefs(vv, e.pos);
-			case EConst(CIdent(id)):
-				patchRef(id, e.pos);
-			case ExprDef.EConst(Constant.CString(s)):
-				formatString(s, e.pos);
-			default:
-				ExprTools.map(e, patchIds);
+	static function patchIds(e:Expr, scope:ReScope): Expr {
+		var f = null;
+		f = function(e:Expr) {
+			return switch (e.expr) {
+				case EVars(vv):
+					patchVars(vv, e.pos, scope);
+				case EConst(CIdent(id)):
+					patchId(id, e.pos, scope);
+				default:
+					ExprTools.map(e, f);
+			}
+		}
+		return e != null ? f(e) : null;
+	}
+
+	static function patchVars(vv1:Array<Var>,
+	                          pos:Position,
+	                          scope:ReScope): Expr {
+		var vv2 = new Array<Var>();
+		for (v1 in vv1) {
+			scope.names.set(v1.name, true);
+			vv2.push(patchVar(v1, pos, scope));
+		}
+		return {
+			expr: ExprDef.EVars(vv2),
+			pos: pos,
 		}
 	}
 
-	static function patchDefs(vv:Array<Var>, pos:Position): Expr {
-		var ee = new Array<Expr>();
-		for (v in vv) {
-			ee.push(patchDef(v, pos));
+	static function patchVar(v:Var,
+	                         pos:Position,
+	                         scope:ReScope): Var {
+		var ret:Var = {
+			name: v.name,
+			type: v.type,
+			expr: patchIds(v.expr, scope),
 		}
-		return {expr:ExprDef.EBlock(ee), pos:pos};
+		ensureVarType(ret);
+		ret.expr = {
+			expr: ExprDef.ENew({
+				pack: ['reapp', 'core'],
+				name: 'Re',
+				params: [TypeParam.TPType(ret.type)],
+			}, [
+				macro _ctx_,
+				ret.expr != null ? ret.expr : macro null,
+				macro _n_.add,
+			]),
+			pos: pos,
+		}
+		ret.type = null;
+		return ret;
 	}
 
-	static function patchDef(v:Var, pos:Position): Expr {
+	static function ensureVarType(v:Var) {
 		if (v.type == null && v.expr != null) {
 			try {
 				var type = untyped Context.typeof(v.expr);
 				v.type = untyped Context.toComplexType(type);
 			} catch (ignored:Dynamic) {}
 		}
-		var t = switch (v.type) {
-			case TPath(p): p.name;
-			default: 'Dynamic';
+		if (v.type == null) {
+			v.type = ComplexType.TPath({pack:[], name:'Dynamic'});
 		}
-		trace(v.name + ': ' + t);//tempdebug
-		return parse('_n_.add("${v.name}", new Re<$t>(_ctx_, null, null))', pos);
-		//return parse('var ${v.name}=new Re<$t>(_ctx_, null, null))', pos);
 	}
 
-	static function patchRef(id:String, pos:Position): Expr {
-		return parse('_n_.val("$id")', pos);
+	static function patchId(id:String, pos:Position, scope:ReScope): Expr {
+		while (scope != null) {
+			if (scope.names.exists(id)) {
+				return parse('$id.value', pos);
+			}
+			scope = scope.parent;
+		}
+		return parse('$id', pos);
 	}
 //#end
 
@@ -127,4 +178,9 @@ class RE {
 #end
 	}
 
+}
+
+typedef ReScope = {
+	parent: ReScope,
+	names: Map<String, Bool>,
 }

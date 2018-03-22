@@ -21,15 +21,15 @@ class ReNode extends BaseNode {
 		super(parent, plug, index, cb);
 	}
 
-	public function add(key:String,
-	                    value:Re<Dynamic>,
-	                    ?deps:Array<String>): Re<Dynamic> {
-		values == null ? values = new Map<String, Re<Dynamic>>() : null;
-		values.set(key, value);
-		value.ctx.outdated.set(value.id, value);
-		//TODO deps
-		return value;
-	}
+//	public function add(key:String,
+//	                    value:Re<Dynamic>,
+//	                    ?deps:Array<String>): Re<Dynamic> {
+//		values == null ? values = new Map<String, Re<Dynamic>>() : null;
+//		values.set(key, value);
+//		value.ctx.outdated.set(value.id, value);
+//		//TODO deps
+//		return value;
+//	}
 
 	public function val(key:String): Re<Dynamic> {
 		var ret = getValue(key);
@@ -39,6 +39,10 @@ class ReNode extends BaseNode {
 			node = node.nodeParent;
 		}
 		return ret;
+	}
+
+	public function add(v:Re<Dynamic>) {
+
 	}
 
 //	public function get(key:String): Dynamic {
