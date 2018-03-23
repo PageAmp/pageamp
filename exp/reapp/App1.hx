@@ -21,6 +21,9 @@ class App1 {
 			var f2 = function(lang) {
 				f1(lang);
 			}
+			var child = TAG(doc.domGetBody(), function() {
+				var a_dataLang = lang;
+			});
 		});
 	}
 

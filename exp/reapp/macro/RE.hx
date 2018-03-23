@@ -10,6 +10,10 @@ import haxe.macro.MacroStringTools;
 import haxe.macro.TypeTools;
 //#end
 
+// 1) replace APP calls with new ReApp()
+// 2) replace vars in callbacks with new Re<>()
+// 3) replace references to those vars with id.value
+// 2) replace TAG calls with new ReTag()
 class RE {
 
 	macro public static function APP(doc:Expr, callback:Expr) {
@@ -31,14 +35,30 @@ class RE {
 	}
 
 //#if macro
+	public static function TAG(tag:Expr, callback:Expr) {
+		var scope:ReScope = {
+			parent: null,
+			reactive: true,
+			names: new Map<String, Bool>(),
+		}
+		callback = patchCallback(callback, scope);
+		var ret = macro new ReTag(_n_, $tag, $callback);
+		trace(scope.names);
+		//trace(ExprTools.toString(ret));
+		return ret;
+	}
+
 	static function patchCallback(callback:Expr, scope:ReScope): Expr {
 		callback = formatStrings(callback);
-		var nodeType = getComplexType('ReNode');
 		switch (callback.expr) {
 			case ExprDef.EFunction(_, f):
 				return {
 					expr: ExprDef.EFunction(null, {
-						args: [{name:'_n_', type:nodeType}],
+						args: [{
+							name:'_n_', type:getComplexType('ReElement')
+						}, {
+							name:'_ctx_', type:getComplexType('ReContext')
+						}],
 						ret: null,
 						expr: patchCallbackBody(f.expr, scope),
 					}),
@@ -140,25 +160,50 @@ class RE {
 			expr: v.expr, //patchIds(v.expr, scope),
 		}
 		ensureVarType(ret);
-		switch (ret.expr.expr) {
-			case EFunction(n,f):
-				scope.names.set(ret.name, false);
-			default:
-				scope.names.set(ret.name, true);
-				ret.expr = {
-					expr: ExprDef.ENew({
-						pack: ['reapp', 'core'],
-						name: 'Re',
-						params: [TypeParam.TPType(ret.type)],
-					}, [
-						macro _ctx_,
-						ret.expr != null ? ret.expr : macro null,
-						macro _n_.add,
-					]),
-					pos: pos,
-				}
+		if (ret.expr != null) {
+			switch (ret.expr.expr) {
+				case EFunction(n,f):
+					scope.names.set(ret.name, false);
+				case ENew(t,p):
+					scope.names.set(ret.name, false);
+				default:
+					var callParams:Array<Expr> = null;
+					var tag = switch(ret.expr.expr) {
+						case ECall(e,pp):
+							callParams = pp;
+							switch (e.expr) {
+								case EConst(CIdent(s)): s == 'TAG';
+								default: false;
+							}
+						default:
+							false;
+					}
+					if (tag) {
+						trace('TAG found');
+						if (callParams.length == 2) {
+							scope.names.set(ret.name, false);
+							ret.expr = TAG(callParams[0], callParams[1]);
+						} else {
+							error('bad TAG parameters', ret.expr.pos);
+						}
+					} else {
+						scope.names.set(ret.name, true);
+						ret.expr = {
+							expr: ExprDef.ENew({
+								pack: ['reapp', 'core'],
+								name: 'Re',
+								params: [TypeParam.TPType(ret.type)],
+							}, [
+								macro _ctx_,
+								ret.expr,
+								macro _n_.add,
+							]),
+							pos: pos,
+						}
+					}
+			}
+			ret.type = null;
 		}
-		ret.type = null;
 		return ret;
 	}
 

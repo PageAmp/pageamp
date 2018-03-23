@@ -8,10 +8,13 @@ class ReApp extends ReElement {
 	public var doc: DomDocument;
 	public var ctx: ReContext;
 
-	public function new(doc:DomDocument, ctx:ReContext, ?cb:Dynamic->Void) {
+	public function new(doc:DomDocument,
+	                    ctx:ReContext,
+	                    ?cb:ReApp->ReContext->Void) {
 		this.doc = doc;
 		this.ctx = ctx;
-		super(null, doc.domRootElement(), null, null, cb);
+		super(null, doc.domRootElement(), null, null, null);
+		cb != null ? cb(this, ctx) : null;
 		ctx.refresh();
 	}
 
