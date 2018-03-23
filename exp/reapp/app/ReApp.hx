@@ -11,6 +11,7 @@ class ReApp extends ReElement {
 	public function new(doc:DomDocument,
 	                    ctx:ReContext,
 	                    ?cb:ReApp->ReContext->Void) {
+		this.app = this;
 		this.doc = doc;
 		this.ctx = ctx;
 		super(null, doc.domRootElement(), null, null, null);

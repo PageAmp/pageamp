@@ -10,18 +10,20 @@ class App1 {
 
 	public static function main() {
 		var doc = DomTools.defaultDocument();
-		var app = RE.APP(doc, function() {
+		var app = RE.APP(doc, {
 			var lang = 'it';
-			lang = 'en';
-			trace(lang);
+			//lang = 'en';
+			//trace(lang);
+			var v = 0;
 			var f1 = function(lang) {
 				var v1 = 1;
 				trace(lang);
 			}
-			var f2 = function(lang) {
-				f1(lang);
+			var f2 = function() {
+				trace(lang);
+				return lang;
 			}
-			var child = TAG(doc.domGetBody(), function() {
+			var child = TAG(doc.domGetBody(), {
 				var a_dataLang = lang;
 			});
 		});

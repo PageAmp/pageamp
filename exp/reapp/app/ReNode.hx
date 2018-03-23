@@ -12,24 +12,21 @@ class ReNode extends BaseNode {
 	public var nodeChildren(get,null): Array<ReNode>;
 	public var values: Map<String, Re<Dynamic>>;
 
-	public function new(parent:BaseNode,
+	public function new(parent:ReNode,
 	                    ?plug:String,
 	                    ?index:Int,
 	                    ?cb:Dynamic->Void) {
+		app == null ? app = parent.app : null;
 		id = _.length;
 		_.push(this);
 		super(parent, plug, index, cb);
 	}
 
-//	public function add(key:String,
-//	                    value:Re<Dynamic>,
-//	                    ?deps:Array<String>): Re<Dynamic> {
-//		values == null ? values = new Map<String, Re<Dynamic>>() : null;
-//		values.set(key, value);
-//		value.ctx.outdated.set(value.id, value);
-//		//TODO deps
-//		return value;
-//	}
+	public function add(name:String, value:Re<Dynamic>) {
+		values == null ? values = new Map<String, Re<Dynamic>>() : null;
+		values.set(name, value);
+		value.ctx.outdated.set(value.id, value);
+	}
 
 	public function val(key:String): Re<Dynamic> {
 		var ret = getValue(key);
@@ -39,10 +36,6 @@ class ReNode extends BaseNode {
 			node = node.nodeParent;
 		}
 		return ret;
-	}
-
-	public function add(v:Re<Dynamic>) {
-
 	}
 
 //	public function get(key:String): Dynamic {

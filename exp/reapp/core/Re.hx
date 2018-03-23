@@ -15,10 +15,16 @@ class Re<T> {
 
 	public var dsts: Map<Int, Re<Dynamic>>;
 
-	public function new(ctx:ReContext, val:Dynamic, ?cb:Re<T>->Void) {
+	public function new(ctx:ReContext,
+	                    val:T,
+	                    fun:Void->T,
+	                    ?name:String,
+	                    ?cb:String->Re<T>->Void) {
 		this.id = ++ctx.currId;
 		this.ctx = ctx;
-		cb != null ? cb(this) : null;
+		this._val = val;
+		this.fun = fun;
+		cb != null ? cb(name, this) : null;
 	}
 
 	public function addSrc(src:Re<Dynamic>): Re<T> {
@@ -26,32 +32,6 @@ class Re<T> {
 		src.dsts.set(id, this);
 		return this;
 	}
-
-//	public function get(): T {
-//		if (cycle != ctx.cycle) {
-//			cycle = ctx.cycle;
-//			try {
-//				_set(fun != null ? fun() : _val);
-//			} catch (e:Dynamic) {
-//				ReLog.value('$id: $e');
-//			}
-//		}
-//		return _val;
-//	}
-//
-//	public function set(v:T): T {
-//		if (v != _val) {
-//			ctx.enterUpdate();
-//			_set(v);
-//			if (dsts != null) {
-//				for (dst in dsts) {
-//					ctx.outdated.set(dst.id, dst);
-//				}
-//			}
-//			ctx.exitUpdate();
-//		}
-//		return v;
-//	}
 
 	public function get_value(): T {
 		if (cycle != ctx.cycle) {
@@ -84,7 +64,7 @@ class Re<T> {
 	// =========================================================================
 	var _val: T;
 
-	inline function _set(v:T) {
+	#if !debug inline #end function _set(v:T) {
 		if (v != _val || cycle == 1) {
 			cb != null ? cb(this, _val, v) : null;
 			_val = v;
