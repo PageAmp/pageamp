@@ -23,6 +23,7 @@ class RE {
 			var _ctx_ = new ReContext();
 			new ReApp($doc, _ctx_, $callback);
 		}
+		trace(scope.names);
 		//trace(ExprTools.toString(ret));
 		return ret;
 //#end
@@ -68,18 +69,28 @@ class RE {
 	}
 
 	static function patchIds(e:Expr, scope:ReScope): Expr {
-		var f = null;
-		f = function(e:Expr) {
+		var f1 = null, f2 = null;
+		// pass1: replace declared vars with Re<> instances
+		f1 = function(e:Expr) {
 			return switch (e.expr) {
+//				case EFunction(n,f):
+//					//TODO
 				case EVars(vv):
 					patchVars(vv, e.pos, scope);
+				default:
+					ExprTools.map(e, f1);
+			}
+		}
+		// pass2: replace relevant references with <id>.value
+		f2 = function(e:Expr) {
+			return switch (e.expr) {
 				case EConst(CIdent(id)):
 					patchId(id, e.pos, scope);
 				default:
-					ExprTools.map(e, f);
+					ExprTools.map(e, f2);
 			}
 		}
-		return e != null ? f(e) : null;
+		return e != null ? f2(f1(e)) : null;
 	}
 
 	static function patchVars(vv1:Array<Var>,
@@ -87,7 +98,7 @@ class RE {
 	                          scope:ReScope): Expr {
 		var vv2 = new Array<Var>();
 		for (v1 in vv1) {
-			scope.names.set(v1.name, true);
+			//scope.names.set(v1.name, true);
 			vv2.push(patchVar(v1, pos, scope));
 		}
 		return {
@@ -102,20 +113,26 @@ class RE {
 		var ret:Var = {
 			name: v.name,
 			type: v.type,
-			expr: patchIds(v.expr, scope),
+			expr: v.expr, //patchIds(v.expr, scope),
 		}
 		ensureVarType(ret);
-		ret.expr = {
-			expr: ExprDef.ENew({
-				pack: ['reapp', 'core'],
-				name: 'Re',
-				params: [TypeParam.TPType(ret.type)],
-			}, [
-				macro _ctx_,
-				ret.expr != null ? ret.expr : macro null,
-				macro _n_.add,
-			]),
-			pos: pos,
+		switch (ret.expr.expr) {
+			case EFunction(n,f):
+				scope.names.set(ret.name, false);
+			default:
+				scope.names.set(ret.name, true);
+				ret.expr = {
+					expr: ExprDef.ENew({
+						pack: ['reapp', 'core'],
+						name: 'Re',
+						params: [TypeParam.TPType(ret.type)],
+					}, [
+						macro _ctx_,
+						ret.expr != null ? ret.expr : macro null,
+						macro _n_.add,
+					]),
+					pos: pos,
+				}
 		}
 		ret.type = null;
 		return ret;
@@ -134,6 +151,7 @@ class RE {
 	}
 
 	static function patchId(id:String, pos:Position, scope:ReScope): Expr {
+		trace('patchId($id)');
 		while (scope != null) {
 			if (scope.names.exists(id)) {
 				return parse('$id.value', pos);

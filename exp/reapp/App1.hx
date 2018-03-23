@@ -14,6 +14,9 @@ class App1 {
 			var lang = 'it';
 			lang = 'en';
 			trace(lang);
+			var f1 = function(l) {
+				trace(l);
+			}
 		});
 	}
 
