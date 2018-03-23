@@ -16,6 +16,7 @@ class RE {
 //#if macro
 		var scope:ReScope = {
 			parent: null,
+			reactive: true,
 			names: new Map<String, Bool>(),
 		}
 		callback = patchCallback(callback, scope);
@@ -69,28 +70,51 @@ class RE {
 	}
 
 	static function patchIds(e:Expr, scope:ReScope): Expr {
-		var f1 = null, f2 = null;
 		// pass1: replace declared vars with Re<> instances
-		f1 = function(e:Expr) {
-			return switch (e.expr) {
-//				case EFunction(n,f):
-//					//TODO
-				case EVars(vv):
-					patchVars(vv, e.pos, scope);
-				default:
-					ExprTools.map(e, f1);
+		function f1(e:Expr, scope:ReScope) {
+			function f(e:Expr) {
+				return switch (e.expr) {
+					case EFunction(n,f):
+						var s = makeFunctionScope(scope, f);
+						ExprTools.map(e, function(e:Expr) return f1(e, s));
+					case EVars(vv):
+						scope.reactive ?
+							patchVars(vv, e.pos, scope) :
+							ExprTools.map(e, f);
+					default:
+						ExprTools.map(e, f);
+				}
 			}
+			return f(e);
 		}
 		// pass2: replace relevant references with <id>.value
-		f2 = function(e:Expr) {
-			return switch (e.expr) {
-				case EConst(CIdent(id)):
-					patchId(id, e.pos, scope);
-				default:
-					ExprTools.map(e, f2);
+		function f2(e:Expr, scope:ReScope) {
+			function f(e:Expr) {
+				return switch (e.expr) {
+					case EFunction(n,f):
+						var s = makeFunctionScope(scope, f);
+						ExprTools.map(e, function(e:Expr) return f1(e, s));
+					case EConst(CIdent(id)):
+						patchId(id, e.pos, scope);
+					default:
+						ExprTools.map(e, f);
+				}
 			}
+			return f(e);
 		}
-		return e != null ? f2(f1(e)) : null;
+		return e != null ? f2(f1(e, scope), scope) : null;
+	}
+
+	static function makeFunctionScope(scope:ReScope, f:Function) {
+		var ret:ReScope = {
+			parent: scope,
+			reactive: false,
+			names: new Map<String, Bool>(),
+		}
+		for (a in f.args) {
+			ret.names.set(a.name, false);
+		}
+		return ret;
 	}
 
 	static function patchVars(vv1:Array<Var>,
@@ -153,7 +177,7 @@ class RE {
 	static function patchId(id:String, pos:Position, scope:ReScope): Expr {
 		trace('patchId($id)');
 		while (scope != null) {
-			if (scope.names.exists(id)) {
+			if (scope.names.get(id)) {
 				return parse('$id.value', pos);
 			}
 			scope = scope.parent;
@@ -200,5 +224,6 @@ class RE {
 
 typedef ReScope = {
 	parent: ReScope,
+	reactive: Bool,
 	names: Map<String, Bool>,
 }

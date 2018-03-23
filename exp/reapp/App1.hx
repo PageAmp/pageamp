@@ -14,8 +14,12 @@ class App1 {
 			var lang = 'it';
 			lang = 'en';
 			trace(lang);
-			var f1 = function(l) {
-				trace(l);
+			var f1 = function(lang) {
+				var v1 = 1;
+				trace(lang);
+			}
+			var f2 = function(lang) {
+				f1(lang);
 			}
 		});
 	}
