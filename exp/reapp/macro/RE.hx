@@ -20,7 +20,7 @@ class RE {
 	macro public static function APP(doc:Expr, callback:Expr) {
 //#if macro
 		var scope = new ReScope('APP', null, true);
-		callback = patchCallback('appcb', callback, scope, true);
+		callback = patchCallback('appcb', callback, scope);
 		var ret = macro {
 			var _ctx_ = new ReContext();
 			new ReApp($doc, _ctx_, $callback);
@@ -34,7 +34,7 @@ class RE {
 //#if macro
 	public static function TAG(parent:ReScope, tag:Expr, callback:Expr) {
 		var scope = new ReScope('TAG', parent, true);
-		callback = patchCallback('tagcb', callback, scope, false);
+		callback = patchCallback('tagcb', callback, scope);
 		var ret = macro new ReTag(_n_, $tag, $callback);
 		//trace(scope.names);
 		//trace(ExprTools.toString(ret));
@@ -43,8 +43,7 @@ class RE {
 
 	static function patchCallback(name:String,
 	                              callback:Expr,
-	                              scope:ReScope,
-	                              patchBody:Bool): Expr {
+	                              scope:ReScope): Expr {
 		callback = formatStrings(callback);
 		switch (callback.expr) {
 			case EBlock(_):
@@ -56,9 +55,7 @@ class RE {
 							name:'_ctx_', type:getComplexType('ReContext')
 						}],
 						ret: null,
-						expr: patchBody ?
-								patchCallbackBody(callback, scope):
-								callback,
+						expr: patchCallbackBody(callback, scope),
 					}),
 					pos: callback.pos,
 				}
@@ -88,6 +85,9 @@ class RE {
 	}
 
 	static function patchIds(e:Expr, scope:ReScope): Expr {
+		function f0(e:Expr) {
+			return ExprTools.map(e, f0);
+		}
 		// pass1: replace declared vars with Re<> instances
 		function f1(e:Expr, scope:ReScope) {
 			function f(e:Expr) {
@@ -110,8 +110,14 @@ class RE {
 			function f(e:Expr) {
 				return switch (e.expr) {
 					case EFunction(n,f):
-						var s = makeFunctionScope(n + ' (2)', scope, f);
-						ExprTools.map(e, function(e:Expr) return f2(e, s));
+						if (f.args.length == 2 &&
+							f.args[0].name == '_n_' &&
+							f.args[1].name == '_ctx_') {
+							f0(e);
+						} else {
+							var s = makeFunctionScope(n + ' (2)', scope, f);
+							ExprTools.map(e, function(e:Expr) return f2(e, s));
+						}
 					case EConst(CIdent(id)):
 						patchId(id, e.pos, scope);
 					default:
@@ -297,6 +303,7 @@ class ReScope {
 			depth++;
 			parent = parent.parent;
 		}
+		trace('ReScope$id($name,$depth)');
 	}
 
 	public function set(name:String, responsive:Bool) {
@@ -304,6 +311,7 @@ class ReScope {
 	}
 
 	public function isResponsive(name:String): Bool {
+		trace('ReScope$id(${this.name},$depth).isResponsive($name)');
 		var ret = false;
 		var p = this;
 		do {
