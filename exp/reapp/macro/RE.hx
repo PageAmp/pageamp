@@ -1,5 +1,6 @@
 package reapp.macro;
 
+import haxe.macro.Expr.ExprDef;
 import reapp.app.*;
 import reapp.core.*;
 import haxe.macro.Expr;
@@ -7,282 +8,42 @@ import haxe.macro.Expr;
 	import haxe.macro.Context;
 	import haxe.macro.ExprTools;
 	import haxe.macro.MacroStringTools;
+	import haxe.macro.Type;
 	import haxe.macro.TypeTools;
 //#end
 
 // =============================================================================
-// RE
+// RE2
 // =============================================================================
 
-// 1) replace APP calls with new ReApp()
-// 2) replace vars in callbacks with new Re<>()
-// 3) replace references to those vars with id.value
-// 4) replace TAG calls with new ReTag()
-// 5) TODO: add dependencies to Re<> instances
 class RE {
 
-	macro public static function APP(doc:Expr, callback:Expr) {
-//#if macro
-		var scope = new ReScope('APP', null, true);
-		callback = patchCallback('appcb', callback, scope);
-		var ret = macro {
-			var _ctx_ = new ReContext();
-			new ReApp($doc, _ctx_, $callback);
-		}
-		//trace(scope.names);
-//		trace(ExprTools.toString(ret));
+	macro public static function APP(doc:Expr, block:Expr) {
+		block = formatStrings(block);
+		var scope = new ReScope(null, 'APP', doc, block);
+		scope.transform();
+		trace(scope.dump());
+		var ret = scope.output();
+		trace(ExprTools.toString(ret));
 		return ret;
-//#end
-	}
-
-//#if macro
-	public static function TAG(parent:ReScope, tag:Expr, callback:Expr) {
-		var scope = new ReScope('TAG', parent, true);
-		callback = patchCallback('tagcb', callback, scope);
-		var ret = macro new ReTag(_n_, $tag, $callback);
-		//trace(scope.names);
-		//trace(ExprTools.toString(ret));
-		return ret;
-	}
-
-	static function patchCallback(name:String,
-	                              callback:Expr,
-	                              scope:ReScope): Expr {
-		callback = formatStrings(callback);
-		switch (callback.expr) {
-			case EBlock(_):
-				return {
-					expr: ExprDef.EFunction(null, {
-						args: [{
-							name:'_n_', type:getComplexType('ReElement')
-						}, {
-							name:'_ctx_', type:getComplexType('ReContext')
-						}],
-						ret: null,
-						expr: patchCallbackBody(callback, scope),
-					}),
-					pos: callback.pos,
-				}
-			default:
-				error('function expected', callback.pos);
-				return macro null;
-		}
 	}
 
 	static function formatStrings(e:Expr): Expr {
+#if macro
 		return switch (e.expr) {
 			case ExprDef.EConst(Constant.CString(s)):
-				formatString(s, e.pos);
+				MacroStringTools.formatString(s, e.pos);
 			default:
 				ExprTools.map(e, formatStrings);
 		}
-	}
-
-	static function patchCallbackBody(block:Expr, scope:ReScope): Expr {
-		switch (block.expr) {
-			case ExprDef.EBlock(ee):
-				return patchIds(block, scope);
-			default:
-				error('block expected', block.pos);
-				return macro null;
-		}
-	}
-
-	static function patchIds(e:Expr, scope:ReScope): Expr {
-		function f0(e:Expr) {
-			return ExprTools.map(e, f0);
-		}
-		// pass1: replace declared vars with Re<> instances
-		function f1(e:Expr, scope:ReScope) {
-			function f(e:Expr) {
-				return switch (e.expr) {
-					case EFunction(n,f):
-						var s = makeFunctionScope(n + ' (1)', scope, f);
-						ExprTools.map(e, function(e:Expr) return f1(e, s));
-					case EVars(vv):
-						scope.reactive ?
-							patchVars(vv, e.pos, scope) :
-							ExprTools.map(e, f);
-					default:
-						ExprTools.map(e, f);
-				}
-			}
-			return f(e);
-		}
-		// pass2: replace references to replaced vars with <id>.value
-		function f2(e:Expr, scope:ReScope) {
-			function f(e:Expr) {
-				return switch (e.expr) {
-					case EFunction(n,f):
-						if (f.args.length == 2 &&
-							f.args[0].name == '_n_' &&
-							f.args[1].name == '_ctx_') {
-							f0(e);
-						} else {
-							var s = makeFunctionScope(n + ' (2)', scope, f);
-							ExprTools.map(e, function(e:Expr) return f2(e, s));
-						}
-					case EConst(CIdent(id)):
-						patchId(id, e.pos, scope);
-					default:
-						ExprTools.map(e, f);
-				}
-			}
-			return f(e);
-		}
-		return e != null ? f2(f1(e, scope), scope) : null;
-	}
-
-	static function makeFunctionScope(name:String, scope:ReScope, f:Function) {
-		var ret = new ReScope('FUN $name', scope, false);
-		for (a in f.args) {
-			ret.set(a.name, false);
-		}
-		return ret;
-	}
-
-	static function patchVars(vv1:Array<Var>,
-	                          pos:Position,
-	                          scope:ReScope): Expr {
-		var vv2 = new Array<Var>();
-		for (v1 in vv1) {
-			vv2.push(patchVar(v1, pos, scope));
-		}
-		return {
-			expr: ExprDef.EVars(vv2),
-			pos: pos,
-		}
-	}
-
-	static function patchVar(v:Var,
-	                         pos:Position,
-	                         scope:ReScope): Var {
-		var name = v.name;
-		var ret:Var = {
-			name: v.name,
-			type: v.type,
-			expr: v.expr,
-		}
-		ensureVarType(ret);
-		if (ret.expr != null) {
-			switch (ret.expr.expr) {
-				case EFunction(n,f):
-					scope.set(ret.name, false);
-				case ENew(t,p):
-					scope.set(ret.name, false);
-				default:
-					var callParams:Array<Expr> = null;
-					var tag = switch(ret.expr.expr) {
-						case ECall(e,pp):
-							callParams = pp;
-							switch (e.expr) {
-								case EConst(CIdent(s)): s == 'TAG';
-								default: false;
-							}
-						default:
-							false;
-					}
-					if (tag) {
-						if (callParams.length == 2) {
-							scope.set(ret.name, false);
-							ret.expr = TAG(scope, callParams[0], callParams[1]);
-						} else {
-							error('bad TAG parameters', ret.expr.pos);
-						}
-					} else {
-						scope.set(ret.name, true);
-						var const = switch (ret.expr.expr) {
-							case EConst(c): switch (c) {
-								case CIdent(_): false;
-								default: true;
-							}
-							default: false;
-						}
-						var fun = macro null;
-						if (!const) {
-							fun = {
-								expr: ExprDef.EFunction(null, {
-									args: [],
-									ret: ret.type,
-									expr: {
-										expr: ExprDef.EReturn(ret.expr),
-										pos: pos,
-									}
-								}),
-								pos: pos,
-							};
-							ret.expr = macro null;
-						}
-						ret.expr = {
-							expr: ExprDef.ENew({
-								pack: ['reapp', 'core'],
-								name: 'Re',
-								params: [TypeParam.TPType(ret.type)],
-							}, [
-								macro _ctx_,
-								ret.expr,
-								fun,
-								parse('"$name"', pos),
-								macro _n_.add,
-							]),
-							pos: pos,
-						}
-					}
-			}
-			ret.type = null;
-		}
-		return ret;
-	}
-
-	static function ensureVarType(v:Var) {
-		if (v.type == null && v.expr != null) {
-			try {
-				var type = untyped Context.typeof(v.expr);
-				v.type = untyped Context.toComplexType(type);
-			} catch (ignored:Dynamic) {}
-		}
-		if (v.type == null) {
-			v.type = ComplexType.TPath({pack:[], name:'Dynamic'});
-		}
-	}
-
-	static function patchId(id:String, pos:Position, scope:ReScope): Expr {
-		var ret = scope.isResponsive(id) ? '$id.value' : id;
-		return parse(ret, pos);
-	}
-//#end
-
-	// =========================================================================
-	// util
-	// =========================================================================
-
-	static function getComplexType(name:String): ComplexType {
-#if macro
-		return TypeTools.toComplexType(Context.getType(name));
 #else
-		return null;
+		return e;
 #end
 	}
 
-	static function parse(src:String, pos:Position): Expr {
-#if macro
-		return Context.parse(src, pos);
-#else
-		return null;
-#end
-	}
-
-	static function error(msg:String, pos:Position) {
+	public static function error(msg:String, pos:Position) {
 #if macro
 		Context.error(msg, pos);
-#end
-	}
-
-	static function formatString(s:String, pos:Position): Expr {
-#if macro
-		return MacroStringTools.formatString(s, pos);
-#else
-		return null;
 #end
 	}
 
@@ -292,47 +53,356 @@ class RE {
 // ReScope
 // =============================================================================
 
-//#if macro
 class ReScope {
-	static var nextId = 0;
-	public var id: Int;
-	public var name: String;
 	public var parent: ReScope;
-	public var reactive: Bool;
-	var depth = 0;
-	var names = new Map<String, Bool>();
+	public var name: String;
+	public var arg: Expr;
+	public var pos: Position;
+	public var vars = new Array<ReVar>();
 
-	public function new(name:String, parent:ReScope, reactive:Bool) {
-		id = nextId++;
-		this.name = name;
+	public function new(parent:ReScope, name:String, arg:Expr, block:Expr) {
 		this.parent = parent;
-		this.reactive = reactive;
-		while (parent != null) {
-			depth++;
-			parent = parent.parent;
-		}
-//		trace('ReScope$id($name,$depth)');
+		this.name = name;
+		this.arg = arg;
+		this.pos = block.pos;
+		load(block);
 	}
 
-	public function set(name:String, responsive:Bool) {
-		names.set(name, responsive);
-	}
-
-	public function isResponsive(name:String): Bool {
-//		trace('ReScope$id(${this.name},$depth).isResponsive($name)');
-		var ret = false;
-		var p = this;
-		do {
-			if (p.names.exists(name)) {
-				ret = p.names.get(name);
-				break;
+	public function dump(prefix='') {
+		var sb = new StringBuf();
+		var p = prefix + '    ';
+		sb.add(' [\n');
+			for (v in vars) {
+				var src = v.expr != null ? ExprTools.toString(v.expr) : '';
+				src = src.split('\n').join(' ');
+				var deps = new Array<String>();
+				for (key in v.deps.keys()) deps.push(key);
+				sb.add('${p}var ${v.name}:${v.type}${deps} = ${src}');
+				if (v.inner != null) {
+					sb.add(v.inner.dump(p));
+				}
+				sb.add('\n');
 			}
-		} while ((p = p.parent) != null);
+		sb.add('$prefix]');
+		return sb.toString();
+	}
+
+	public function getVar(id:String): ReVar {
+		for (v in vars) {
+			if (v.name == id) {
+				return v;
+			}
+		}
+		return null;
+	}
+
+	// =========================================================================
+	// load
+	// =========================================================================
+
+	function load(block:Expr) {
+		// collect var declarations
+		switch (block.expr) {
+		case EBlock(ee):
+			for (e in ee) {
+				switch (e.expr) {
+				case EVars(vv):
+					for (v in vv) {
+						vars.push(new ReVar(
+							v.name,
+							v.type,
+							v.expr,
+							v.expr != null ? v.expr.pos : e.pos,
+							this
+						));
+					}
+				default:
+					RE.error('var declaration expected', e.pos);
+				}
+			}
+		default:
+			RE.error('block expected', block.pos);
+		}
+		// look up nested scopes and functions
+		for (v in vars) {
+			if (v.expr != null) {
+				switch (v.expr.expr) {
+				case ECall(e,pp):
+					switch (e.expr) {
+					case EConst(CIdent(s)):
+						if (pp.length == 2) {
+//							v.type = ComplexType.TPath({
+//								pack: ['reapp', 'app'],
+//								name: 'ReTag'
+//							});
+							v.type = getComplexType('ReTag');
+							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
+							v.expr = null;
+						} else {
+							RE.error('bad parameters', e.pos);
+						}
+					default:
+					}
+//				case EFunction(n,f):
+//					v.fun = f;
+//					v.expr = null;
+				default:
+				}
+			}
+		}
+	}
+
+	// =========================================================================
+	// transform
+	// =========================================================================
+
+	public function transform() {
+		ensureTypes();
+//		lookupDeps();
+		makeReactive();
+		setDependencies();
+	}
+
+	function ensureTypes() {
+		for (v in vars) v.ensureType();
+		for (v in vars) v.inner != null ? v.inner.ensureTypes() : null;
+	}
+
+//	function lookupDeps() {
+//		for (v in vars) v.lookupDeps();
+//		for (v in vars) v.inner != null ? v.inner.lookupDeps() : null;
+//	}
+
+	function makeReactive() {
+		for (v in vars) v.makeReactive();
+		for (v in vars) v.inner != null ? v.inner.makeReactive() : null;
+	}
+
+	function setDependencies() {
+		for (v in vars) v.setDependencies();
+		for (v in vars) v.inner != null ? v.inner.setDependencies() : null;
+	}
+
+	// =========================================================================
+	// output
+	// =========================================================================
+
+	public function output(): Expr {
+		var ret;
+		var callback = outputCallback();
+		ret = (parent == null
+			? macro {
+				var _ctx_ = new ReContext();
+				new ReApp($arg, _ctx_, $callback);
+			}
+			: macro new ReTag(_n_, $arg, $callback));
 		return ret;
 	}
 
-	public function toString() {
-		return '$id';
+	function outputCallback(): Expr {
+		return {
+			expr: ExprDef.EFunction(null, {
+				args: [{
+					name:'_n_', type:getComplexType('ReElement')
+				}, {
+					name:'_ctx_', type:getComplexType('ReContext')
+				}],
+				ret: null,
+				expr: outputCallbackBody(),
+			}),
+			pos: pos,
+		}
 	}
+
+	function outputCallbackBody() {
+		var ee = new Array<Expr>();
+		for (v in vars) {
+			if (v.expr != null) {
+				ee.push(v.expr);
+			}
+		}
+		for (v in vars) {
+			if (v.setDeps != null) {
+				ee.push(v.setDeps);
+			}
+		}
+		return {
+			expr: ExprDef.EBlock(ee),
+			pos: pos,
+		}
+	}
+
+	// =========================================================================
+	// util
+	// =========================================================================
+
+	public static function getComplexType(name:String): ComplexType {
+#if macro
+		return TypeTools.toComplexType(Context.getType(name));
+#else
+		return null;
+#end
+	}
+
 }
-//#end
+
+// =============================================================================
+// ReVar
+// =============================================================================
+
+class ReVar {
+	public var name: String;
+	public var type: ComplexType;
+	public var expr: Expr;
+	public var fun: Function;
+	public var pos: Position;
+	public var react: Bool;
+	public var deps: Map<String, ReVar>;
+	public var setDeps: Expr;
+	public var outer: ReScope;
+	public var inner: ReScope;
+
+	public function new(name: String,
+	                    type: ComplexType,
+	                    expr: Expr,
+	                    pos: Position,
+	                    outer: ReScope) {
+		this.name = name;
+		this.type = type;
+		this.expr = expr;
+		this.fun = null;
+		this.pos = pos;
+		this.react = false;
+		this.deps = new Map<String, ReVar>();
+		this.setDeps = null;
+		this.outer = outer;
+		this.inner = null;
+	}
+
+	public function ensureType() {
+		if (type == null && expr != null) {
+			try {
+				var t = untyped Context.typeof(expr);
+				type = untyped Context.toComplexType(t);
+			} catch (ignored:Dynamic) {
+				trace(ignored);
+			}
+		}
+		if (type == null) {
+			RE.error('missing type', pos);
+		}
+	}
+
+//	public function lookupDeps() {
+//		function f(e:Expr) {
+//			switch (e.expr) {
+//			case EConst(CIdent(id)):
+//				var v = lookupVar(id);
+//				v != null ? deps.set(id, v) : null;
+//			default:
+//			}
+//			return ExprTools.map(e, f);
+//		}
+//		if (expr != null) {
+//			f(expr);
+//		}
+//	}
+
+	public function makeReactive() {
+		if (inner == null && this.fun == null) {
+			expr != null ? null : expr = macro null;
+			var const = switch (expr.expr) {
+				case EConst(c): switch (c) {
+					case CIdent(id): id == 'null';
+					default: true;
+				}
+				default: false;
+			}
+			var fun = macro null;
+			if (!const) {
+				fun = {
+					expr: ExprDef.EFunction(null, {
+						args: [],
+						ret: type,
+						expr: {
+							expr: ExprDef.EReturn(patchIds(expr)),
+							pos: pos,
+						}
+					}),
+					pos: pos,
+				};
+				expr = macro null;
+			}
+			var t = #if macro Context.getType('Re'); #else null; #end
+			var ct:ClassType = switch (t) {
+				case TInst(ctref,pp): ctref.get();
+				default: null;
+			}
+			ct == null ? RE.error('missing type Re<>', pos) : null;
+			expr = {
+				expr: ExprDef.EVars([{
+					name: name,
+					type: null,
+					expr: {
+						expr: ExprDef.ENew({
+							pack: ct.pack,
+							name: ct.name,
+							params: [TypeParam.TPType(type)],
+						}, [
+							macro _ctx_,
+							expr,
+							fun,
+//							{expr:ExprDef.EArrayDecl(srcs), pos:pos},
+							untyped Context.parse('"$name"', pos),
+							macro _n_.add,
+						]),
+						pos: pos,
+					}
+				}]),
+				pos: pos,
+			}
+			react = true;
+		}
+	}
+
+	public function setDependencies() {
+		var list = new Array<Expr>();
+		for (v in deps) {
+			if (v.react) {
+				list.push(untyped Context.parse(v.name, pos));
+			}
+		}
+		setDeps = (list.length == 0) ? null : {
+			expr: ExprDef.ECall(
+				untyped Context.parse(name + '.setDeps', pos),
+				[{expr:ExprDef.EArrayDecl(list), pos:pos}]
+			),
+			pos: pos,
+		};
+	}
+
+	function patchIds(e:Expr): Expr {
+		return switch (e.expr) {
+		case EConst(CIdent(id)):
+			var s = id;
+			var v = lookupVar(id);
+			if (v != null && v.react) {
+				deps.set(id, v);
+				s = '$id.value';
+			}
+			untyped Context.parse(s, e.pos);
+		default:
+			ExprTools.map(e, patchIds);
+		}
+	}
+
+	function lookupVar(id:String): ReVar {
+		var ret = null;
+		var s = outer;
+		while (s != null && (ret = s.getVar(id)) == null) {
+			s = s.parent;
+		}
+		return ret;
+	}
+
+}
