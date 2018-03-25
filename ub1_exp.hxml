@@ -7,7 +7,8 @@
 -lib hscript
 -D client
 -dce full
--debug
+#-debug
+#-cmd uglifyjs docroot/__exp/client/bin/app.js > docroot/__exp/client/bin/app.min.js
 
 #--next
 #-php docroot/__exp/php

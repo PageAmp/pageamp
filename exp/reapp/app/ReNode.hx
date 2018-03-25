@@ -42,7 +42,7 @@ class ReNode extends BaseNode {
 //		var value = lookup(key);
 //		return (value != null ? value.get() : null);
 //	}
-
+//
 //	public function set(key:String, val:Dynamic): Dynamic {
 //		var value = lookup(key);
 //		value != null ? value.set(val) : ReLog.value('$id.set($key) failed');

@@ -15,7 +15,7 @@ class App1 {
 			var lang = 'it';
 			//lang = 'en';
 			//trace(lang);
-			var dataLang:String = 'lang: ' + lang;
+			var a_dataLang:String = 'lang: ' + lang;
 //			var f1 = function(lang) {
 //				var v1 = 1;
 //				trace(lang);
@@ -28,6 +28,9 @@ class App1 {
 				var a_dataLang:String = '$lang';
 			});
 		});
+		haxe.Timer.delay(function() {
+			app.values.get('lang').value = 'en';
+		}, 1000);
 	}
 
 //	public static function main() {

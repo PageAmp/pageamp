@@ -1,6 +1,5 @@
 package reapp.macro;
 
-import haxe.macro.Expr.ExprDef;
 import reapp.app.*;
 import reapp.core.*;
 import haxe.macro.Expr;
@@ -13,19 +12,23 @@ import haxe.macro.Expr;
 //#end
 
 // =============================================================================
-// RE2
+// RE
 // =============================================================================
 
+//TODO: anonymous nested scopes
+//TODO: allow function <name>() syntax
 class RE {
 
 	macro public static function APP(doc:Expr, block:Expr) {
+#if macro
 		block = formatStrings(block);
 		var scope = new ReScope(null, 'APP', doc, block);
 		scope.transform();
-		trace(scope.dump());
+		//trace(scope.dump());
 		var ret = scope.output();
 		trace(ExprTools.toString(ret));
 		return ret;
+#end
 	}
 
 	static function formatStrings(e:Expr): Expr {
@@ -49,6 +52,7 @@ class RE {
 
 }
 
+//#if macro
 // =============================================================================
 // ReScope
 // =============================================================================
@@ -131,10 +135,6 @@ class ReScope {
 					switch (e.expr) {
 					case EConst(CIdent(s)):
 						if (pp.length == 2) {
-//							v.type = ComplexType.TPath({
-//								pack: ['reapp', 'app'],
-//								name: 'ReTag'
-//							});
 							v.type = getComplexType('ReTag');
 							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
 							v.expr = null;
@@ -158,7 +158,6 @@ class ReScope {
 
 	public function transform() {
 		ensureTypes();
-//		lookupDeps();
 		makeReactive();
 		setDependencies();
 	}
@@ -167,11 +166,6 @@ class ReScope {
 		for (v in vars) v.ensureType();
 		for (v in vars) v.inner != null ? v.inner.ensureTypes() : null;
 	}
-
-//	function lookupDeps() {
-//		for (v in vars) v.lookupDeps();
-//		for (v in vars) v.inner != null ? v.inner.lookupDeps() : null;
-//	}
 
 	function makeReactive() {
 		for (v in vars) v.makeReactive();
@@ -219,6 +213,12 @@ class ReScope {
 		for (v in vars) {
 			if (v.expr != null) {
 				ee.push(v.expr);
+			}
+		}
+		//TODO: functions
+		for (v in vars) {
+			if (v.inner != null) {
+				ee.push(v.inner.output());
 			}
 		}
 		for (v in vars) {
@@ -293,21 +293,6 @@ class ReVar {
 		}
 	}
 
-//	public function lookupDeps() {
-//		function f(e:Expr) {
-//			switch (e.expr) {
-//			case EConst(CIdent(id)):
-//				var v = lookupVar(id);
-//				v != null ? deps.set(id, v) : null;
-//			default:
-//			}
-//			return ExprTools.map(e, f);
-//		}
-//		if (expr != null) {
-//			f(expr);
-//		}
-//	}
-
 	public function makeReactive() {
 		if (inner == null && this.fun == null) {
 			expr != null ? null : expr = macro null;
@@ -352,7 +337,6 @@ class ReVar {
 							macro _ctx_,
 							expr,
 							fun,
-//							{expr:ExprDef.EArrayDecl(srcs), pos:pos},
 							untyped Context.parse('"$name"', pos),
 							macro _n_.add,
 						]),
@@ -406,3 +390,4 @@ class ReVar {
 	}
 
 }
+//#end
