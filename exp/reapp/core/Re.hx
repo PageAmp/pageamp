@@ -18,16 +18,28 @@ class Re<T> {
 	public function new(ctx:ReContext,
 	                    val:T,
 	                    fun:Void->T,
+//	                    ?srcs:Array<Re<Dynamic>>,
 	                    ?name:String,
 	                    ?cb:String->Re<T>->Void) {
 		this.id = ++ctx.currId;
 		this.ctx = ctx;
 		this._val = val;
 		this.fun = fun;
+//		if (srcs != null) {
+//			for (dep in srcs) {
+//				addSrc(dep);
+//			}
+//		}
 		cb != null ? cb(name, this) : null;
 	}
 
-	public function addSrc(src:Re<Dynamic>): Re<T> {
+	public function setDeps(deps:Array<Re<Dynamic>>) {
+		for (dep in deps) {
+			addSrc(dep);
+		}
+	}
+
+	inline function addSrc(src:Re<Dynamic>): Re<T> {
 		src.dsts == null ? src.dsts = new Map<Int, Re<Dynamic>>() : null;
 		src.dsts.set(id, this);
 		return this;

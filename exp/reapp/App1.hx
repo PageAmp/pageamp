@@ -2,7 +2,7 @@ package reapp;
 
 import reapp.app.*;
 import reapp.core.*;
-import reapp.macro.RE;
+import reapp.macro.RE2;
 import ub1.web.DomTools;
 using ub1.web.DomTools;
 
@@ -10,21 +10,22 @@ class App1 {
 
 	public static function main() {
 		var doc = DomTools.defaultDocument();
-		var app = RE.APP(doc, {
+		var app = RE2.APP(doc, {
+			var v0:Int;
 			var lang = 'it';
 			//lang = 'en';
 			//trace(lang);
-			var v = 0;
-			var f1 = function(lang) {
-				var v1 = 1;
-				trace(lang);
-			}
-			var f2 = function() {
-				trace(lang);
-				return lang;
-			}
+			var dataLang:String = 'lang: ' + lang;
+//			var f1 = function(lang) {
+//				var v1 = 1;
+//				trace(lang);
+//			}
+//			var f2 = function() {
+//				trace(lang);
+//				return lang;
+//			}
 			var child = TAG(doc.domGetBody(), {
-				var a_dataLang = lang;
+				var a_dataLang:String = '$lang';
 			});
 		});
 	}

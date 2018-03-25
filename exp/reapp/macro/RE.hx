@@ -4,11 +4,15 @@ import reapp.app.*;
 import reapp.core.*;
 import haxe.macro.Expr;
 //#if macro
-import haxe.macro.Context;
-import haxe.macro.ExprTools;
-import haxe.macro.MacroStringTools;
-import haxe.macro.TypeTools;
+	import haxe.macro.Context;
+	import haxe.macro.ExprTools;
+	import haxe.macro.MacroStringTools;
+	import haxe.macro.TypeTools;
 //#end
+
+// =============================================================================
+// RE
+// =============================================================================
 
 // 1) replace APP calls with new ReApp()
 // 2) replace vars in callbacks with new Re<>()
@@ -26,7 +30,7 @@ class RE {
 			new ReApp($doc, _ctx_, $callback);
 		}
 		//trace(scope.names);
-		trace(ExprTools.toString(ret));
+//		trace(ExprTools.toString(ret));
 		return ret;
 //#end
 	}
@@ -284,6 +288,10 @@ class RE {
 
 }
 
+// =============================================================================
+// ReScope
+// =============================================================================
+
 //#if macro
 class ReScope {
 	static var nextId = 0;
@@ -303,7 +311,7 @@ class ReScope {
 			depth++;
 			parent = parent.parent;
 		}
-		trace('ReScope$id($name,$depth)');
+//		trace('ReScope$id($name,$depth)');
 	}
 
 	public function set(name:String, responsive:Bool) {
@@ -311,7 +319,7 @@ class ReScope {
 	}
 
 	public function isResponsive(name:String): Bool {
-		trace('ReScope$id(${this.name},$depth).isResponsive($name)');
+//		trace('ReScope$id(${this.name},$depth).isResponsive($name)');
 		var ret = false;
 		var p = this;
 		do {
