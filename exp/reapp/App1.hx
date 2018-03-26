@@ -13,17 +13,17 @@ class App1 {
 		var app = RE.APP(doc, {
 			var v0:Int;
 			var lang = 'it';
-			//lang = 'en';
-			//trace(lang);
+//			lang = 'en';
+//			trace(lang);
 			var a_dataLang:String = 'lang: ' + lang;
-//			var f1 = function(lang) {
-//				var v1 = 1;
-//				trace(lang);
-//			}
-//			var f2 = function() {
-//				trace(lang);
-//				return lang;
-//			}
+			function f1(lang): Void {
+				var v1 = 1;
+				trace(lang);
+			}
+			function f2(lang:String): String {
+				trace(lang);
+				return lang;
+			}
 			var child = TAG(doc.domGetBody(), {
 				var a_dataLang:String = '$lang';
 			});

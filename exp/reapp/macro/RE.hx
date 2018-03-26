@@ -16,7 +16,6 @@ import haxe.macro.Expr;
 // =============================================================================
 
 //TODO: anonymous nested scopes
-//TODO: allow function <name>() syntax
 class RE {
 
 	macro public static function APP(doc:Expr, block:Expr) {
@@ -120,6 +119,15 @@ class ReScope {
 							this
 						));
 					}
+				case EFunction(n,f):
+					n == null ? RE.error('missing function name', e.pos) : null;
+					vars.push(new ReVar(
+						n,
+						f.ret,
+						e,
+						e.pos,
+						this
+					));
 				default:
 					RE.error('var declaration expected', e.pos);
 				}
@@ -210,17 +218,19 @@ class ReScope {
 
 	function outputCallbackBody() {
 		var ee = new Array<Expr>();
+		// vars
 		for (v in vars) {
 			if (v.expr != null) {
 				ee.push(v.expr);
 			}
 		}
-		//TODO: functions
+		// nested scopes
 		for (v in vars) {
 			if (v.inner != null) {
 				ee.push(v.inner.output());
 			}
 		}
+		// dependencies
 		for (v in vars) {
 			if (v.setDeps != null) {
 				ee.push(v.setDeps);
@@ -254,9 +264,9 @@ class ReVar {
 	public var name: String;
 	public var type: ComplexType;
 	public var expr: Expr;
-	public var fun: Function;
 	public var pos: Position;
 	public var react: Bool;
+	public var passiveIds: Map<String, Bool>;
 	public var deps: Map<String, ReVar>;
 	public var setDeps: Expr;
 	public var outer: ReScope;
@@ -270,7 +280,6 @@ class ReVar {
 		this.name = name;
 		this.type = type;
 		this.expr = expr;
-		this.fun = null;
 		this.pos = pos;
 		this.react = false;
 		this.deps = new Map<String, ReVar>();
@@ -294,59 +303,75 @@ class ReVar {
 	}
 
 	public function makeReactive() {
-		if (inner == null && this.fun == null) {
+		if (inner == null) {
 			expr != null ? null : expr = macro null;
+			var fun:Function = null;
 			var const = switch (expr.expr) {
 				case EConst(c): switch (c) {
 					case CIdent(id): id == 'null';
 					default: true;
 				}
+				case EFunction(n,f): fun = f; true;
 				default: false;
 			}
-			var fun = macro null;
-			if (!const) {
-				fun = {
-					expr: ExprDef.EFunction(null, {
-						args: [],
-						ret: type,
-						expr: {
-							expr: ExprDef.EReturn(patchIds(expr)),
-							pos: pos,
-						}
-					}),
-					pos: pos,
-				};
-				expr = macro null;
+			if (fun != null) {
+				makeFunction(fun);
+			} else {
+				makeVar(const);
 			}
-			var t = #if macro Context.getType('Re'); #else null; #end
-			var ct:ClassType = switch (t) {
-				case TInst(ctref,pp): ctref.get();
-				default: null;
-			}
-			ct == null ? RE.error('missing type Re<>', pos) : null;
-			expr = {
-				expr: ExprDef.EVars([{
-					name: name,
-					type: null,
+		}
+	}
+
+	function makeFunction(fun:Function) {
+		passiveIds = new Map<String,Bool>();
+		for (a in fun.args) passiveIds.set(a.name, true);
+		expr = patchIds(expr);
+	}
+
+	function makeVar(const:Bool) {
+		var fun = macro null;
+		if (!const) {
+			fun = {
+				expr: ExprDef.EFunction(null, {
+					args: [],
+					ret: type,
 					expr: {
-						expr: ExprDef.ENew({
-							pack: ct.pack,
-							name: ct.name,
-							params: [TypeParam.TPType(type)],
-						}, [
-							macro _ctx_,
-							expr,
-							fun,
-							untyped Context.parse('"$name"', pos),
-							macro _n_.add,
-						]),
+						expr: ExprDef.EReturn(patchIds(expr)),
 						pos: pos,
 					}
-				}]),
+				}),
 				pos: pos,
-			}
-			react = true;
+			};
+			expr = macro null;
 		}
+		var t = #if macro Context.getType('Re'); #else null; #end
+		var ct:ClassType = switch (t) {
+			case TInst(ctref,pp): ctref.get();
+			default: null;
+		}
+		ct == null ? RE.error('missing type Re<>', pos) : null;
+		expr = {
+			expr: ExprDef.EVars([{
+				name: name,
+				type: null,
+				expr: {
+					expr: ExprDef.ENew({
+						pack: ct.pack,
+						name: ct.name,
+						params: [TypeParam.TPType(type)],
+					}, [
+						macro _ctx_,
+						expr,
+						fun,
+						untyped Context.parse('"$name"', pos),
+						macro _n_.add,
+					]),
+					pos: pos,
+				}
+			}]),
+			pos: pos,
+		}
+		react = true;
 	}
 
 	public function setDependencies() {
@@ -371,8 +396,10 @@ class ReVar {
 			var s = id;
 			var v = lookupVar(id);
 			if (v != null && v.react) {
-				deps.set(id, v);
-				s = '$id.value';
+				if (passiveIds == null || !passiveIds.exists(id)) {
+					deps.set(id, v);
+					s = '$id.value';
+				}
 			}
 			untyped Context.parse(s, e.pos);
 		default:
@@ -390,4 +417,24 @@ class ReVar {
 	}
 
 }
+
+//// =============================================================================
+//// ReFunction
+//// =============================================================================
+//
+//class ReFunction {
+//	public var name: String;
+//	public var fun: Function;
+//
+//	public function new(name:String, fun:Function) {
+//		this.name = name;
+//		this.fun = fun;
+//	}
+//
+//	public function output(): Expr {
+//
+//	}
+//
+//}
+
 //#end
