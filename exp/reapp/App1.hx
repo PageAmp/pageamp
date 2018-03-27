@@ -24,7 +24,7 @@ class App1 {
 				trace(lang);
 				return lang;
 			}
-			var child = TAG(doc.domGetBody(), {
+			/*var child =*/ TAG(doc.domGetBody(), {
 				var a_dataLang:String = '$lang';
 			});
 		});

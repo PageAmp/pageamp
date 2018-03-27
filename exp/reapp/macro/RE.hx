@@ -15,7 +15,7 @@ import haxe.macro.Expr;
 // RE
 // =============================================================================
 
-//TODO: anonymous nested scopes
+//TODO: descending name resolution (EField)
 class RE {
 
 	macro public static function APP(doc:Expr, block:Expr) {
@@ -104,11 +104,12 @@ class ReScope {
 	// =========================================================================
 
 	function load(block:Expr) {
-		// collect var declarations
+		// collect var/function/TAG declarations
 		switch (block.expr) {
 		case EBlock(ee):
 			for (e in ee) {
 				switch (e.expr) {
+				// var declaration
 				case EVars(vv):
 					for (v in vv) {
 						vars.push(new ReVar(
@@ -119,6 +120,7 @@ class ReScope {
 							this
 						));
 					}
+				// function declaration
 				case EFunction(n,f):
 					n == null ? RE.error('missing function name', e.pos) : null;
 					vars.push(new ReVar(
@@ -128,14 +130,37 @@ class ReScope {
 						e.pos,
 						this
 					));
+				// anonymous TAG declaration
+				case ECall(e,pp):
+					var tag = switch (e.expr) {
+						case EConst(CIdent(s)): s == 'TAG';
+						default: false;
+					}
+					if (tag == true) {
+						if (pp.length == 2) {
+							var v = new ReVar(
+								null,
+								getComplexType('ReTag'),
+								null,
+								e.pos,
+								this
+							);
+							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
+							vars.push(v);
+						} else {
+							RE.error('bad TAG parameters', e.pos);
+						}
+					} else {
+						RE.error('var/function/TAG expected', e.pos);
+					}
 				default:
-					RE.error('var declaration expected', e.pos);
+					RE.error('var/function/TAG expected', e.pos);
 				}
 			}
 		default:
 			RE.error('block expected', block.pos);
 		}
-		// look up nested scopes and functions
+		// look up named nested TAGs
 		for (v in vars) {
 			if (v.expr != null) {
 				switch (v.expr.expr) {
@@ -147,13 +172,10 @@ class ReScope {
 							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
 							v.expr = null;
 						} else {
-							RE.error('bad parameters', e.pos);
+							RE.error('bad TAG parameters', e.pos);
 						}
 					default:
 					}
-//				case EFunction(n,f):
-//					v.fun = f;
-//					v.expr = null;
 				default:
 				}
 			}
@@ -303,7 +325,7 @@ class ReVar {
 	}
 
 	public function makeReactive() {
-		if (inner == null) {
+		if (name != null && inner == null) {
 			expr != null ? null : expr = macro null;
 			var fun:Function = null;
 			var const = switch (expr.expr) {
