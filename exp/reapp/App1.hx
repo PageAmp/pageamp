@@ -13,8 +13,6 @@ class App1 {
 		var app = RE.APP(doc, {
 			var v0:Int;
 			var lang = 'it';
-//			lang = 'en';
-//			trace(lang);
 			var a_dataLang:String = 'lang: ' + lang;
 			function f1(lang): Void {
 				var v1 = 1;
@@ -29,7 +27,9 @@ class App1 {
 			});
 			var body = TAG(doc.domGetBody(), {
 				var a_dataLang:String = '$lang';
+				var v = 'test';
 			});
+			var a_dataTest:String = 'id: ' + body.v;
 		});
 		haxe.Timer.delay(function() {
 			app.values.get('lang').value = 'en';

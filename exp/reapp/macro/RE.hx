@@ -15,7 +15,6 @@ import haxe.macro.Expr;
 // RE
 // =============================================================================
 
-//TODO: descending name resolution (EField)
 class RE {
 
 	macro public static function APP(doc:Expr, block:Expr) {
@@ -23,7 +22,7 @@ class RE {
 		block = formatStrings(block);
 		var scope = new ReScope(null, 'APP', doc, block);
 		scope.transform();
-		//trace(scope.dump());
+//		trace(scope.dump());
 		var ret = scope.output();
 		trace(ExprTools.toString(ret));
 		return ret;
@@ -62,6 +61,7 @@ class ReScope {
 	public var arg: Expr;
 	public var pos: Position;
 	public var vars = new Array<ReVar>();
+	public var nameVarMap = new Map<String, ReVar>();
 
 	public function new(parent:ReScope, name:String, arg:Expr, block:Expr) {
 		this.parent = parent;
@@ -90,13 +90,19 @@ class ReScope {
 		return sb.toString();
 	}
 
+	public function addVar(v:ReVar) {
+		vars.push(v);
+		v.name != null ? nameVarMap.set(v.name, v) : null;
+	}
+
 	public function getVar(id:String): ReVar {
-		for (v in vars) {
-			if (v.name == id) {
-				return v;
-			}
-		}
-		return null;
+//		for (v in vars) {
+//			if (v.name == id) {
+//				return v;
+//			}
+//		}
+//		return null;
+		return nameVarMap.get(id);
 	}
 
 	// =========================================================================
@@ -112,7 +118,7 @@ class ReScope {
 				// var declaration
 				case EVars(vv):
 					for (v in vv) {
-						vars.push(new ReVar(
+						addVar(new ReVar(
 							v.name,
 							v.type,
 							v.expr,
@@ -122,13 +128,14 @@ class ReScope {
 					}
 				// function declaration
 				case EFunction(n,f):
-					n == null ? RE.error('missing function name', e.pos) : null;
-					vars.push(new ReVar(
+					n == null ? RE.error('Missing function name', e.pos) : null;
+					addVar(new ReVar(
 						n,
 						f.ret,
 						e,
 						e.pos,
-						this
+						this,
+						true
 					));
 				// anonymous TAG declaration
 				case ECall(e,pp):
@@ -146,19 +153,19 @@ class ReScope {
 								this
 							);
 							v.inner = new ReScope(this, null, pp[0], pp[1]);
-							vars.push(v);
+							addVar(v);
 						} else {
-							RE.error('bad TAG parameters', e.pos);
+							RE.error('Bad tag parameters', e.pos);
 						}
 					} else {
-						RE.error('var/function/TAG expected', e.pos);
+						RE.error('Var/function/tag expected', e.pos);
 					}
 				default:
-					RE.error('var/function/TAG expected', e.pos);
+					RE.error('Var/function/tag expected', e.pos);
 				}
 			}
 		default:
-			RE.error('block expected', block.pos);
+			RE.error('Block expected', block.pos);
 		}
 		// look up named nested TAGs
 		for (v in vars) {
@@ -172,7 +179,7 @@ class ReScope {
 							v.inner = new ReScope(this, v.name, pp[0], pp[1]);
 							v.expr = null;
 						} else {
-							RE.error('bad TAG parameters', e.pos);
+							RE.error('Bad tag parameters', e.pos);
 						}
 					default:
 					}
@@ -246,14 +253,10 @@ class ReScope {
 		var ee = new Array<Expr>();
 		// vars
 		for (v in vars) {
-			if (v.expr != null) {
-				ee.push(v.expr);
-			}
-		}
-		// nested scopes
-		for (v in vars) {
 			if (v.inner != null) {
 				ee.push(v.inner.output());
+			} else if (v.expr != null) {
+				ee.push(v.expr);
 			}
 		}
 		// dependencies
@@ -291,6 +294,7 @@ class ReVar {
 	public var type: ComplexType;
 	public var expr: Expr;
 	public var pos: Position;
+	public var isFunction: Bool;
 	public var react: Bool;
 	public var passiveIds: Map<String, Bool>;
 	public var deps: Map<String, ReVar>;
@@ -302,11 +306,13 @@ class ReVar {
 	                    type: ComplexType,
 	                    expr: Expr,
 	                    pos: Position,
-	                    outer: ReScope) {
+	                    outer: ReScope,
+	                    isFunction=false) {
 		this.name = name;
 		this.type = type;
 		this.expr = expr;
 		this.pos = pos;
+		this.isFunction = isFunction;
 		this.react = false;
 		this.deps = new Map<String, ReVar>();
 		this.setDeps = null;
@@ -324,7 +330,7 @@ class ReVar {
 			}
 		}
 		if (type == null) {
-			RE.error('missing type', pos);
+			RE.error('Missing type', pos);
 		}
 	}
 
@@ -375,7 +381,7 @@ class ReVar {
 			case TInst(ctref,pp): ctref.get();
 			default: null;
 		}
-		ct == null ? RE.error('missing type Re<>', pos) : null;
+		ct == null ? RE.error('Missing type Re<>', pos) : null;
 		expr = {
 			expr: ExprDef.EVars([{
 				name: name,
@@ -417,19 +423,45 @@ class ReVar {
 	}
 
 	function patchIds(e:Expr): Expr {
+		return patchVarAccess(patchFieldAccess(e));
+	}
+
+	function patchVarAccess(e:Expr): Expr {
 		return switch (e.expr) {
-		case EConst(CIdent(id)):
-			var s = id;
-			var v = lookupVar(id);
-			if (v != null && v.react) {
-				if (passiveIds == null || !passiveIds.exists(id)) {
-					deps.set(id, v);
-					s = '$id.value';
+			case EConst(CIdent(id)):
+				var s = id;
+				var v = lookupVar(id);
+				if (v != null && v.react) {
+					if (passiveIds == null || !passiveIds.exists(id)) {
+						deps.set(id, v);
+						s = '$id.value';
+					}
 				}
+				untyped Context.parse(s, e.pos);
+			default:
+				ExprTools.map(e, patchVarAccess);
+		}
+	}
+
+	function patchFieldAccess(expr:Expr): Expr {
+		return switch (expr.expr) {
+		case EField(e,f):
+			switch (e.expr) {
+			case EConst(CIdent(id)):
+				var s = '$id.$f';
+				var x = lookupVar(id);
+				var y = (x != null && x.inner != null)
+						? x.inner.getVar(f)
+						: null;
+				y != null && !y.isFunction && y.inner == null
+					? s = '$id.values.get("$f").value'
+					: null;
+				untyped Context.parse(s, pos);
+			default:
+				ExprTools.map(expr, patchFieldAccess);
 			}
-			untyped Context.parse(s, e.pos);
 		default:
-			ExprTools.map(e, patchIds);
+			ExprTools.map(expr, patchFieldAccess);
 		}
 	}
 
