@@ -145,7 +145,7 @@ class ReScope {
 								e.pos,
 								this
 							);
-							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
+							v.inner = new ReScope(this, null, pp[0], pp[1]);
 							vars.push(v);
 						} else {
 							RE.error('bad TAG parameters', e.pos);
@@ -169,7 +169,7 @@ class ReScope {
 					case EConst(CIdent(s)):
 						if (pp.length == 2) {
 							v.type = getComplexType('ReTag');
-							v.inner = new ReScope(this, 'TAG', pp[0], pp[1]);
+							v.inner = new ReScope(this, v.name, pp[0], pp[1]);
 							v.expr = null;
 						} else {
 							RE.error('bad TAG parameters', e.pos);
@@ -214,12 +214,16 @@ class ReScope {
 	public function output(): Expr {
 		var ret;
 		var callback = outputCallback();
-		ret = (parent == null
-			? macro {
+		if (parent == null) {
+			ret = macro {
 				var _ctx_ = new ReContext();
 				new ReApp($arg, _ctx_, $callback);
 			}
-			: macro new ReTag(_n_, $arg, $callback));
+		} else if (name == null) {
+			ret = macro new ReTag(_n_, $arg, $callback);
+		} else {
+			ret = macro var $name = new ReTag(_n_, $arg, $callback);
+		}
 		return ret;
 	}
 

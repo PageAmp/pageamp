@@ -24,7 +24,10 @@ class App1 {
 				trace(lang);
 				return lang;
 			}
-			/*var child =*/ TAG(doc.domGetBody(), {
+			TAG(doc.domGetHead(), {
+				var a_dataLang:String = '$lang';
+			});
+			var body = TAG(doc.domGetBody(), {
 				var a_dataLang:String = '$lang';
 			});
 		});
