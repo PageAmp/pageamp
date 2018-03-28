@@ -51,30 +51,30 @@ class Ub1Suite extends TestRoot {
 //				new ServerTest2(p);
 //			});
 //#end
-//			new Core(p, function(p:Test) {
-//				new DefineTest(p);
-//				new ElementTest(p);
-//				new PageTest(p);
-//			});
-//			new Data(p, function(p:Test) {
-//				new DataPathTest(p);
-//			});
-//			new React(p, function(p:Test) {
-//				new ScopeTest(p);
-//				new ValueTest(p);
-//			});
-			new Reapp(p, function(p:Test) {
-				new ReTest(p);
-				new ReAppTest(p);
-				new ReNodeTest(p);
-				new ReNodeTest(p);
+			new Core(p, function(p:Test) {
+				new DefineTest(p);
+				new ElementTest(p);
+				new PageTest(p);
 			});
-//			new Util(p, function(p:Test) {
-//				new UrlTest(p);
+			new Data(p, function(p:Test) {
+				new DataPathTest(p);
+			});
+			new React(p, function(p:Test) {
+				new ScopeTest(p);
+				new ValueTest(p);
+			});
+//			new Reapp(p, function(p:Test) {
+//				new ReTest(p);
+//				new ReAppTest(p);
+//				new ReNodeTest(p);
+//				new ReNodeTest(p);
 //			});
-//			new Web(p, function(p:Test) {
-//				new DomToolsTest(p);
-//			});
+			new Util(p, function(p:Test) {
+				new UrlTest(p);
+			});
+			new Web(p, function(p:Test) {
+				new DomToolsTest(p);
+			});
 		}, null, 'http://localhost/__ubr_test/php/index.php?rpc=');
 	}
 
