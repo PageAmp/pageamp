@@ -17,27 +17,6 @@ class ReElement extends ReNode {
 		super(parent, plug, index, cb);
 	}
 
-//	override public function add(key:String,
-//	                             value:Re<Dynamic>,
-//	                             ?deps:Array<String>): Re<Dynamic> {
-//		var ret = super.add(key, value, deps);
-//		if (key.startsWith('a_')) {
-//			value.key = makeHyphenName(key.substr('a_'.length));
-//			value.cb = switch (key) {
-//				case 'a_innerText': textValueCB;
-//				case 'a_innerHTML': htmlValueCB;
-//				default: attributeValueCB;
-//			}
-//		} else if (key.startsWith('c_')) {
-//			value.key = makeHyphenName(key.substr('c_'.length));
-//			value.cb = classValueCB;
-//		} else if (key.startsWith('s_')) {
-//			value.key = makeHyphenName(key.substr('s_'.length));
-//			value.cb = styleValueCB;
-//		}
-//		return ret;
-//	}
-
 	override public function add(name:String, value:Re<Dynamic>) {
 		super.add(name, value);
 		if (name.startsWith('a_')) {

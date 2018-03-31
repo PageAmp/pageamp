@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/domains" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/php" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/sites/localhost/res" />
+      <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/sites/test1/res" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/sites/ub1devel/res" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test" />
     </content>
