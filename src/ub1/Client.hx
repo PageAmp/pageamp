@@ -44,9 +44,9 @@ class Client {
 		});
 	}
 
-	//TODO: pre-parsed hscript should be assumed in dynamic attributes rather than source;
-	//this would also allow us not to include nether ValueParser nor hscript.Parser
-	//and save a lot in client runtime size
+	//TODO: pre-parsed hscript should be assumed in dynamic attributes rather
+	//than source; this would also allow us not to include nether ValueParser
+	//nor hscript.Parser and save a lot in client runtime size
 	static function loadChildren(p:Element, ids:Map<Int,Node>) {
 		var doc = Browser.document;
 		var children:Array<Props> = p.props.get(Page.ISOCHILDREN_PROP);
