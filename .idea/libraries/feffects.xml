@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="feffects" type="Haxe">
+  <library name="feffects">
     <CLASSES>
       <root url="file:///usr/local/lib/haxe/lib/feffects/3,1,0" />
     </CLASSES>
