@@ -2,6 +2,7 @@
 <module type="HAXE_MODULE" version="4">
   <component name="HaxeModuleSettingsStorage">
     <option name="buildConfig" value="1" />
+    <option name="excludeFromCompilation" value="true" />
     <option name="hxmlPath" value="$MODULE_DIR$/build-devel.hxml" />
     <option name="outputFolder" value="$MODULE_DIR$/../ubimate/out/production/ub1" />
   </component>
@@ -12,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/ext" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/exp" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.out" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__exp/client/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__exp/php" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/client/bin" />
