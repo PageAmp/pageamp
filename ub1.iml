@@ -24,7 +24,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/sites/ub1devel/res" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test" />
     </content>
-    <orderEntry type="jdk" jdkName="Haxe 3.4.4" jdkType="Haxe toolkit" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="feffects" level="project" />
     <orderEntry type="library" name="hscript" level="project" />
