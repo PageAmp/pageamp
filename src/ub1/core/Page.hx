@@ -35,7 +35,9 @@ import ub1.util.Set;
 	import haxe.Resource;
 	import ub1.util.ArrayTool;
 #end
+import ub1.util.PropertyTool;
 using ub1.util.PropertyTool;
+import ub1.web.DomTools;
 using ub1.web.DomTools;
 using StringTools;
 

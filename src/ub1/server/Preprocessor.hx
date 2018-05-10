@@ -55,6 +55,7 @@ class Preprocessor {
 
 	public function new() {}
 
+#if !js
 	public function loadFile(pathname:String, basepath:String) {
 		this.basepath = new Path(basepath);
 		doc = load(new Path(pathname));
@@ -68,6 +69,7 @@ class Preprocessor {
 		process();
 		return doc;
 	}
+#end
 
 	// =========================================================================
 	// loading
