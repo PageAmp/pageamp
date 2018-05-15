@@ -122,6 +122,7 @@ class Head extends Element {
 		set('cssComponents2Color', ColorTools.components2Color).unlink();
 		set('cssColorOffset', ColorTools.colorOffset).unlink();
 		set('cssCounterColor', ColorTools.counterColor).unlink();
+		set('cssColorMix', ColorTools.mix).unlink();
 
 	}
 
