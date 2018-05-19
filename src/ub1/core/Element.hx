@@ -397,6 +397,8 @@ class Element extends Node {
 	#if resizeMonitor
 		if (key == Page.RESIZE_CLASS && flag && !resizeMonitor) {
 			resizeMonitor = true;
+			//TODO: these should be defined earlier in case ub1-resize class is
+			//set, so other values can reliably depend on them
 			set('resizeWidth', -1).unlink();
 			set('resizeHeight', -1).unlink();
 			page.observeResize(e);
@@ -540,6 +542,8 @@ class Element extends Node {
 	// =========================================================================
 	// replication
 	// =========================================================================
+	//TODO: add support for cloneAddDelegate() and cloneRemoveDelegate()
+	//in order to allow for add/remove animations
 	public var clones: Array<Node>;
 	#if test
 		public var testCloneAdds = 0;

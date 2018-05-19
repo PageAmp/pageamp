@@ -27,13 +27,14 @@ import ub1.util.Observable;
 import haxe.Timer;
 import haxe.Http;
 import ub1.test.UnblockedException;
+import ub1.data.DataDelegate;
 import ub1.data.DataProvider;
 import ub1.util.Url;
 import ub1.util.Util;
 
 // https://stackoverflow.com/questions/12712101/embedding-xml-in-html#12712221
 // restrictions-for-contents-of-script-elements: https://tinyurl.com/yaaeg5rt
-class Dataset extends Element implements DataProvider {
+class Dataset extends Element implements DataProvider implements DataDelegate {
 	public static inline var TAGNAME = 'ub1-dataset';
 	// static data
 	public static inline var XML_PROP = 'xml';
@@ -77,6 +78,47 @@ class Dataset extends Element implements DataProvider {
 	}
 
 	// =========================================================================
+	// as DataDelegate
+	// =========================================================================
+
+	public function dataAdd(node:Xml,
+	                        parent:Xml,
+	                        ?before:Xml,
+	                        ?userData:Dynamic): Void {
+		//TODO
+	}
+
+	public function dataRemove(node:Xml,
+	                           ?userData:Dynamic): Void {
+		if (node.parent != null) {
+			node.parent.removeChild(node);
+		}
+	}
+
+	public function dataMove(node:Xml,
+	                         parent:Xml,
+	                         ?before:Xml,
+	                         ?userData:Dynamic): Void {
+		//TODO
+	}
+
+	public function dataAssign(element:Xml,
+	                           key:String,
+	                           val:String,
+	                           ?userData:Dynamic): Void {
+		//TODO
+	}
+
+	public function dataTrigger(): Void {
+		var doc:Xml = get(DOC_VALUE);
+		if (doc != null) {
+			//TODO: optimize
+			var d = Xml.parse(doc.toString());
+			set(DOC_VALUE, d);
+		}
+	}
+
+	// =========================================================================
 	// private
 	// =========================================================================
 	static inline var NO_CACHING = 0;
@@ -97,6 +139,11 @@ class Dataset extends Element implements DataProvider {
 		makeScope();
 		super.init();
 		scope.setValueFn(DOC_VALUE, docValueFn);
+		set('dataAdd', dataAdd);
+		set('dataRemove', dataRemove);
+		set('dataMove', dataMove);
+		set('dataAssign', dataAssign);
+		set('dataTrigger', dataTrigger);
 	}
 
 	override function makeDomElement() {

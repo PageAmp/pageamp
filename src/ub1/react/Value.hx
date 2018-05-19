@@ -197,6 +197,11 @@ class Value extends DoubleLinkedItem {
 		}
 	}
 
+	public inline function trigger() {
+		first = true;
+		set(value);
+	}
+
 	public function clearObservers() {
 		if (observable != null) {
 			observable.clearObservers();

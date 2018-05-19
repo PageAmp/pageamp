@@ -112,7 +112,7 @@ class Page extends Element implements ServerPage {
 	var ro: ResizeObserver = PropertyTool.get(Browser.window, RESIZE_OBSERVER);
 
 	public inline function observeResize(e:DomElement) {
-		trace('observeResize() - ${ro != null}');//tempdebug
+		//trace('observeResize() - ${ro != null}');
 		ro != null ? ro.observe(e) : null;
 	}
 #end
