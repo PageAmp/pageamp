@@ -17,7 +17,7 @@ interface DataDelegate {
 
 	public function dataAssign(element:Xml,
 	                           key:String,
-	                           val:String,
+	                           val:Null<String>,
 	                           ?userData:Dynamic): Void;
 
 	public function dataTrigger(): Void;

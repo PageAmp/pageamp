@@ -211,6 +211,7 @@ class ValueScope {
 	var animations = new Map<String,ValueScopeAnimation>();
 #end
 
+	//TODO: if value doesn't change, don't 'animate' it at all
 	public function animate(key:String,
 	                        val:Dynamic,
 	                        secs=.0,

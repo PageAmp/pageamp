@@ -398,7 +398,9 @@ class Element extends Node {
 		if (key == Page.RESIZE_CLASS && flag && !resizeMonitor) {
 			resizeMonitor = true;
 			//TODO: these should be defined earlier in case ub1-resize class is
-			//set, so other values can reliably depend on them
+			//set, so other values can reliably depend on them; they should also
+			//be reliably initializated with the actual clientWidth/Height after
+			//the first refresh
 			set('resizeWidth', -1).unlink();
 			set('resizeHeight', -1).unlink();
 			page.observeResize(e);

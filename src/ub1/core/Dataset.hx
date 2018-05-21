@@ -104,9 +104,16 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 
 	public function dataAssign(element:Xml,
 	                           key:String,
-	                           val:String,
+	                           val:Null<String>,
 	                           ?userData:Dynamic): Void {
 		//TODO
+		if (element != null) {
+			if (val != null) {
+				element.set(key, val);
+			} else {
+				element.remove(key);
+			}
+		}
 	}
 
 	public function dataTrigger(): Void {
