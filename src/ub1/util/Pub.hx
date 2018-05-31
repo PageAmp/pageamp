@@ -25,7 +25,7 @@ package ub1.util;
 typedef Sub<T> = T->Void;
 
 /**
-* A parametrized version of Observable.
+* A parametric version of Observable.
 **/
 class Pub<T> {
 
