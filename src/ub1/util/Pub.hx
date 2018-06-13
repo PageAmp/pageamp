@@ -44,7 +44,7 @@ class Pub<T> {
 		return (subscribers != null ? subscribers.indexOf(s) >= 0 : false);
 	}
 
-	public function notify(v:T) {
+	public function issue(v:T) {
 		if (subscribers != null) {
 			for (s in subscribers) {
 				s(v);
