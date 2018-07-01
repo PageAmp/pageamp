@@ -44,13 +44,18 @@ class XmlTools {
 		return xml;
 	}
 
-	public static function getUid(node:Xml): XmlUid {
-		var s = (node != null && node.nodeType == Xml.Element ? node.get(UID_ATTR) : null);
+	public static inline function getUid(node:Xml): XmlUid {
+		var s = (node != null && node.nodeType == Xml.Element
+		? node.get(UID_ATTR) : null);
 		return (s != null ? Std.parseInt(s) : 0);
 	}
 
-	public static function setUid(node:Xml, uid:XmlUid) {
+	public static inline function setUid(node:Xml, uid:XmlUid) {
 		node.set(UID_ATTR, Std.string(uid));
+	}
+
+	public static inline function removeUid(node:Xml) {
+		node.remove(UID_ATTR);
 	}
 
 	// recursively search excluding root itself
