@@ -35,7 +35,7 @@ abstract Set<T>(IMap<T,Bool>) {
 	public inline function add(key:T) this.set(key, true);
 	public inline function remove(key:T) return this.remove(key);
 	public inline function exists(key:T) return this.exists(key);
-	public inline function keys():Iterator<T> return this.keys();
+	public inline function iterator():Iterator<T> return this.keys();
 	public inline function toString():String return this.toString();
 	@:to static inline function toStringMap<T:String>(t:IMap<T,Bool>)
 	:StringMap<Bool> return new StringMap<Bool>();
