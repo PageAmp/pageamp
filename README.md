@@ -28,7 +28,7 @@ It's currently in alpha stage. An online playground is available [here](http://u
 
 Ub1 was built from the ground up with support for [Server Side Rendering](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on a variety of server platforms thanks to the magic of Haxe.
 
-Compared to JavaScript-only technologies like [React.js](https://reactjs.org) and [Vue.js](https://vuejs.org/) SSR is not an afterthought and your server-side options are not limited to [Node.js](https://nodejs.org/en/), which isn't a practical choice for the average web site.
+Compared to JavaScript-only technologies like [React.js](https://reactjs.org) and [Vue.js](https://vuejs.org/) SSR is not an afterthought and your server-side options are not limited to [Node.js](https://nodejs.org/en/), which isn't a practical choice for most web sites.
 
 In a ub1 server, HTTP requests are served through a single entry point, configured in `.htaccess` on PHP platforms:
 
@@ -68,7 +68,7 @@ Anywhere in attributes and text you can use `${}` to inject the result of a dyna
 </html>
 ```
 
-clicking in the page will change the color and the text it displays. You can check it out in the [playground](http://ub1devel.local/playground/).
+clicking in the page will change the color and the text it displays. You can check it out in the [playground](http://ub1devel.net/playground/).
 
 Keep in mind that, being also an _isomorphic framework_, what is happening here is:
 
