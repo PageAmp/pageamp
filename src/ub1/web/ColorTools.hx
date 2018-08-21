@@ -39,6 +39,12 @@ class ColorTools {
 		return ret;
 	}
 
+	public static function color2IntComponents(s:String):Dynamic {
+		var ret:Dynamic = color2Components(s);
+		untyped ret.a = Std.int(ret.a * 255);
+		return ret;
+	}
+
 	public static function color2Components(s:String): Rgba {
 		var ret:Rgba = null;
 		var re1 = ~/#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/;
