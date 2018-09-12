@@ -70,8 +70,8 @@ class URL {
 				if (pathSlices == null) {
 					pathSlices = path.split("/");
 				}
-				if (pos > 0 && pos <= pathSlices.length) {
-					ret = pathSlices[pos - 1];
+				if (pos > 0 && pos < pathSlices.length) {
+					ret = pathSlices[pos];
 				}
 			} else {
 				ret = path;
