@@ -56,6 +56,7 @@ class URL {
 		var sb = new StringBuf();
 		protocol != null ? sb.add('$protocol://') : null;
 		host != null ? sb.add(host) : null;
+		port != null ? sb.add(':$port') : null;
 		path != null ? sb.add(path) : null;
 		var q = query;
 		q != null ? sb.add('?$q') : null;
