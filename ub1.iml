@@ -4,7 +4,7 @@
     <option name="buildConfig" value="1" />
     <option name="excludeFromCompilation" value="true" />
     <option name="hxmlPath" value="$MODULE_DIR$/build.hxml" />
-    <option name="outputFolder" value="$MODULE_DIR$/../ubimate/out/production/ub1" />
+    <option name="outputFolder" value="$MODULE_DIR$/../ubb/out/production/ub1" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
