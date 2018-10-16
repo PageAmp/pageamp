@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Ubimate Technologies Ltd. and Ub1 contributors. and Ub1 contributors.
+ * Copyright (c) 2018 Ubimate Technologies Ltd and Ub1 contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -159,7 +159,7 @@ class Page extends Element implements ServerPage {
 	public static inline var ISOPROPS_ID = ISOID_PREFIX + 'props';
 
 #if server
-	//TODO: pre-parsed hscript should be passed to the client rather than source
+	//TODO: pre-parsed hscript, not source code, should be passed to the client
 	public function addClient(ua:String) {
 		function getChildren(props:Props): Array<Props> {
 			var children:Array<Props> = props.get(Page.ISOCHILDREN_PROP);
