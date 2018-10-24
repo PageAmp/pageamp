@@ -21,6 +21,7 @@
  */
 
 package ub1_test.util;
+
 import ub1.util.Test;
 import ub1.util.Url;
 

@@ -70,6 +70,7 @@ class Ub1Suite extends TestRoot {
 //				new ReNodeTest(p);
 //			});
 			new Util(p, function(p:Test) {
+				new SourceToolsTest(p);
 				new UrlTest(p);
 			});
 			new Web(p, function(p:Test) {

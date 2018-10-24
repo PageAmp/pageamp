@@ -28,6 +28,7 @@ import ub1.util.Observable;
 import ub1.util.Test;
 import ub1.util.Url;
 
+//TODO: add test for '..' (parent operator)
 class DataPathTest extends Test {
 	var doc = Xml.parse('<root id="main">
 		<item id="1">text 1</item>

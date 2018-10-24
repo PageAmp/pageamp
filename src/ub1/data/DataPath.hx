@@ -246,8 +246,12 @@ class DataPath {
 //trace('----------------- XPathLite.parse(): current operator');
 					} else if (part == '..') {
 						// parent operator
+						ret.push(function(node:Xml): Void {
 //trace('----------------- XPathLite.parse(): parent operator');
-						//TODO
+							if (node != null) {
+								nextStep([node.parent]);
+							}
+						});
 					} else {
 						// descendant operator
 //trace('----------------- XPathLite.parse(): descendant operator');

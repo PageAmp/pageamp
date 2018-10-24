@@ -267,6 +267,8 @@ class XmlTools {
 		for (child in xml.iterator()) {
 			if (child.nodeType == Xml.CData || child.nodeType == Xml.PCData) {
 				sb.add(child.nodeValue);
+			} else if (child.nodeType == Xml.Element) {
+				sb.add(getElementText(child));
 			}
 		}
 		return sb.toString();
