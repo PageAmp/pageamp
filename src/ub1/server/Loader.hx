@@ -22,14 +22,17 @@
 
 package ub1.server;
 
-import ub1.util.PropertyTool;
-import ub1.web.DomTools;
-import ub1.util.Url;
 import htmlparser.*;
 import ub1.core.*;
+import ub1.util.PropertyTool;
+import ub1.util.SourceTools;
+import ub1.util.Url;
+import ub1.web.DomTools;
+
 using StringTools;
 using ub1.util.PropertyTool;
 using ub1.web.DomTools;
+using ub1.util.SourceTools;
 
 //TODO: verifica e logging errori
 class Loader {
@@ -89,8 +92,10 @@ class Loader {
 		ret = switch (e.name) {
 			case 'head': new Head(p, props);
 			case 'body': new Body(p, props);
-			case Dataset.TAGNAME: new Dataset(p, loadDataProps(e, props));
-			case Define.TAGNAME: new Define(p, loadDefineProps(e, props));
+			case Dataset.TAGNAME: new Dataset(p, LoaderHelper.loadDataProps(e,
+			props));
+			case Define.TAGNAME: new Define(p, LoaderHelper.loadDefineProps
+			(e, props));
 			default: new Element(p, props);
 		}
 		loadChildren(ret, e);
@@ -129,39 +134,6 @@ class Loader {
 	static function loadText(p:Element, n:HtmlNodeText): Text {
 		var ret = new Text(p, n.text);
 		return ret;
-	}
-
-	static function loadDataProps(e:HtmlNodeElement, ?p:Props): Props {
-		for (c in e.children.slice(0)) {
-			if (c.name == 'xml') {
-				p = p.set(Dataset.XML_PROP, c.innerHTML);
-				c.remove();
-				break;
-			} else if (c.name == 'json') {
-				p = p.set(Dataset.JSON_PROP, c.innerText);
-				c.remove();
-				break;
-			}
-		}
-		return p;
-	}
-
-	static function loadDefineProps(e:HtmlNodeElement, ?p:Props): Props {
-		var tagname = p.getString('a_tag', '');
-		var parts = tagname.split(':');
-		var name1 = '';
-		var name2 = '';
-		if (parts.length == 2) {
-			name1 = parts[0].trim();
-			name2 = parts[1].trim();
-		}
-		~/^([a-zA-Z0-9_\-]+)$/.match(name1) ? null : name1 = '_';
-		~/^([a-zA-Z0-9_\-]+)$/.match(name2) ? null : name2 = 'div';
-		p.remove('a_tag');
-		p.remove(Element.TAG_PROP);
-		p = p.set(Define.DEFNAME_PROP, name1);
-		p = p.set(Define.EXTNAME_PROP, name2);
-		return p;
 	}
 
 }

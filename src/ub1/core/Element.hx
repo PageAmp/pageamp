@@ -23,7 +23,7 @@
 package ub1.core;
 
 import ub1.web.DomTools;
-import ub1.util.PropertyTool.Props;
+import ub1.util.PropertyTool;
 import ub1.data.DataPath;
 import ub1.data.DataProvider;
 import ub1.react.*;
@@ -32,6 +32,7 @@ import ub1.util.Util;
 #if client
 	import js.html.ResizeObserver;
 #end
+
 using StringTools;
 using ub1.util.PropertyTool;
 using ub1.web.DomTools;
