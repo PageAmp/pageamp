@@ -45,7 +45,7 @@ class LoaderHelper {
 		return p;
 	}
 
-	public static function loadDefineProps(e:SrcElement, ?p:Props): Props {
+	public static function loadDefineProps(p:Props): Props {
 		var tagname = p.getString('a_tag', '');
 		var parts = tagname.split(':');
 		var name1 = parts.length > 0 ? parts[0].trim() : '';

@@ -90,13 +90,16 @@ class Loader {
 		var props = loadProps(e);
 		var def = p.page.defines.get(e.name);
 		ret = switch (e.name) {
-			case 'head': new Head(p, props);
-			case 'body': new Body(p, props);
-			case Dataset.TAGNAME: new Dataset(p, LoaderHelper.loadDataProps(e,
-			props));
-			case Define.TAGNAME: new Define(p, LoaderHelper.loadDefineProps
-			(e, props));
-			default: new Element(p, props);
+			case 'head':
+				new Head(p, props);
+			case 'body':
+				new Body(p, props);
+			case Dataset.TAGNAME:
+				new Dataset(p, LoaderHelper.loadDataProps(e, props));
+			case Define.TAGNAME:
+				new Define(p, LoaderHelper.loadDefineProps(props));
+			default:
+				new Element(p, props);
 		}
 		loadChildren(ret, e);
 		return ret;

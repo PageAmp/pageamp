@@ -2,6 +2,7 @@
 <module type="HAXE_MODULE" version="4">
   <component name="HaxeModuleSettingsStorage">
     <option name="buildConfig" value="1" />
+    <option name="excludeFromCompilation" value="true" />
     <option name="hxmlPath" value="build-test.hxml" />
     <option name="outputFolder" value="$MODULE_DIR$/../../builder/out/production/ub1" />
   </component>
@@ -14,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/client/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/php" />
+      <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1/sites/localhost/res/ace-builds" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/client/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/php" />
