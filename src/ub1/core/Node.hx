@@ -53,6 +53,10 @@ class Node extends BaseNode {
 		return null;
 	}
 
+	public inline function refresh() {
+		scope != null ? scope.refresh() : null;
+	}
+
 #if test
 	public function toString() {
 		var name = Type.getClassName(Type.getClass(this)).split('.').pop();

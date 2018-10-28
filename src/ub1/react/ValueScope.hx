@@ -69,6 +69,10 @@ class ValueScope {
 		}
 	}
 
+	public inline function refresh() {
+		context.refresh(this);
+	}
+
 	inline public function get_children(): Array<ValueScope> {
 		return (_children != null ? _children : NO_CHILDREN);
 	}

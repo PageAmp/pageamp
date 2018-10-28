@@ -126,10 +126,10 @@ class ValueContext {
 		this.owner = owner;
 	}
 
-		public function newScopeUid(): String {
-			var ret = '__scope__${scopeUidCount++}';
-			return ret;
-		}
+	public function newScopeUid(): String {
+		var ret = '__scope__${scopeUidCount++}';
+		return ret;
+	}
 
 	#if !debug inline #end
 	public function newUid(): String {
