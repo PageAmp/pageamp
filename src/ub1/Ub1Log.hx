@@ -36,7 +36,7 @@ class Ub1Log {
 
 	macro public static function server(e:Expr) {
 #if (logServer)
-		return macro trace($e + '<br />\n');
+		return macro trace(~/(\n)/g.replace($e, '<br />\n') + '<br />\n');
 #else
 		return macro null;
 #end

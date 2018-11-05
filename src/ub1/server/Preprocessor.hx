@@ -82,12 +82,16 @@ class Preprocessor {
 			throw 'too many nested includes';
 		}
 		var s = path.toString();
+		Ub1Log.server('Preprocessor.load(): "$s"');
 		if (path.ext == null) {
+			Ub1Log.server('Preprocessor.load(1)');
 			if (FileSystem.exists(s) && FileSystem.isDirectory(s)) {
 				s = Path.addTrailingSlash(s) + 'index.html';
+				Ub1Log.server('Preprocessor.load(2): "$s"');
 				path = new Path(s);
 			} else {
 				s = s + '.html';
+				Ub1Log.server('Preprocessor.load(3): "$s"');
 			}
 		}
 		var text = File.getContent(s);

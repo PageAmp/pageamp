@@ -2,8 +2,7 @@
 <module type="HAXE_MODULE" version="4">
   <component name="HaxeModuleSettingsStorage">
     <option name="buildConfig" value="1" />
-    <option name="excludeFromCompilation" value="true" />
-    <option name="hxmlPath" value="build-test.hxml" />
+    <option name="hxmlPath" value="$MODULE_DIR$/build.hxml" />
     <option name="outputFolder" value="$MODULE_DIR$/../../builder/out/production/ub1" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">

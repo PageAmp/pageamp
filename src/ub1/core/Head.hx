@@ -55,7 +55,7 @@ class Head extends Element {
 				 + '-ms-$s;';
 		});
 
-		// e.g. googleFont('Lato:300,400,700') adds link and returns '"Lato"'
+		// e.g. cssGoogleFont('Lato:300,400,700') adds link and returns '"Lato"'
 		set('cssGoogleFont', function(name:String) {
 			if (!fonts.exists(name)) {
 				var styles = page.domGetByTagName('style');

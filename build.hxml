@@ -5,15 +5,16 @@
 --each
 
 --next
--js docroot/__ub1/client/bin/ub1.js
+-js /wamp/www/__ub1/client/bin/ub1.js
 -main ub1.Client
 -lib feffects
 -D client
 -debug
 
 --next
--php docroot/__ub1/php
+-php /wamp/www/__ub1/php
 -main ub1.Server
 -lib HtmlParser
--resource docroot/__ub1/client/res/resize-observer.js@resize-observer.js
+-resource /wamp/www/__ub1/client/res/resize-observer.js@resize-observer.js
 -D server
+#-D logServer

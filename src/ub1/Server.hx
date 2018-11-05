@@ -38,11 +38,11 @@ using ub1.util.PropertyTool;
 using StringTools;
 
 class Server {
-#if demo
-	public static inline var SOURCEIN_ARG = 'ub1_source_in';
-	public static inline var SOURCEOUT_ARG = 'ub1_source_out';
-	public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
-#end
+	#if demo
+		public static inline var SOURCEIN_ARG = 'ub1_source_in';
+		public static inline var SOURCEOUT_ARG = 'ub1_source_out';
+		public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
+	#end
 	public static inline var DOMAINS_ROOT = '__ub1/domains/';
 	public static inline var SITES_ROOT = '__ub1/sites/';
 	public static inline var RESOURCES_ROOT = '__ub1/res/';
@@ -67,17 +67,21 @@ class Server {
 		} else {
 			ext == 'html' ? uri = uri.split('.$ext')[0] : null;
 			uri.endsWith('/') ? uri = uri + 'index' : null;
-#if demo
-			if (params.get(SOURCEIN_ARG) == 'true') {
-				outputSourceFile(root, uri);
-			} else {
+			#if demo
+				if (params.get(SOURCEIN_ARG) == 'true') {
+					outputSourceFile(root, uri);
+				} else {
+					outputPage(root, domain, uri, params);
+				}
+			#else
 				outputPage(root, domain, uri, params);
-			}
-#else
-			outputPage(root, domain, uri, params);
-#end
+			#end
 		}
 	}
+
+	// =========================================================================
+	// outputFile()
+	// =========================================================================
 
 	// http://en.wikipedia.org/wiki/Internet_media_type
 	static function outputFile(root:String, uri:String, ext:String) {
@@ -97,6 +101,10 @@ class Server {
 		}
 	}
 
+	// =========================================================================
+	// outputResource()
+	// =========================================================================
+
 	static function outputResource(root:String, fname:String, code=200) {
 		Web.setReturnCode(code);
 		try {
@@ -108,6 +116,10 @@ class Server {
 		}
 	}
 
+	// =========================================================================
+	// outputPage()
+	// =========================================================================
+
 	static function outputPage(root:String,
 	                           domain:String,
 	                           uri:String,
@@ -117,18 +129,19 @@ class Server {
 		Ub1Log.server('outputPage($root, $uri)');
 		try {
 			var p = new Preprocessor();
-#if demo
-			if (params.exists(SOURCECOMPILE_ARG)) {
-				src = p.loadText(root + uri + '.html',
-								 root,
-								 params.get(SOURCECOMPILE_ARG));
-			} else {
+			#if demo
+				if (params.exists(SOURCECOMPILE_ARG)) {
+					src = p.loadText(root + uri + '.html',
+									 root,
+									 params.get(SOURCECOMPILE_ARG));
+				} else {
+					src = p.loadFile(root + uri, root);
+				}
+			#else
 				src = p.loadFile(root + uri, root);
-			}
-#else
-			src = p.loadFile(root + uri, root);
-#end
+			#end
 		} catch (e:Dynamic) {
+			Ub1Log.server('outputPage(): ' + e);
 			if (!uri.endsWith('/') &&
 					FileSystem.exists(root + uri) &&
 					FileSystem.isDirectory(root + uri)) {
@@ -139,26 +152,30 @@ class Server {
 		try {
 			var path = new Path(root + uri);
 			var page = Loader.loadPage(src, null, path.dir, domain, Web.getURI());
-#if !logServer
-	#if demo
-			if (params.get(SOURCEOUT_ARG) == 'true') {
-				outputSourceText(root, page.toMarkup());
-			} else {
-				page.output();
-			}
-	#else
-			page.output();
-	#end
-#end
+			#if !logServer
+				#if demo
+					if (params.get(SOURCEOUT_ARG) == 'true') {
+						outputSourceText(root, page.toMarkup());
+					} else {
+						page.output();
+					}
+				#else
+					page.output();
+				#end
+			#end
 		} catch (e:Dynamic) {
-#if test
-			Web.setHeader('Content-type', 'text/plain');
-			Lib.println(e);
-#else
-			outputResource(root, '404.html', 404);
-#end
+			#if test
+				Web.setHeader('Content-type', 'text/plain');
+				Lib.println(e);
+			#else
+				outputResource(root, '404.html', 404);
+			#end
 		}
 	}
+
+	// =========================================================================
+	// outputSourceFile()
+	// =========================================================================
 
 	static function outputSourceFile(root:String, uri:String) {
 		try {
@@ -168,6 +185,10 @@ class Server {
 			outputResource(root, '404.html', 404);
 		}
 	}
+
+	// =========================================================================
+	// outputSourceText()
+	// =========================================================================
 
 	static function outputSourceText(root:String, s:String) {
 		try {
