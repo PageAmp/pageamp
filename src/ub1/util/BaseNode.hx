@@ -27,16 +27,16 @@ class BaseNode {
 	public static inline var DEFAULT_SLOT = 'default';
 
 	public var logicalParent(default,null): BaseNode;
-	public var parent(default,null): BaseNode;
-	public var children(get,null): Array<BaseNode>;
-	public function get_children() return _children != null ? _children : NOCHN;
+	public var baseParent(default,null): BaseNode;
+	public var baseChildren(get,null): Array<BaseNode>;
+	public function get_baseChildren() return _cdn != null ? _cdn : NOCDN;
 	public var before: BaseNode;
 
 	public function new(parent:BaseNode,
 	                    ?plug:String,
 	                    ?index:Int,
 	                    ?cb:Dynamic->Void) {
-		this.root = ((this.parent = parent) != null ? parent.root : this);
+		this.root = ((this.baseParent = parent) != null ? parent.root : this);
 		init();
 		if (parent != null) {
 			parent.addChild(this, plug, index);
@@ -59,28 +59,28 @@ class BaseNode {
 	                         ?plug:String,
 	                         ?before:Int): BaseNode {
 		var p = getSlot(plug);
-		if (p._children == null) {
-			p._children = [];
+		if (p._cdn == null) {
+			p._cdn = [];
 		}
-		var i, pos = (before != null ? before : p._children.length);
+		var i, pos = (before != null ? before : p._cdn.length);
 		if (this.before != null) {
 			if ((i = this.before.getIndex()) >= 0) {
 				i < pos ? pos = i : null;
 			}
 		}
-		p._children.insert(pos, child);
+		p._cdn.insert(pos, child);
 		pos >= 0 ? pos++ : null;
 		child.logicalParent = this;
-		child.parent = p;
+		child.baseParent = p;
 		child.wasAdded(this, p, pos);
 		return this;
 	}
 
 	public function removeChild(child:BaseNode): BaseNode {
-		if (_children != null && _children.remove(child)) {
+		if (_cdn != null && _cdn.remove(child)) {
 			var logicalParent = child.logicalParent;
 			child.logicalParent = null;
-			child.parent = null;
+			child.baseParent = null;
 			child.wasRemoved(logicalParent, this);
 		}
 		return child;
@@ -88,13 +88,13 @@ class BaseNode {
 
 	public function removeChildren(): BaseNode {
 		while (hasChildren()) {
-			removeChild(_children[_children.length - 1]);
+			removeChild(_cdn[_cdn.length - 1]);
 		}
 		return this;
 	}
 
 	public inline function hasChildren(): Bool {
-		return (_children != null && _children.length > 0);
+		return (_cdn != null && _cdn.length > 0);
 	}
 
 //	public function directChild(child:BaseNode): BaseNode {
@@ -106,33 +106,33 @@ class BaseNode {
 
 	public function getPrevSibling(): BaseNode {
 		var ret:BaseNode = null;
-		if (parent != null) {
-			var i = parent.children.indexOf(this);
-			i > 0 ? ret = parent.children[i - 1] : null;
+		if (baseParent != null) {
+			var i = baseParent.baseChildren.indexOf(this);
+			i > 0 ? ret = baseParent.baseChildren[i - 1] : null;
 		}
 		return ret;
 	}
 
 	public function getNextSibling(): BaseNode {
 		var ret:BaseNode = null;
-		if (parent != null) {
-			var len = parent.children.length;
-			var i = parent.children.indexOf(this);
-			i >= 0 && i < (len - 1) ? ret = parent.children[i + 1] : null;
+		if (baseParent != null) {
+			var len = baseParent.baseChildren.length;
+			var i = baseParent.baseChildren.indexOf(this);
+			i >= 0 && i < (len - 1) ? ret = baseParent.baseChildren[i + 1] : null;
 		}
 		return ret;
 	}
 
 	public function getIndex(): Int {
-		var ret = (parent != null ? parent.children.indexOf(this) : -1);
+		var ret = (baseParent != null ? baseParent.baseChildren.indexOf(this) : -1);
 		return ret;
 	}
 
 	// =========================================================================
 	// private
 	// =========================================================================
-	static var NOCHN: Array<BaseNode> = [];
-	var _children: Array<BaseNode>;
+	static var NOCDN: Array<BaseNode> = [];
+	var _cdn: Array<BaseNode>;
 	var root: BaseNode;
 	var slots: Map<String, BaseNode>;
 

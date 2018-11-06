@@ -29,9 +29,9 @@ using ub1.web.DomTools;
 
 class Node extends BaseNode {
 	public var nodeParent(get,null): Node;
-	public inline function get_nodeParent(): Node return untyped parent;
+	public inline function get_nodeParent(): Node return untyped baseParent;
 	public var nodeChildren(get,null): Array<Node>;
-	public inline function get_nodeChildren(): Array<Node> return cast children;
+	public inline function get_nodeChildren(): Array<Node> return cast baseChildren;
 	public var id: Int;
 	public var page(get,null): Page;
 	public inline function get_page(): Page return untyped root;
@@ -121,7 +121,7 @@ class Node extends BaseNode {
 	// =========================================================================
 
 	override function init() {
-		parent == null ? makeScope() : null;
+		baseParent == null ? makeScope() : null;
 		id = page.nextId();
 	}
 
@@ -138,14 +138,14 @@ class Node extends BaseNode {
 
 	public function getScope(): ValueScope {
 		var ret:ValueScope = scope;
-		if (ret == null && parent != null) {
+		if (ret == null && baseParent != null) {
 			ret = nodeParent.getScope();
 		}
 		return ret;
 	}
 
 	public function makeScope(?name:String) {
-		var pn = parent;
+		var pn = baseParent;
 		var ps:ValueScope = null;
 		while (pn != null) {
 			if (Std.is(pn, Element)) {
@@ -155,7 +155,7 @@ class Node extends BaseNode {
 					break;
 				}
 			}
-			pn = pn.parent;
+			pn = pn.baseParent;
 		}
 		if (ps == null) {
 			scope = new ValueContext(this).main;

@@ -195,7 +195,7 @@ class Page extends Element implements ServerPage {
 				props = t.props;
 			}
 			var children2:Array<Props> = null;
-			for (c in t.children) {
+			for (c in t.baseChildren) {
 				if (Std.is(c, Element)) {
 					f(props, untyped c);
 				} else if (Std.is(c, Text)) {

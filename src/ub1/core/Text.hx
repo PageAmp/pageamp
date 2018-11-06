@@ -81,7 +81,7 @@ class Text extends Node {
 	                           ?i:Int) {
 		if (node == null) {
 			var p:DomElement = untyped parent.e;
-			var b:Node = (i != null ? untyped parent.children[i] : null);
+			var b:Node = (i != null ? untyped parent.baseChildren[i] : null);
 			p.domAddChild(t, b != null ? b.getDomNode() : null);
 		}
 	}

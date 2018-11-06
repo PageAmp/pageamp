@@ -695,6 +695,24 @@ class DomTools {
 #end
 	}
 
+	public static function domSelect(e:DomElement, sel:String): DomElement {
+#if client
+		return e.querySelector(sel);
+#else
+		var ee = e.find(sel);
+		return (ee.length > 0 ? ee[0] : null);
+#end
+	}
+
+	public static function domSelectAll(e:DomElement, sel:String):
+	ArrayAccess<DomElement> {
+#if client
+		return cast e.querySelectorAll(sel);
+#else
+		return cast e.find(sel);
+#end
+	}
+
 //	public static function domCancelDrag(doc:DomDocument) {
 //#if client
 //		// http://stackoverflow.com/a/12187302

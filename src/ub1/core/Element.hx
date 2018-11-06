@@ -207,7 +207,7 @@ class Element extends Node {
 	                  ?i:Int) {
 		if (props.get(ELEMENT_PROP) == null) {
 			var p:DomElement = untyped parent.e;
-			var b:Node = (i != null ? untyped parent.children[i] : null);
+			var b:Node = (i != null ? untyped parent.baseChildren[i] : null);
 			p.domAddChild(e, b != null ? b.getDomNode() : null);
 		}
 	}
@@ -225,7 +225,7 @@ class Element extends Node {
 	                          ?equal:Dynamic,
 	                          ?nonEqual:Dynamic) {
 		var ret = [];
-		if (parent != null) {
+		if (baseParent != null) {
 			for (node in nodeParent.nodeChildren) {
 				if (node != this && node.scope != null) {
 					var v = (having != null
@@ -482,7 +482,7 @@ class Element extends Node {
 	function dpFn() {
 		// dependencies
 		var ret:Xml = get('__clone_dp');
-		if (ret == null && parent != null) {
+		if (ret == null && baseParent != null) {
 			ret = nodeParent.get('__dp');
 		}
 		var src:String = get(DATAPATH_PROP);
@@ -646,7 +646,7 @@ class Element extends Node {
 	}
 
 	function removeClone(clone:Node) {
-		clone.parent.removeChild(clone);
+		clone.baseParent.removeChild(clone);
 		#if test
 			testCloneRemoves++;
 		#end

@@ -6,7 +6,7 @@ class ReNode extends BaseNode {
 	public var app(get,null): ReApp;
 	public inline function get_app(): ReApp return cast root;
 	public var reParent(get,null): ReNode;
-	public inline function get_reParent(): ReNode return cast parent;
+	public inline function get_reParent(): ReNode return cast baseParent;
 
 	public function new(parent:ReNode, ?cb:Dynamic->Void) {
 		super(parent, cb);

@@ -144,7 +144,7 @@ class ReApp extends ReElement {
 		for (v in node.getRefreshables()) {
 			v.clearObservers();
 		}
-		for (child in node.children) {
+		for (child in node.baseChildren) {
 			clearDependencies(cast child);
 		}
 	}
@@ -153,7 +153,7 @@ class ReApp extends ReElement {
 		for (v in node.getRefreshables()) {
 			v.get();
 		}
-		for (child in node.children) {
+		for (child in node.baseChildren) {
 			refreshNode(cast child);
 		}
 	}

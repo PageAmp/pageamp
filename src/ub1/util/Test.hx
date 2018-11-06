@@ -150,7 +150,7 @@ class Test extends BaseNode {
 	}
 
 	function get_testChildren(): Array<Test> {
-		return cast children;
+		return cast baseChildren;
 	}
 
 	function getOutput(xml:Xml, ?counts:Array<Int>, ?nesting=0) {
@@ -203,8 +203,8 @@ class Test extends BaseNode {
 
 	public function recurse(node:BaseNode, cb:BaseNode->Void) {
 		cb(this);
-		if (_children != null) {
-			for (child in _children) {
+		if (_cdn != null) {
+			for (child in _cdn) {
 				recurse(child, cb);
 			}
 		}

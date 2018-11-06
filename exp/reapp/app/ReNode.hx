@@ -50,11 +50,11 @@ class ReNode extends BaseNode {
 //	}
 
 	public inline function get_nodeParent(): ReNode {
-		return untyped parent;
+		return untyped baseParent;
 	}
 
 	public inline function get_nodeChildren(): Array<ReNode> {
-		return untyped children;
+		return untyped baseChildren;
 	}
 
 	// ========================================================================
