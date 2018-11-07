@@ -63,7 +63,7 @@ class Head extends Element {
 				var link = page.createDomElement('link', {
 					rel: 'stylesheet',
 					type: 'text/css',
-					href: GOOGLE_FONT + name.urlEncode()
+					href: GOOGLE_FONT + name.split(' ').join('+'),
 				}, e, before);
 				fonts.set(name, link);
 			}
