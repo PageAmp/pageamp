@@ -275,8 +275,23 @@ class Element extends Node {
 		set('domGet', domGet).unlink();
 		set('getBrothers', getBrotherScopes).unlink();
 		set('send', send).unlink();
+		set('childrenCount', "${dom.children.length}");
 		initDatabinding();
 		initReplication();
+	}
+
+	override public function addChild(child:BaseNode,
+	                                  ?plug:String,
+	                                  ?before:Int): BaseNode {
+		var ret = super.addChild(child, plug, before);
+		scope != null ? scope.set('childrenCount', baseChildren.length) : null;
+		return ret;
+	}
+
+	override public function removeChild(child:BaseNode): BaseNode {
+		var ret = super.removeChild(child);
+		scope != null ? scope.set('childrenCount', baseChildren.length) : null;
+		return ret;
 	}
 
 	override function newValueDelegate(v:Value) {
@@ -580,6 +595,10 @@ class Element extends Node {
 		}
 
 		updateClones(ret);
+
+		if (nodeParent != null && nodeParent.scope != null) {
+			nodeParent.scope.values.get('childrenCount').refresh(true);
+		}
 
 		return ret;
 	}

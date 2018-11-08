@@ -243,7 +243,7 @@ class Value extends DoubleLinkedItem {
 					scope.context.stack.pop();
 				}
 			} else if (first) {
-			_set(value);
+				_set(value);
 			}
 		}
 	}
