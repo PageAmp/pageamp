@@ -29,7 +29,8 @@ using ub1.web.DomTools;
 
 class Text extends Node {
 	public static inline var TEXT_PROP = Element.NODE_PREFIX + 'text';
-	public var value: Value;
+	public var value(default,null): Value;
+	public var text(default,null): String;
 
 	public function new(parent:Element, text:String,
 	                    ?n:DomTextNode, ?plug:String, ?index:Int) {
@@ -65,7 +66,6 @@ class Text extends Node {
 	// =========================================================================
 	// private
 	// =========================================================================
-	public var text: String;
 	var node: DomTextNode;
 	var plug: String;
 	var index: Int;

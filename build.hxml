@@ -2,14 +2,20 @@
 -cp src
 -lib hscript
 -D resizeMonitor
+-D entityDecoder
 --each
 
 --next
--js /wamp/www/__ub1/client/bin/ub1.js
+-js tmp/ub1.js
 -main ub1.Client
 -lib feffects
 -D client
--debug
+#-debug
+#-dce full
+
+-cmd browserify --debug tmp/ub1.js > /wamp/www/__ub1/client/bin/ub1.js
+
+#-cmd uglifyjs /wamp/www/__ub1/client/bin/ub1.js > /wamp/www/__ub1/client/bin/ub1.min.js
 
 --next
 -php /wamp/www/__ub1/php

@@ -58,6 +58,11 @@ using StringTools;
     Unifies and abstracts client and server DOM.
 */
 class DomTools {
+#if (client && entityDecoder)
+	// https://stackoverflow.com/a/20942013
+	// https://github.com/xinglie/html-entities-decoder
+	static var EDEC = untyped __js__("require('../res/html-entities-decoder.js')");
+#end
 
 	public static function removeMarkup(s:String) {
 		s = ~/<.*?>/g.split(s).join('');
@@ -418,7 +423,10 @@ class DomTools {
 		//t.text = (src != null ? "<!--$" + src + "$-->" + v : v);
 		t.text = v;
 #else
-		t.nodeValue = v;
+	#if entityDecoder
+		v = EDEC(v);
+	#end
+		t.textContent = v;
 #end
 	}
 

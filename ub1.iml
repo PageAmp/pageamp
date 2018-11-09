@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/client/bin" />
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/php" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Haxe 3.4.7" jdkType="Haxe toolkit" />
     <orderEntry type="sourceFolder" forTests="false" />
