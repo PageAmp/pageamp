@@ -128,7 +128,12 @@ class Loader {
 			if (Std.is(n, HtmlNodeElement)) {
 				loadElement(p, untyped n);
 			} else if (Std.is(n, HtmlNodeText)) {
-				loadText(p, untyped n);
+				if (StringTools.startsWith(untyped n.text, '<!---')/* &&
+					StringTools.endsWith(untyped n.text, '-->')*/) {
+					// nop
+				} else {
+					loadText(p, untyped n);
+				}
 			}
 		}
 	}
