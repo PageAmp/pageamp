@@ -183,4 +183,41 @@ class DefineTest extends Test {
 		});
 	}
 
+	function testNativeRedefine1() {
+		willDelay();
+		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
+			var e:Element = null;
+			var page = new Page(doc, null, function(p:Page) {
+				new Define(p, {n_def:'input', n_ext:'input', c_myClass:1});
+				new Element(p, {n_tag:'input', a_type:'text'});
+			});
+			var s = doc.domToString();
+			s = ~/(\s?\/>)/g.replace(s, '>');
+			assert(s, '<html><head></head><body>'
+			+ '<input type="text" class="my-class">'
+			+ '</body></html>');
+			cleanup();
+			didDelay();
+		});
+	}
+
+	function testNativeRedefine2() {
+		willDelay();
+		DomTools.testDoc(null, function(doc:DomDocument, cleanup:Void->Void) {
+			var e:Element = null;
+			var page = new Page(doc, null, function(p:Page) {
+				new Define(p, {n_def:'input', n_ext:'input', c_myClass:1});
+				new Define(p, {n_def:'input', n_ext:'input', c_otherClass:1});
+				new Element(p, {n_tag:'input', a_type:'button'});
+			});
+			var s = doc.domToString();
+			s = ~/(\s?\/>)/g.replace(s, '>');
+			assert(s, '<html><head></head><body>'
+			+ '<input type="button" class="my-class other-class">'
+			+ '</body></html>');
+			cleanup();
+			didDelay();
+		});
+	}
+
 }

@@ -88,7 +88,6 @@ class Loader {
 	static function loadElement(p:Element, e:HtmlNodeElement): Element {
 		var ret:Element;
 		var props = loadProps(e);
-		var def = p.page.defines.get(e.name);
 		ret = switch (e.name) {
 			case 'head':
 				new Head(p, props);

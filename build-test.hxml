@@ -1,7 +1,7 @@
 
 # client tests
 --next
--js ../ub1docroot/docroot/__ub1_test/client/bin/test.js
+-js /wamp/www/__ub1_test/client/bin/test.js
 -cp exp
 -cp ext
 -cp src
@@ -15,7 +15,7 @@
 
 # php tests
 --next
--php ../ub1docroot/docroot/__ub1_test/php
+-php /wamp/www/__ub1_test/php
 -cp exp
 -cp ext
 -cp src
@@ -26,16 +26,16 @@
 -lib hscript
 -D server
 
-# test page collapsible lists
+# test page collapsible listss
 --next
--js ../ub1docroot/docroot/__ub1_test/bin/testpage.js
+-js /wamp/www/__ub1_test/bin/testpage.js
 -cp src
 -main ub1.util.TestPage
 -D client
 
 # ub1 client
 --next
--js ../ub1docroot/docroot/__ub1/client/bin/ub1.js
+-js /wamp/www/__ub1/client/bin/ub1.js
 -cp ext
 -cp src
 -main ub1.Client
@@ -43,11 +43,11 @@
 -lib feffects
 -D client
 -dce full
--cmd uglifyjs ../ub1docroot/docroot/__ub1/client/bin/ub1.js > ../ub1docroot/docroot/__ub1/client/bin/ub1.min.js
+-cmd uglifyjs /wamp/www/__ub1/client/bin/ub1.js > /wamp/www/__ub1/client/bin/ub1.min.js
 
 # php ub1 server
 --next
--php ../ub1docroot/docroot/__ub1/php
+-php /wamp/www/__ub1/php
 -cp ext
 -cp src
 -main ub1.Server

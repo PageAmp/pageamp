@@ -80,7 +80,7 @@ class Node extends BaseNode {
 		f = function(n:Node, level:Int) {
 			for (i in 0...level) sb.add('\t');
 			sb.add(n.toString() + '\n');
-			for (c in n.children) {
+			for (c in n.baseChildren) {
 				f(untyped c, level + 1);
 			}
 		}

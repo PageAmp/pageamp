@@ -60,6 +60,7 @@ class Define extends Element {
 	// =========================================================================
 
 	override function init() {
+		super.init();
 		props.remove(Element.ELEMENT_PROP);
 		var defname = props.getString(DEFNAME_PROP, '_');
 		var extname = props.getString(EXTNAME_PROP, 'div');
@@ -71,7 +72,6 @@ class Define extends Element {
 		} else {
 			props = props.set(Element.TAG_PROP, extname);
 		}
-		super.init();
 	}
 
 	function getRootDefine(): Define {
