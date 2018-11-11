@@ -35,9 +35,10 @@ using StringTools;
 class Client {
 
 	public static function main() {
-		var globals:Props = untyped __js__("window");
-		var props = globals.get(Page.ISOPROPS_ID);
+		var window:Props = untyped __js__("window");
+		var props:Props = window.get(Page.ISOPROPS_ID);
 		var ids = new Map<Int, Node>();
+		props.set(Page.WINDOW_ATTR, window);
 		new Page(DomTools.defaultDocument(), props, function(t:Page) {
 			ids.set(t.id, t);
 			loadChildren(t, ids);

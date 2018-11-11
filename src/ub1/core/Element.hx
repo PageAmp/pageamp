@@ -30,6 +30,7 @@ import ub1.react.*;
 import ub1.util.BaseNode;
 import ub1.util.Util;
 #if client
+	import js.html.Window;
 	import js.html.ResizeObserver;
 #end
 
@@ -260,6 +261,16 @@ class Element extends Node {
 		}
 	}
 
+	function getComputedStyle(name:String, pseudoElt=''): String {
+		#if client
+			var w:Window = page.props.get('window');
+			var s:Props = (w != null ? w.getComputedStyle(e, pseudoElt) : null);
+			return s.get(name, '');
+		#else
+			return '';
+		#end
+	}
+
 	// =========================================================================
 	// react
 	// =========================================================================
@@ -275,6 +286,7 @@ class Element extends Node {
 		set('domGet', domGet).unlink();
 		set('getBrothers', getBrotherScopes).unlink();
 		set('send', send).unlink();
+		set('computedStyle', getComputedStyle).unlink();
 		set('childrenCount', "${dom.children.length}");
 		initDatabinding();
 		initReplication();

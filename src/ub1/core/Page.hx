@@ -44,6 +44,7 @@ using StringTools;
 class Page extends Element implements ServerPage {
 	public var doc: DomDocument;
 	public static inline var LANG_ATTR = Element.ATTRIBUTE_PREFIX + 'lang';
+	public static inline var WINDOW_ATTR = 'window';
 	public static inline var REDIRECT_ATTR = 'pageRedirect';
 	public static inline var FSPATH_PROP = 'pageFSPath';
 	public static inline var URI_PROP = 'pageURI';
