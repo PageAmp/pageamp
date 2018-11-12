@@ -59,7 +59,7 @@ class Client {
 				if (text != null) {
 					var n = e.nextSibling;
 					new Text(p, text, n).id = id;
-					e.remove();
+					e.parentElement.removeChild(e);//ie e.remove();
 				} else {
 					props.set(Element.ELEMENT_PROP, e);
 					props.set(Element.TAG_PROP, e.tagName);
