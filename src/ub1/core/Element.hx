@@ -248,6 +248,15 @@ class Element extends Node {
 		return ret;
 	}
 
+	function getChildScopes() {
+		var ret = [];
+		for (node in nodeChildren) {
+			node.scope == null ? node.makeScope() : null;
+			ret.push(node.scope);
+		}
+		return ret;
+	}
+
 	function send(target:Dynamic, key:String, val:Dynamic) {
 		if (target != null) {
 			if (Std.is(target, Array)) {
@@ -288,6 +297,7 @@ class Element extends Node {
 		set('send', send).unlink();
 		set('computedStyle', getComputedStyle).unlink();
 		set('childrenCount', "${dom.children.length}");
+		set('getChildren', getChildScopes).unlink();
 		initDatabinding();
 		initReplication();
 	}
