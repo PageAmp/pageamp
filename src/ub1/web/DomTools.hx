@@ -514,6 +514,7 @@ class DomTools {
 #if !client
 		n.remove();
 #else
+		// we don't use n.remove() for backward compatibility (IE...)
 		if (n.parentElement != null) {
 			n.parentElement.removeChild(n);
 		}
