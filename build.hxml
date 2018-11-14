@@ -13,14 +13,14 @@
 #-debug
 #-dce full
 
--cmd browserify --debug tmp/ub1.js > /wamp/www/__ub1/client/bin/ub1.js
+-cmd browserify --debug tmp/ub1.js > ../www/__ub1/client/bin/ub1.js
 
-#-cmd uglifyjs /wamp/www/__ub1/client/bin/ub1.js > /wamp/www/__ub1/client/bin/ub1.min.js
+#-cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
 
 --next
--php /wamp/www/__ub1/php
+-php ../www/__ub1/php
 -main ub1.Server
 -lib HtmlParser
--resource /wamp/www/__ub1/client/res/resize-observer.js@resize-observer.js
+-resource ../www/__ub1/client/res/resize-observer.js@resize-observer.js
 -D server
 #-D logServer
