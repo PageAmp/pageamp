@@ -8,4 +8,4 @@ This default strategy is fine for requests that, given the same URL, always retu
 
 _**NOTE**: Only the GET and POST methods are currently supported: more complete support will be added in future releases in order to allow the use of RESTful services._
 
-In case of cross-domains requests made from the client side, requests will transparently be bridged by the server as clients aren't normally allowed to make them directly.
+In case of cross-domain requests from the client side, requests will transparently be bridged by the server as clients aren't normally allowed to make them directly.
