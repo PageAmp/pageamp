@@ -311,13 +311,13 @@ class Element extends Node {
 	                                  ?plug:String,
 	                                  ?before:Int): BaseNode {
 		var ret = super.addChild(child, plug, before);
-		scope != null ? scope.set('childrenCount', baseChildren.length) : null;
+		scope != null ? scope.set('childrenCount', e.children.length) : null;
 		return ret;
 	}
 
 	override public function removeChild(child:BaseNode): BaseNode {
 		var ret = super.removeChild(child);
-		scope != null ? scope.set('childrenCount', baseChildren.length) : null;
+		scope != null ? scope.set('childrenCount', e.children.length) : null;
 		return ret;
 	}
 
