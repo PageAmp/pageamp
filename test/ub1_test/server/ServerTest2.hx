@@ -63,7 +63,7 @@ font-family: sans-serif;
 </head><body id="ub1_1">
 
 
-A plain HTML page /w include
+A plain HTML page w/ include
 
 </body></html>');
 	}
