@@ -292,7 +292,7 @@ class Page extends Element implements ServerPage {
 #if client
 		var isMac = ~/^(Mac)/i.match(js.Browser.navigator.platform);
 		isMac ? commandKey = 'CMD' : null;
-		set('log', function(s) trace(s)).unlink();
+		set('log', function(s) untyped __js__("console.log(s)")).unlink();
 		set('window', Browser.window).unlink();
 		set(Element.EVENT_PREFIX + 'keydown',
 			"${pageKeydown=pageKeydownPatch(ev)}").unlink();
