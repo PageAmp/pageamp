@@ -161,7 +161,7 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 		var ret:Xml = null;
 		// ensure dependencies
 		get(XML_PROP);
-		get(XML_PROP);
+		get(TEXT_PROP);
 		get(JSON_PROP);
 		var src = get(SRC_PROP);
 		var local = null;
@@ -284,6 +284,11 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 			http.onData = function(text:String) {
 				Ub1Log.data('$uid onData: $text');
 				clearHttp();
+#if entityDecoder
+				// we escape '${' to keep it literal and prevent it from being
+				// parsed as a dynamic expression
+				text = ~/(\$\{)/g.replace(text, '&dollar;{');
+#end
 				if (~/^\s*[\{\[]/.match(text)) {
 					set(JSON_PROP, text, false);
 					set(DOC_VALUE, parseData()).valueFn = docValueFn;

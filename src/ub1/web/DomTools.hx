@@ -58,11 +58,6 @@ using StringTools;
     Unifies and abstracts client and server DOM.
 */
 class DomTools {
-#if (client && entityDecoder)
-	// https://stackoverflow.com/a/20942013
-	// https://github.com/xinglie/html-entities-decoder
-	static var EDEC = untyped __js__("require('../res/html-entities-decoder.js')");
-#end
 
 	public static function removeMarkup(s:String) {
 		s = ~/<.*?>/g.split(s).join('');
@@ -373,7 +368,8 @@ class DomTools {
 #end
 	}
 
-	public inline static function domSetInnerHTML(t:DomElement, v:Dynamic) {
+	#if (!debug) inline #end
+	public static function domSetInnerHTML(t:DomElement, v:Dynamic) {
 		v = (v == null ? '' : '$v');
 #if !client
 		t.innerHTML = v;
@@ -424,8 +420,9 @@ class DomTools {
 		t.text = v;
 #else
 	#if entityDecoder
-		v = EDEC(v);
+		v = HtmlEntities.decode(v);
 	#end
+		trace(v);
 		t.textContent = v;
 #end
 	}

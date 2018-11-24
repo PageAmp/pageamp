@@ -2,18 +2,17 @@
 -cp src
 -lib hscript
 -D resizeMonitor
--D entityDecoder
 --each
 
 --next
--js tmp/ub1.js
+-js ../www/__ub1/client/bin/ub1.js
 -main ub1.Client
 -lib feffects
 -D client
-#-debug
+-D entityDecoder
+-debug
+-D source-map-content
 #-dce full
-
--cmd browserify --debug tmp/ub1.js > ../www/__ub1/client/bin/ub1.js
 
 #-cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
 

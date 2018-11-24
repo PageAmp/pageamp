@@ -2,6 +2,7 @@
 -cp src
 -lib hscript
 -D resizeMonitor
+-D entityDecoder
 -D demo
 -D release
 --each
@@ -12,7 +13,7 @@
 -lib feffects
 -D client
 -dce full
--cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
+#-cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
 
 --next
 -php ../www/__ub1/php
