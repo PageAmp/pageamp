@@ -104,7 +104,7 @@ class Preprocessor {
 //		text = ~/(<!---.*?--->)/g.replace(text, '');
 //		text = text.replace(lineSep, '\n');
 
-		text = normalizeHtml(text);
+//		text = normalizeHtml(text);
 		var ret = PreprocessorParser.parseDoc(text);
 
 		var includes = lookupByName(ret, INCLUDE_TAGNAME);
@@ -376,14 +376,14 @@ class Preprocessor {
 	// util
 	// =========================================================================
 
-	public static function normalizeHtml(s:String, lineSep='\n'): String {
-		var re2 = ~/\n/;
-		var ret = ~/(\s{2,})/g.map(s, function(re:EReg): String {
-			var p = re.matchedPos();
-			return (re2.matchSub(s, p.pos, p.len) ? lineSep : ' ');
-		});
-		return ret.trim();
-	}
+//	public static function normalizeHtml(s:String, lineSep='\n'): String {
+//		var re2 = ~/\n/;
+//		var ret = ~/(\s{2,})/g.map(s, function(re:EReg): String {
+//			var p = re.matchedPos();
+//			return (re2.matchSub(s, p.pos, p.len) ? lineSep : ' ');
+//		});
+//		return ret.trim();
+//	}
 
 	function lookupSlots(ee:Array<HtmlNode>): Map<String, MacroSlot> {
 		var ret = new Map<String, MacroSlot>();

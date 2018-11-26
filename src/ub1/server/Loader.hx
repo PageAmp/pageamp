@@ -48,21 +48,21 @@ class Loader {
 	}
 
 	public static function loadPage2(text:String, ?dst:DomDocument): ServerPage {
-		text = normalizeText(text);
+//		text = normalizeText(text);
 		var src = PreprocessorParser.parseDoc(text);
 		dst == null ? dst = DomTools.defaultDocument() : null;
 		var ret = loadRoot(dst, src, null, null, null);
 		return ret;
 	}
 
-	public static function normalizeText(s:String, lineSep='\n'): String {
-		var re2 = ~/\n/;
-		var ret = ~/(\s{2,})/g.map(s, function(re:EReg): String {
-			var p = re.matchedPos();
-			return (re2.matchSub(s, p.pos, p.len) ? lineSep : ' ');
-		});
-		return ret.trim();
-	}
+//	public static function normalizeText(s:String, lineSep='\n'): String {
+//		var re2 = ~/\n/;
+//		var ret = ~/(\s{2,})/g.map(s, function(re:EReg): String {
+//			var p = re.matchedPos();
+//			return (re2.matchSub(s, p.pos, p.len) ? lineSep : ' ');
+//		});
+//		return ret.trim();
+//	}
 
 	// =========================================================================
 	// private

@@ -422,9 +422,8 @@ class DomTools {
 	#if entityDecoder
 		v = HtmlEntities.decode(v);
 	#end
-		trace(v);
 		t.textContent = v;
-#end
+	#end
 	}
 
 	public inline static function domSet(e:DomElement, key:String, val:String) {
