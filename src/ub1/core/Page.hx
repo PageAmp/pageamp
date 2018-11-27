@@ -290,6 +290,13 @@ class Page extends Element implements ServerPage {
 		var commandKey = 'CTRL';
 		super.init();
 #if client
+		set('navigate', function(link:String) {
+			if (link.startsWith('?')) {
+				//TODO
+			} else {
+				js.Browser.location.href = link;
+			}
+		}).unlink();
 		var isMac = ~/^(Mac)/i.match(js.Browser.navigator.platform);
 		isMac ? commandKey = 'CMD' : null;
 		set('log', function(s) untyped __js__("console.log(s)")).unlink();
