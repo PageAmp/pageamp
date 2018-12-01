@@ -52,7 +52,7 @@ class TestSuite {
 		#if php
 			// Tests are modeled as asynchronous in JS but in PHP they become
 			// nested call in order to accommodate PHP fully synchronous model.
-			// We therefore need to set a pretty high max nesting lavel while
+			// We therefore need to set a pretty high max nesting level while
 			// executing tests.
 			//
 			// http://stackoverflow.com/questions/17488505/php-error-maximum-function-nesting-level-of-100-reached-aborting

@@ -1,5 +1,5 @@
 
-# client tests
+# client test
 --next
 -js /wamp/www/__ub1_test/client/bin/test.js
 -cp exp
@@ -13,7 +13,7 @@
 -D client
 -debug
 
-# php tests
+# php test
 --next
 -php /wamp/www/__ub1_test/php
 -cp exp
