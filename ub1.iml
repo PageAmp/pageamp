@@ -26,6 +26,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="feffects" level="project" />
     <orderEntry type="library" name="htmlparser" level="project" />
-    <orderEntry type="library" name="2,3,0" level="project" />
+    <orderEntry type="library" name="hscript" level="project" />
   </component>
 </module>
