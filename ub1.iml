@@ -25,7 +25,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="feffects" level="project" />
-    <orderEntry type="library" name="htmlparser" level="project" />
     <orderEntry type="library" name="hscript" level="project" />
+    <orderEntry type="library" name="htmlparser" level="project" />
   </component>
 </module>
