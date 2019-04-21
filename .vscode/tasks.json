@@ -10,10 +10,7 @@
             "problemMatcher": [
                 "$haxe-error"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         }
     ]
 }

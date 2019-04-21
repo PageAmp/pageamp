@@ -4,7 +4,7 @@
     <option name="buildConfig" value="1" />
     <option name="excludeFromCompilation" value="true" />
     <option name="hxmlPath" value="$MODULE_DIR$/build-test.hxml" />
-    <option name="outputFolder" value="$MODULE_DIR$/../../ubimate/out/production/ub1" />
+    <option name="outputFolder" value="$MODULE_DIR$/../../ubb19/out/production/ub1" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -24,6 +24,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="feffects" level="project" />
+    <orderEntry type="library" name="hscript" level="project" />
+    <orderEntry type="library" name="htmlparser" level="project" />
     <orderEntry type="library" name="feffects" level="project" />
     <orderEntry type="library" name="hscript" level="project" />
     <orderEntry type="library" name="htmlparser" level="project" />
