@@ -298,6 +298,9 @@ class Page extends Element implements ServerPage {
 				js.Browser.location.href = link;
 			}
 		}).unlink();
+		set('reload', function(link:String) {
+			js.Browser.location.reload();
+		}).unlink();
 		var isMac = ~/^(Mac)/i.match(js.Browser.navigator.platform);
 		isMac ? commandKey = 'CMD' : null;
 		set('log', function(s) untyped __js__("console.log(s)")).unlink();

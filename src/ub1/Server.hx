@@ -92,6 +92,9 @@ class Server {
 				case 'xml': 'application/xml';
 				case 'txt': 'text/plain';
 				case 'css': 'text/css';
+				case 'jpg': 'image/jpeg';
+				case 'jpeg': 'image/jpeg';
+				case 'png': 'image/png';
 				case 'manifest': 'text/cache-manifest';
 				case 'ico': 'image/x-icon';
 				//TODO
