@@ -22,6 +22,7 @@
 
 package ub1.core;
 
+import ub1.util.PropertyTool.Props;
 import ub1.react.*;
 import ub1.util.BaseNode;
 import ub1.web.DomTools;
@@ -164,10 +165,21 @@ class Node extends BaseNode {
 			scope = new ValueScope(ctx, ps, ctx.newScopeUid(), name);
 			scope.set('parent', ps).unlink();
 			scope.set('getIndex', getIndex).unlink();
+			scope.set('forEachName', forEachName).unlink();
 		}
 		name != null ? scope.set('name', name).unlink() : null;
 		scope.newValueDelegate = newValueDelegate;
 		scope.owner = this;
+	}
+
+	function forEachName(name:String, obj:Props, cb:ValueScope->Props->Void) {
+		for (child in nodeChildren) {
+			if (child.scope != null && child.scope.name == name) {
+				cb(child.scope, obj);
+			}
+			child.forEachName(name, obj, cb);
+		}
+		return obj;
 	}
 
 	function newValueDelegate(v:Value) {}
