@@ -92,6 +92,8 @@ class Server {
 				case 'xml': 'application/xml';
 				case 'txt': 'text/plain';
 				case 'css': 'text/css';
+				case 'manifest': 'text/cache-manifest';
+				case 'ico': 'image/x-icon';
 				//TODO
 				default: 'text/html';
 			});

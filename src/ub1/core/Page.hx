@@ -44,6 +44,7 @@ using StringTools;
 class Page extends Element implements ServerPage {
 	public var doc: DomDocument;
 	public static inline var LANG_ATTR = Element.ATTRIBUTE_PREFIX + 'lang';
+	public static inline var MANIFEST_ATTR = Element.ATTRIBUTE_PREFIX + 'manifest';
 	public static inline var WINDOW_ATTR = 'window';
 	public static inline var REDIRECT_ATTR = 'pageRedirect';
 	public static inline var FSPATH_PROP = 'pageFSPath';
@@ -336,11 +337,11 @@ class Page extends Element implements ServerPage {
 	}
 
 	override function isDynamicValue(k:String, v:Dynamic): Bool {
-		return k == LANG_ATTR ? true : super.isDynamicValue(k, v);
+		return k == LANG_ATTR || k == MANIFEST_ATTR ? true : super.isDynamicValue(k, v);
 	}
 
 	override function newValueDelegate(v:Value) {
-		if (v.name == LANG_ATTR) {
+		if (v.name == LANG_ATTR || v.name == MANIFEST_ATTR) {
 			v.nativeName = v.name.substr(Element.ATTRIBUTE_PREFIX.length);
 			v.userdata = doc.domRootElement();
 			v.cb = attributeValueCB;
