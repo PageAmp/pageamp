@@ -56,7 +56,7 @@ class ValueScope {
 		this.name = name;
 		owner != null ? this.owner = owner : null;
 		values = new Map<String,Value>();
-		if (name != null && parent != null) {
+		if (name != null && parent != null && !parent.exists(name)) {
 			new Value(this, name, null, parent).unlink();
 		}
 		refreshableList = new DoubleLinkedItem();
@@ -82,7 +82,10 @@ class ValueScope {
 			child.removeChild(c);
 		}
 		if (child.name != null) {
-			removeValue(values.get(child.name));
+			var v:Value = values.get(child.name);
+			if (v.value == child) {
+				removeValue(v);
+			}
 		}
 		var keys = new Array<String>();
 		for (key in child.values.keys()) keys.push(key);

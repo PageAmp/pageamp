@@ -165,19 +165,30 @@ class Node extends BaseNode {
 			scope = new ValueScope(ctx, ps, ctx.newScopeUid(), name);
 			scope.set('parent', ps).unlink();
 			scope.set('getIndex', getIndex).unlink();
-			scope.set('forEachName', forEachName).unlink();
+			scope.set('allByName', allByName).unlink();
+			scope.set('allByValue', allByValue).unlink();
 		}
 		name != null ? scope.set('name', name).unlink() : null;
 		scope.newValueDelegate = newValueDelegate;
 		scope.owner = this;
 	}
 
-	function forEachName(name:String, obj:Props, cb:ValueScope->Props->Void) {
+	function allByName(name:String, obj:Props, cb:ValueScope->Props->Void) {
 		for (child in nodeChildren) {
 			if (child.scope != null && child.scope.name == name) {
 				cb(child.scope, obj);
 			}
-			child.forEachName(name, obj, cb);
+			child.allByName(name, obj, cb);
+		}
+		return obj;
+	}
+
+	function allByValue(name:String, obj:Props, cb:ValueScope->Props->Void) {
+		for (child in nodeChildren) {
+			if (child.scope != null && child.scope.exists(name)) {
+				cb(child.scope, obj);
+			}
+			child.allByName(name, obj, cb);
 		}
 		return obj;
 	}
