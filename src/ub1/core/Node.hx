@@ -174,21 +174,38 @@ class Node extends BaseNode {
 	}
 
 	function allByName(name:String, obj:Props, cb:ValueScope->Props->Void) {
-		for (child in nodeChildren) {
-			if (child.scope != null && child.scope.name == name) {
-				cb(child.scope, obj);
+//		for (child in nodeChildren) {
+//			if (child.scope != null && child.scope.name == name) {
+//				cb(child.scope, obj);
+//			}
+//			child.allByName(name, obj, cb);
+//		}
+		if (scope != null) {
+			for (child in scope.children) {
+				var v:Value = child.values.get('name');
+				if (v != null && v.value == name) {
+					cb(child, obj);
+				}
+				child.owner.allByValue(name, obj, cb);
 			}
-			child.allByName(name, obj, cb);
 		}
 		return obj;
 	}
 
 	function allByValue(name:String, obj:Props, cb:ValueScope->Props->Void) {
-		for (child in nodeChildren) {
-			if (child.scope != null && child.scope.exists(name)) {
-				cb(child.scope, obj);
+//		for (child in nodeChildren) {
+//			if (child.scope != null && child.scope.exists(name)) {
+//				cb(child.scope, obj);
+//			}
+//			child.allByName(name, obj, cb);
+//		}
+		if (scope != null) {
+			for (child in scope.children) {
+				if (child.exists(name)) {
+					cb(child, obj);
+				}
+				child.owner.allByValue(name, obj, cb);
 			}
-			child.allByName(name, obj, cb);
 		}
 		return obj;
 	}

@@ -518,6 +518,7 @@ class Element extends Node {
 		scope.set('__clone_dp', null);
 		scope.setValueFn('__dp', dpFn);
 		scope.set('dataGet', dataGet).unlink();
+		scope.set('dataNode', dataNode).unlink();
 		scope.set('dataCheck', dataCheck).unlink();
 	}
 
@@ -531,8 +532,8 @@ class Element extends Node {
 
 		// evaluation
 		if (src != null
-		&& Std.is(src,String)
-		&& (src = src.trim()).length > 0) {
+			&& Std.is(src,String)
+			&& (src = src.trim()).length > 0) {
 			var exp = currDatapathExp;
 			if (src != currDatapathSrc) {
 				currDatapathSrc = src;
@@ -551,8 +552,8 @@ class Element extends Node {
 		var dp:Xml = getScope().get('__dp');
 
 		if (dpath != null
-		&& Std.is(dpath,String)
-		&& (dpath = dpath.trim()).length > 0) {
+			&& Std.is(dpath,String)
+			&& (dpath = dpath.trim()).length > 0) {
 			if (dataQueries == null) {
 				dataQueries = new Map<String,DataPath>();
 			}
@@ -567,6 +568,28 @@ class Element extends Node {
 		}
 
 		return ret;
+	}
+
+	function dataNode(dpath:String): Xml {
+
+		// dependencies
+		var dp:Xml = getScope().get('__dp');
+
+		if (dpath != null
+			&& Std.is(dpath,String)
+			&& (dpath = dpath.trim()).length > 0) {
+			if (dataQueries == null) {
+				dataQueries = new Map<String,DataPath>();
+			}
+			var query:DataPath = dataQueries.get(dpath);
+			if (query == null) {
+				query = new DataPath(dpath, getDatasource);
+				dataQueries.set(dpath, query);
+			}
+			dp = query.selectNode(dp);
+		}
+
+		return dp;
 	}
 
 	function dataCheck(?dpath:String): Bool {
