@@ -518,8 +518,9 @@ class Element extends Node {
 		scope.set('__clone_dp', null);
 		scope.setValueFn('__dp', dpFn);
 		scope.set('dataGet', dataGet).unlink();
-		scope.set('dataNode', dataNode).unlink();
 		scope.set('dataCheck', dataCheck).unlink();
+		scope.set('dataNode', dataNode).unlink();
+		scope.set('dataEach', dataEach).unlink();
 	}
 
 	function dpFn() {
@@ -590,6 +591,33 @@ class Element extends Node {
 		}
 
 		return dp;
+	}
+
+	function dataEach(dpath:String, obj:Props, cb:Xml->Props->Void): Props {
+		#if client
+			trace('dataEach($dpath)');
+		#end
+
+		// dependencies
+		var dp:Xml = getScope().get('__dp');
+
+		if (dpath != null
+			&& Std.is(dpath,String)
+			&& (dpath = dpath.trim()).length > 0) {
+				if (dataQueries == null) {
+					dataQueries = new Map<String,DataPath>();
+				}
+				var query:DataPath = dataQueries.get(dpath);
+				if (query == null) {
+					query = new DataPath(dpath, getDatasource);
+					dataQueries.set(dpath, query);
+				}
+				for (node in query.selectNodes(dp)) {
+					cb(node, obj);
+				}
+			}
+
+		return obj;
 	}
 
 	function dataCheck(?dpath:String): Bool {
