@@ -594,9 +594,6 @@ class Element extends Node {
 	}
 
 	function dataEach(dpath:String, obj:Props, cb:Xml->Props->Void): Props {
-		#if client
-			trace('dataEach($dpath)');
-		#end
 
 		// dependencies
 		var dp:Xml = getScope().get('__dp');
