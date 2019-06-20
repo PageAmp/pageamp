@@ -32,7 +32,17 @@ class UrlTest extends Test {
 		assert(url.protocol, null);
 		assert(url.path, null);
 		assert(url.getParamCount(), 0, 'wrong params count');
+		assert(url.fragment, '');
 		assert(url.toString(), '');
+	}
+
+	public function testUrl0b() {
+		var url = new Url('#10');
+		assert(url.protocol, null);
+		assert(url.path, null);
+		assert(url.getParamCount(), 0, 'wrong params count');
+		assert(url.fragment, '10');
+		assert(url.toString(), '#10');
 	}
 
 	public function testUrl1() {
@@ -49,6 +59,24 @@ class UrlTest extends Test {
 			s != 'http://foo.com/index.php?b=2&a=1') {
 			assert(false, true, 'toString(): $s');
 		}
+		assert(url.fragment, '');
+	}
+
+	public function testUrl1b() {
+		var url = new Url('http://foo.com/index.php?a=1;b=2#foo');
+		assert(url.protocol, 'http');
+		assert(url.domain, 'foo.com');
+		assert(url.path, '/index.php');
+		assert(url.getParamCount(), 2, 'wrong params count');
+		assert(url.getParam('a'), '1');
+		assert(url.getParam('b'), '2');
+		//assert(url.toString(), 'http://foo.com/index.php?a=1&b=2');
+		var s = url.toString();
+		if (s != 'http://foo.com/index.php?a=1&b=2#foo' &&
+		s != 'http://foo.com/index.php?b=2&a=1#foo') {
+			assert(false, true, 'toString(): $s');
+		}
+		assert(url.fragment, 'foo');
 	}
 
 	public function testUrl2() {
@@ -165,6 +193,14 @@ class UrlTest extends Test {
 		assert(Url.urlsAreEqual(url7_1, url7_2), true);
 		var url7_3 = new Url('?a=0&b=2');
 		assert(Url.urlsAreEqual(url7_1, url7_3), false);
+
+		var url8_1 = new Url('?a=1;b=2#x');
+		var url8_2 = new Url('?b=2&a=1');
+		assert(Url.urlsAreEqual(url8_1, url8_2), false);
+		var url8_3 = new Url('?a=1&b=2#y');
+		assert(Url.urlsAreEqual(url8_1, url8_3), false);
+		var url8_4 = new Url('?b=2&a=1#x');
+		assert(Url.urlsAreEqual(url8_1, url8_4), true);
 	}
 
 }

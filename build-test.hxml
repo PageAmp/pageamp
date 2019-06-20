@@ -1,7 +1,7 @@
 
 # client test
 --next
--js /wamp/www/__ub1_test/client/bin/test.js
+-js ../www/__ub1_test/client/bin/test.js
 -cp exp
 -cp ext
 -cp src
@@ -15,7 +15,7 @@
 
 # php test
 --next
--php /wamp/www/__ub1_test/php
+-php ../www/__ub1_test/php
 -cp exp
 -cp ext
 -cp src
@@ -28,14 +28,14 @@
 
 # test page collapsible listss
 --next
--js /wamp/www/__ub1_test/bin/testpage.js
+-js ../www/__ub1_test/bin/testpage.js
 -cp src
 -main ub1.util.TestPage
 -D client
 
 # ub1 client
 --next
--js /wamp/www/__ub1/client/bin/ub1.js
+-js ../www/__ub1/client/bin/ub1.js
 -cp ext
 -cp src
 -main ub1.Client
@@ -43,11 +43,11 @@
 -lib feffects
 -D client
 -dce full
--cmd uglifyjs /wamp/www/__ub1/client/bin/ub1.js > /wamp/www/__ub1/client/bin/ub1.min.js
+-cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
 
 # php ub1 server
 --next
--php /wamp/www/__ub1/php
+-php ../www/__ub1/php
 -cp ext
 -cp src
 -main ub1.Server

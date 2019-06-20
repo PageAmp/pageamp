@@ -49,7 +49,7 @@ class Server {
 
 	public static function main() {
 		var params = Web.getParams();
-		var uri = Web.getURI().split('?')[0];
+		var uri = Web.getURI();
 		var domain = Web.getHostName();
 		var root = DOMAINS_ROOT + domain;
 		var re = ~/\.(\w+)$/;
@@ -156,7 +156,10 @@ class Server {
 		}
 		try {
 			var path = new Path(root + uri);
-			var page = Loader.loadPage(src, null, path.dir, domain, Web.getURI());
+			var u = Web.getURI();
+			var q = Web.getParamsString();
+			q != null ? u += ('?' + q) : null;
+			var page = Loader.loadPage(src, null, path.dir, domain, u);
 			#if !logServer
 				#if demo
 					if (params.get(SOURCEOUT_ARG) == 'true') {

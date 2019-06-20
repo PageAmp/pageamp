@@ -32,6 +32,7 @@ class Url {
 	public var domain: String;
 	public var path: String;
 	public var query: String;
+	public var fragment: String;
 	public var params: Map<String,String>;
 	var paramCount: Int;
 	var pathSlices: Array<String>;
@@ -40,11 +41,12 @@ class Url {
 	public function new(url:String, params:Map<String,String> =null) {
 		if (urlMatchRegex.match(url)) {
 			try {
-				var s;
+				var s:String;
 				protocol = (isTrue((s = urlMatchRegex.matched(2))) ? s : null);
 				domain = (isTrue((s = urlMatchRegex.matched(4))) ? s : null);
 				path = (isTrue((s = urlMatchRegex.matched(5))) ? s : null);
 				query = (isTrue((s = urlMatchRegex.matched(7))) ? s : null);
+				fragment = (isTrue((s = urlMatchRegex.matched(8))) ? s.substr(1) : '');
 				pathSlices = null;
 				this.params = (params == null && query != null
 								? parseQueryString(query)
@@ -108,7 +110,7 @@ class Url {
 	}
 
 	public function toString(okProtocol:Bool=true, okDomain:Bool=true,
-		okPath:Bool=true, okQuery:Bool=true) {
+		okPath:Bool=true, okQuery:Bool=true, okFragment:Bool=true) {
 		var sb = new StringBuf();
 		if (okProtocol && protocol != null) {
 			sb.add(protocol); sb.add('://');
@@ -122,10 +124,20 @@ class Url {
 		if (okQuery && params != null) {
 			sb.add(paramsToString(params));
 		}
+		if (okFragment && fragment != null && fragment.length > 0) {
+			sb.add('#' + fragment);
+		}
 		return sb.toString();
 	}
 
-	public static function urlsAreEqual(a:Url, b:Url): Bool {
+	public function mergeParams(query:String) {
+		var p = parseQueryString(query);
+		for (key in p.keys()) {
+			setParam(key, p.get(key));
+		}
+	}
+
+	public static function urlsAreEqual(a:Url, b:Url, fragment=true): Bool {
 		if (a == null && b == null) {
 			return true;
 		} else if (a == null || b == null) {
@@ -134,7 +146,8 @@ class Url {
 			return (a.protocol == b.protocol &&
 				a.domain == b.domain &&
 				a.path == b.path &&
-				MapTool.mapsAreEqual(a.params, b.params));
+				MapTool.mapsAreEqual(a.params, b.params) &&
+				(!fragment || a.fragment == b.fragment));
 		}
 	}
 

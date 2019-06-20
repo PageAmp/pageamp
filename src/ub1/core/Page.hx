@@ -49,14 +49,26 @@ class Page extends Element implements ServerPage {
 	public static inline var REDIRECT_ATTR = 'pageRedirect';
 	public static inline var FSPATH_PROP = 'pageFSPath';
 	public static inline var URI_PROP = 'pageURI';
+	public static inline var STATE_PROP = 'pageState';
 	public var initializations(default,null) = new Set<String>();
 	public var defines(default,null) = new Map<String, Define>();
+#if client
+	var startState: String;
+#end
 
 	public function new(doc:DomDocument, props:Props, ?cb:Dynamic->Void) {
+		props = props.ensure(STATE_PROP, '');
+#if client
+		startState = props.get(STATE_PROP);
+		setState(startState);
+#end
 		this.doc = doc;
 		props = props.set(Element.ELEMENT_PROP, doc.domGetBody());
 		super(null, props, cb);
 		set('pageInit', "");
+//#if client
+//		set(URI_PROP, new ub1.util.Url(js.Browser.window.location.href));
+//#end
 		scope.context.refresh();
 	}
 
@@ -291,13 +303,13 @@ class Page extends Element implements ServerPage {
 		var commandKey = 'CTRL';
 		super.init();
 #if client
-		set('navigate', function(link:String) {
-			if (link.startsWith('?')) {
-				//TODO
-			} else {
-				js.Browser.location.href = link;
-			}
-		}).unlink();
+//		set('navigate', function(link:String, ?ev:js.html.Event) {
+//			//trace('navigate: ' + link);//tempdebug
+//			if (link.startsWith('#')) haxe.Timer.delay(function() {
+//				js.Browser.window.location.hash = link;
+//			}, 0);
+//			ev != null ? ev.stopPropagation() : null;
+//		}).unlink();
 		set('reload', function(link:String) {
 			js.Browser.location.reload();
 		}).unlink();
@@ -321,6 +333,21 @@ class Page extends Element implements ServerPage {
 		}).unlink();
 		set('pageKeydown', null).unlink();
 		set('Timer', haxe.Timer).unlink();
+//		js.Browser.window.addEventListener("hashchange", function(ev) {
+//			//trace('hashchange: ' + js.Browser.location.hash);//tempdebug
+//			var url:ub1.util.Url = scope.values.get(URI_PROP).value;
+//			var s = js.Browser.location.hash;
+//			s != null && s.length > 0 ? s = s.substr(1) : null;
+//			var u = new ub1.util.Url(url.toString());
+//			u.fragment = s;
+//			if (!ub1.util.Url.urlsAreEqual(u, url)) {
+//				set(URI_PROP, u);
+//			}
+//		}, false);
+		js.Browser.window.addEventListener("popstate", function(ev) {
+			var s = ev.state;
+			set(STATE_PROP, s != null ? s : '');
+		});
 #else
 		set('log', function(s) {}).unlink();
 //		set('FileSystem', sys.FileSystem).unlink();
@@ -337,6 +364,9 @@ class Page extends Element implements ServerPage {
 #end
 		set('Xml', Xml).unlink();
 		set('pageCommandKey', commandKey).unlink();
+		set('setState', setState).unlink();
+		set('pushState', pushState).unlink();
+		set('popState', popState).unlink();
 	}
 
 	override function isDynamicValue(k:String, v:Dynamic): Bool {
@@ -352,6 +382,33 @@ class Page extends Element implements ServerPage {
 		} else {
 			super.newValueDelegate(v);
 		}
+	}
+
+	function setState(state:String, ?ev:Dynamic) {
+#if client
+		ev != null ? ev.stopPropagation() : null;
+		js.Browser.window.history.replaceState(state, null, '');
+		set(STATE_PROP, state);
+#end
+	}
+
+	function pushState(state:String, ?ev:Dynamic) {
+#if client
+		ev != null ? ev.stopPropagation() : null;
+		js.Browser.window.history.pushState(state, null, '');
+		set(STATE_PROP, state);
+#end
+	}
+
+	function popState(?ev:Dynamic) {
+#if client
+		ev != null ? ev.stopPropagation() : null;
+		if (js.Browser.window.history.length > 0) {
+			js.Browser.window.history.back();
+		} else {
+			setState(startState);
+		}
+#end
 	}
 
 }
