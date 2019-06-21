@@ -667,16 +667,18 @@ class DomTools {
 #end
 	}
 
-	public static function domPreventDefault(ev:DomEvent) {
+	public static function domPreventDefault(ev:DomEvent): DomEvent {
 #if client
 		ev.preventDefault();
 #end
+		return ev;
 	}
 
-	public static function domStopPropagation(ev:DomEvent) {
+	public static function domStopPropagation(ev:DomEvent): DomEvent {
 #if client
 		ev.stopPropagation();
 #end
+		return ev;
 	}
 
 	public static function domGetElementById(doc:DomDocument,

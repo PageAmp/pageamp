@@ -364,6 +364,8 @@ class Page extends Element implements ServerPage {
 #end
 		set('Xml', Xml).unlink();
 		set('pageCommandKey', commandKey).unlink();
+		set('domPreventDefault', DomTools.domPreventDefault).unlink();
+		set('domStopPropagation', DomTools.domStopPropagation).unlink();
 		set('setState', setState).unlink();
 		set('pushState', pushState).unlink();
 		set('popState', popState).unlink();
