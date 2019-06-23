@@ -151,6 +151,19 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 		set('dataMove', dataMove);
 		set('dataAssign', dataAssign);
 		set('dataTrigger', dataTrigger);
+		set('requesting', false);
+		set('spinner', false);
+		observable.addObserver(function(_, n:DataNotification) {
+			switch (n) {
+				case REQUESTSTART:
+					set('requesting', true);
+					Timer.delay(function() set('spinner', isRequesting()), 1000);
+				case REQUESTEND | REQUESTABORT:
+					set('requesting', false);
+					set('spinner', false);
+				default:
+			}
+		});
 	}
 
 	override function makeDomElement() {
