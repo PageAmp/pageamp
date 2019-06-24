@@ -659,8 +659,8 @@ class Element extends Node {
 
 		// evaluation
 		if (src != null
-		&& Std.is(src,String)
-		&& (src = src.trim()).length > 0) {
+			&& Std.is(src,String)
+			&& (src = src.trim()).length > 0) {
 			var exp = currDatapathExp;
 			if (src != currDatapathSrc) {
 				currDatapathSrc = src;
@@ -695,9 +695,18 @@ class Element extends Node {
 			}
 		}
 
-		var index = 0;
-		if (dnodes != null) {
-			for (dp in dnodes) {
+		var index = 0, len = (dnodes != null ? dnodes.length : 0), blockLen = 20;
+		var f = null;
+		#if (!client)
+			blockLen = len;
+		#end
+		f = function() {
+			var i = 0;
+			while (index < len) {
+				if (i++ >= blockLen) {
+					break;
+				}
+				var dp = dnodes[index];
 				if (index < clones.length) {
 					// reuse existing clone
 					var clone = clones[index];
@@ -714,12 +723,16 @@ class Element extends Node {
 				}
 				index++;
 			}
+			if (index < len) {
+				haxe.Timer.delay(f, 100);
+			} else {
+				// remove unused clones
+				while (index < clones.length) {
+					removeClone(clones.pop());
+				}
+			}
 		}
-
-		// remove unused clones
-		while (index < clones.length) {
-			removeClone(clones.pop());
-		}
+		f();
 	}
 
 	//TODO: use "index" instead of "before"
