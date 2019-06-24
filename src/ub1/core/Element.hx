@@ -724,7 +724,7 @@ class Element extends Node {
 				index++;
 			}
 			if (index < len) {
-				haxe.Timer.delay(f, 100);
+				haxe.Timer.delay(f, 10);
 			} else {
 				// remove unused clones
 				while (index < clones.length) {
