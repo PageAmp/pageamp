@@ -63,6 +63,9 @@ class Element extends Node {
 	public static inline var SORT_PROP = 'forsort';
 	public static inline var TARGET_PROP = 'fortarget';
 	public static inline var CLONE_INDEX = 'cloneIndex';
+
+	public static inline var START_PROP = 'forstart';
+	public static inline var COUNT_PROP = 'forcount';
 	// (replicated nodes)
 	public static inline var SOURCE_PROP = NODE_PREFIX + 'src';
 
@@ -118,17 +121,19 @@ class Element extends Node {
 		return e;
 	}
 
-	override public function cloneTo(parent:Node, ?index:Int): Node {
+	override public function cloneTo(parent:Node, index:Int, nesting=0): Node {
 		var props = this.props.clone();
 		props = props.set(INDEX_PROP, index);
-		props.remove(NAME_PROP);
-		props.remove(INDEX_PROP);
-		props.remove(FOREACH_PROP);
+		if (nesting == 0) {
+			props.remove(NAME_PROP);
+			props.remove(INDEX_PROP);
+			props.remove(FOREACH_PROP);
+		}
 		var clone = new Element(cast parent, props);
 		// clones must have their own scope in order to have their own data ctx
 		clone.scope == null ? clone.makeScope() : null;
 		for (child in nodeChildren) {
-			child.cloneTo(clone);
+			child.cloneTo(clone, null, nesting + 1);
 		}
 		return clone;
 	}
@@ -656,6 +661,10 @@ class Element extends Node {
 		// dependencies
 		var dp = get('__dp');
 		var src:String = get(FOREACH_PROP);
+		var start:Int = get(START_PROP);
+		var count:Int = get(COUNT_PROP);
+		start == null ? start = 0 : null;
+		count == null ? count = 100000 : null;
 
 		// evaluation
 		if (src != null
@@ -669,7 +678,7 @@ class Element extends Node {
 			ret = exp.selectNodes(dp);
 		}
 
-		updateClones(ret);
+		updateClones(ret, start, count);
 
 		if (nodeParent != null && nodeParent.scope != null) {
 			nodeParent.scope.values.get('childrenCount').refresh(true);
@@ -679,7 +688,7 @@ class Element extends Node {
 	}
 
 	//TODO: sorting
-	function updateClones(dnodes:Array<Xml>) {
+	function updateClones(dnodes:Array<Xml>, start:Int, count:Int) {
 		var parent:Node = null;
 		var before:Node = null;
 
@@ -687,7 +696,6 @@ class Element extends Node {
 
 		if (parent == null) {
 			parent = nodeParent;
-			//before = nextSibling();
 			if (clones.length > 0) {
 				before = cast clones[clones.length - 1].getNextSibling();
 			} else {
@@ -695,18 +703,22 @@ class Element extends Node {
 			}
 		}
 
-		var index = 0, len = (dnodes != null ? dnodes.length : 0), blockLen = 20;
+		var index = 0, len = (dnodes != null ? dnodes.length : 0);
+		len > (start + count) ? len = start + count : null;
+		var blockLen = #if client 20 #else len #end;
 		var f = null;
-		#if (!client)
-			blockLen = len;
-		#end
-		f = function() {
+		f = function(cycle:Int) {
+			if (cycle != updateCycle) {
+				// a new updateClone() invocation was done after we started
+				// this cycle and before we completed it: abandon
+				return;
+			}
 			var i = 0;
-			while (index < len) {
+			while ((start + index) < len) {
 				if (i++ >= blockLen) {
 					break;
 				}
-				var dp = dnodes[index];
+				var dp = dnodes[start + index];
 				if (index < clones.length) {
 					// reuse existing clone
 					var clone = clones[index];
@@ -723,8 +735,8 @@ class Element extends Node {
 				}
 				index++;
 			}
-			if (index < len) {
-				haxe.Timer.delay(f, 10);
+			if ((start + index) < len) {
+				haxe.Timer.delay(function() f(cycle), 10);
 			} else {
 				// remove unused clones
 				while (index < clones.length) {
@@ -732,8 +744,10 @@ class Element extends Node {
 				}
 			}
 		}
-		f();
+
+		f(++updateCycle);
 	}
+	var updateCycle = 0;
 
 	//TODO: use "index" instead of "before"
 	function addClone(parent:Node, before:Node, dp:Xml, ci:Int): Node {

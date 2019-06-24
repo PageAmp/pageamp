@@ -96,7 +96,7 @@ class Node extends BaseNode {
 
 	public function staticInit() {}
 	public function getDomNode(): DomNode return null;
-	public function cloneTo(parent:Node, ?index:Int): Node return null;
+	public function cloneTo(parent:Node, index:Int, nesting=0): Node return null;
 
 	// =========================================================================
 	// util
