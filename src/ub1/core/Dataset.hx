@@ -22,6 +22,7 @@
 
 package ub1.core;
 
+import ub1.util.PropertyTool;
 import ub1.Ub1Log;
 import ub1.util.Observable;
 import haxe.Timer;
@@ -75,6 +76,13 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 			clearHttp();
 			observable.notifyObservers(this, DataNotification.REQUESTABORT);
 		}
+	}
+
+	public function clear(): Void {
+		set(XML_PROP, null, false);
+		set(JSON_PROP, null, false);
+		set(TEXT_PROP, null, false);
+		set(DOC_VALUE, null);
 	}
 
 	// =========================================================================
@@ -287,6 +295,15 @@ class Dataset extends Element implements DataProvider implements DataDelegate {
 
 		try {
 			abortRequest();
+			clear();
+
+//#if client
+//			if (!PropertyTool.get(js.Browser.navigator, 'onLine', true)) {
+//				trace('offline');//tempdebug
+//				set(ERROR_VALUE, 'ERR_INTERNET_DISCONNECTED');
+//				return;
+//			}
+//#end
 
 			set(ERROR_VALUE, null);
 			var s = url.toString(true, true, true, false);
