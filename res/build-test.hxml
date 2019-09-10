@@ -55,4 +55,4 @@
 -lib htmlparser
 -D server
 -D demo
--D release
+#-D release
