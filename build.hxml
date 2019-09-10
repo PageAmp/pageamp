@@ -1,25 +1,3 @@
--cp ext
--cp src
--lib hscript
--D resizeMonitor
---each
-
---next
--js ../www/__ub1/client/bin/ub1.js
--main ub1.Client
--lib feffects
--D client
--D entityDecoder
--debug
--D source-map-content
-#-dce full
-
-#-cmd uglifyjs ../www/__ub1/client/bin/ub1.js > ../www/__ub1/client/bin/ub1.min.js
-
---next
--php ../www/__ub1/php
--main ub1.Server
--lib HtmlParser
--resource ../www/__ub1/client/res/resize-observer.js@resize-observer.js
--D server
-#-D logServer
+-cmd haxe res/build-devel.hxml
+-cmd haxe res/build-test.hxml
+#-cmd haxe res/build-release.hxml

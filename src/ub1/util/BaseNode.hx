@@ -29,14 +29,14 @@ class BaseNode {
 	public var logicalParent(default,null): BaseNode;
 	public var baseParent(default,null): BaseNode;
 	public var baseChildren(get,null): Array<BaseNode>;
-	public function get_baseChildren() return _cdn != null ? _cdn : NOCDN;
+	public function get_baseChildren() return _cdn != null ? _cdn : NOCHILDREN;
 	public var before: BaseNode;
 
 	public function new(parent:BaseNode,
 	                    ?plug:String,
 	                    ?index:Int,
 	                    ?cb:Dynamic->Void) {
-		this.root = ((this.baseParent = parent) != null ? parent.root : this);
+		this.baseRoot = ((this.baseParent = parent) != null ? parent.baseRoot : this);
 		init();
 		if (parent != null) {
 			parent.addChild(this, plug, index);
@@ -131,9 +131,9 @@ class BaseNode {
 	// =========================================================================
 	// private
 	// =========================================================================
-	static var NOCDN: Array<BaseNode> = [];
+	static var NOCHILDREN: Array<BaseNode> = [];
 	var _cdn: Array<BaseNode>;
-	var root: BaseNode;
+	var baseRoot: BaseNode;
 	var slots: Map<String, BaseNode>;
 
 	function init() {}

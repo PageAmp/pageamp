@@ -35,7 +35,7 @@ class Node extends BaseNode {
 	public inline function get_nodeChildren(): Array<Node> return cast baseChildren;
 	public var id: Int;
 	public var page(get,null): Page;
-	public inline function get_page(): Page return untyped root;
+	public inline function get_page(): Page return untyped baseRoot;
 
 	function new(parent:Node, ?plug:String, ?index:Int, ?cb:Dynamic->Void) {
 		super(parent, plug, index, cb);
