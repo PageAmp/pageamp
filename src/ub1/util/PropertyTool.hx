@@ -43,6 +43,11 @@ class PropertyTool {
 		return cast get(props, key, defval);
 	}
 
+	#if (!debug) inline #end
+	public static function getInt(props:Props, key:String, defval=0): Int {
+		return Util.toInt2(get(props, key), defval);
+	}
+
 	public static function set(props:Props, key:String, val:Dynamic): Props {
 		if (val != null) {
 			if (props == null) {
