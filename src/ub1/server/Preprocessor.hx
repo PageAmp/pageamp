@@ -25,10 +25,10 @@ package ub1.server;
 import ub1.core.Element;
 import ub1.react.Value;
 import htmlparser.*;
-#if !js
+//#if !js
 	import sys.FileSystem;
 	import sys.io.File;
-#end
+//#end
 
 import haxe.io.Path;
 using haxe.io.Path;
@@ -55,7 +55,7 @@ class Preprocessor {
 
 	public function new() {}
 
-#if !js
+//#if !js
 	public function loadFile(pathname:String, basepath:String) {
 		this.basepath = new Path(basepath);
 		doc = load(new Path(pathname));
@@ -69,14 +69,14 @@ class Preprocessor {
 		process();
 		return doc;
 	}
-#end
+//#end
 
 	// =========================================================================
 	// loading
 	// =========================================================================
 	var basepath: Path;
 
-#if !js
+//#if !js
 	function load(path:Path, nesting=0): HtmlDocument {
 		if (nesting > MAXNESTING) {
 			throw 'too many nested includes';
@@ -143,7 +143,7 @@ class Preprocessor {
 			}
 		}
 	}
-#end
+//#end
 
 	// =========================================================================
 	// macros
