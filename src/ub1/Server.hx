@@ -22,6 +22,7 @@
 
 package ub1;
 
+import sys.io.FileInput;
 import ub1.Ub1Log;
 import haxe.io.Path;
 import sys.io.File;
@@ -34,6 +35,7 @@ import php.Web;
 import StringTools;
 import ub1.server.Preprocessor;
 import ub1.util.PropertyTool;
+
 using ub1.util.PropertyTool;
 using StringTools;
 
@@ -46,6 +48,7 @@ class Server {
 	public static inline var DOMAINS_ROOT = '__ub1/domains/';
 	public static inline var SITES_ROOT = '__ub1/sites/';
 	public static inline var RESOURCES_ROOT = '__ub1/res/';
+	static inline var STREAMING_SIZE = (1 << 14); // 16 Ko
 
 	public static function main() {
 		var params = Web.getParams();
@@ -85,8 +88,10 @@ class Server {
 
 	// http://en.wikipedia.org/wiki/Internet_media_type
 	static function outputFile(root:String, uri:String, ext:String) {
+		var path = root + uri;
+		var input:FileInput = null;
 		try {
-			Web.setHeader('Content-type', switch (ext) {
+			var type:String = switch (ext) {
 				case 'js': 'application/javascript';
 				case 'json': 'application/json';
 				case 'xml': 'application/xml';
@@ -97,13 +102,36 @@ class Server {
 				case 'png': 'image/png';
 				case 'manifest': 'text/cache-manifest';
 				case 'ico': 'image/x-icon';
+				case 'mp4': 'video/mp4';
+				case 'm4v': 'video/mp4';
 				//TODO
 				default: 'text/html';
-			});
-			Lib.printFile(root + uri);
+			};
+			Web.setHeader('Content-type', type);
+			if (type.startsWith('video') || type.startsWith('audio')) {
+				var stat = FileSystem.stat(path);
+				var start = 0;
+				var size = stat.size;
+				var length = size;
+				var end = size - 1;
+				Web.setHeader('Accept-Ranges', '$start-$end');
+				Web.setHeader('Content-Range', 'bytes $start-$end/$size');
+				Web.setHeader('Content-Length', '$length');
+				input = File.read(path);
+				while (!input.eof()) {
+					var bytes = input.read(STREAMING_SIZE);
+					Lib.print(bytes);
+					Web.flush();
+				}
+			} else {
+				Lib.printFile(path);
+			}
 		} catch (e:Dynamic) {
 			outputResource(root, '404.html', 404);
 		}
+		if (input != null) try {
+			input.close();
+		} catch (ignored:Dynamic) {}
 	}
 
 	// =========================================================================
