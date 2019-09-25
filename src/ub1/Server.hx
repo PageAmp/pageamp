@@ -41,15 +41,15 @@ class Server {
 		public static inline var SOURCEOUT_ARG = 'ub1_source_out';
 		public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
 	#end
-	public static inline var DOMAINS_ROOT = '__ub1/domains/';
-	public static inline var SITES_ROOT = '__ub1/sites/';
+//	public static inline var DOMAINS_ROOT = '__ub1/domains/';
+//	public static inline var SITES_ROOT = '__ub1/sites/';
 	public static inline var RESOURCES_ROOT = '__ub1/res/';
 
 	public static function main() {
 		var params = Web.getParams();
 		var uri = Web.getURI();
 		var domain = Web.getHostName();
-		var root = DOMAINS_ROOT + domain;
+		var root = '.';
 		var re = ~/\.(\w+)$/;
 		var ext = re.match(uri) ? re.matched(1) : null;
 		Ub1Log.server('domain: $domain');
