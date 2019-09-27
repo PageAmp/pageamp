@@ -49,7 +49,7 @@ class Server {
 		var params = Web.getParams();
 		var uri = Web.getURI();
 		var domain = Web.getHostName();
-		var root = '.';
+		var root = untyped __php__("$_SERVER['DOCUMENT_ROOT']");
 		var re = ~/\.(\w+)$/;
 		var ext = re.match(uri) ? re.matched(1) : null;
 		Ub1Log.server('domain: $domain');
