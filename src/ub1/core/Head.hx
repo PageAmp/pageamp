@@ -49,10 +49,11 @@ class Head extends Element {
 	function initStylingApi() {
 
 		set('cssVendorize', function(s:String) {
-			return '$s;\n'
-				 + '-moz-$s;\n'
-				 + '-webkit-$s;\n'
-				 + '-ms-$s;';
+			return '-moz-$s;-webkit-$s;-ms-$s;$s';
+		});
+
+		set('cssVendorize2', function(prefix:String, s:String) {
+			return '$prefix-moz-$s;$prefix-webkit-$s;$prefix-ms-$s;$prefix$s';
 		});
 
 		// e.g. cssGoogleFont('Lato:300,400,700') adds link and returns '"Lato"'
