@@ -172,10 +172,14 @@ class Element extends Node {
 	}
 
 	function collectSlot(n:Element) {
-		var slot = n.props.get(SLOT_PROP);
+		var slot:String = n.props.get(SLOT_PROP);
 		if (slot != null) {
 			slots == null ? slots = new Map<String, BaseNode>() : null;
-			slots.set(slot, n);
+			for (s in slot.split(',')) {
+				if ((s = s.trim()) != '') {
+					slots.set(s, n);
+				}
+			}
 		}
 	}
 

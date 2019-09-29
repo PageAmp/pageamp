@@ -25,6 +25,7 @@ package ub1.util;
 class BaseNode {
 	public static inline var SELF_SLOT = 'self';
 	public static inline var DEFAULT_SLOT = 'default';
+	public static inline var CATCHALL_SLOT = 'catchall';
 
 	public var logicalParent(default,null): BaseNode;
 	public var baseParent(default,null): BaseNode;
@@ -46,10 +47,21 @@ class BaseNode {
 
 	public function getSlot(name:String, ?cb:Dynamic->Void): BaseNode {
 		var ret = null;
-		if (slots != null && name != SELF_SLOT) {
+
+//		if (slots != null && name != SELF_SLOT) {
+//			name == null ? name = DEFAULT_SLOT : null;
+//			ret = slots.get(name);
+//		}
+
+		if (name == SELF_SLOT || slots == null) {
+			ret = this;
+		} else {
 			name == null ? name = DEFAULT_SLOT : null;
-			ret = slots.get(name);
+			if ((ret = slots.get(name)) == null) {
+				ret = slots.get(CATCHALL_SLOT);
+			}
 		}
+
 		ret = (ret != null ? ret : this);
 		cb != null ? cb(ret) : null;
 		return ret;
@@ -59,20 +71,22 @@ class BaseNode {
 	                         ?plug:String,
 	                         ?before:Int): BaseNode {
 		var p = getSlot(plug);
-		if (p._cdn == null) {
-			p._cdn = [];
-		}
-		var i, pos = (before != null ? before : p._cdn.length);
-		if (this.before != null) {
-			if ((i = this.before.getIndex()) >= 0) {
-				i < pos ? pos = i : null;
+		if (p != null) {
+			if (p._cdn == null) {
+				p._cdn = [];
 			}
+			var i, pos = (before != null ? before : p._cdn.length);
+			if (this.before != null) {
+				if ((i = this.before.getIndex()) >= 0) {
+					i < pos ? pos = i : null;
+				}
+			}
+			p._cdn.insert(pos, child);
+			pos >= 0 ? pos++ : null;
+			child.logicalParent = this;
+			child.baseParent = p;
+			child.wasAdded(this, p, pos);
 		}
-		p._cdn.insert(pos, child);
-		pos >= 0 ? pos++ : null;
-		child.logicalParent = this;
-		child.baseParent = p;
-		child.wasAdded(this, p, pos);
 		return this;
 	}
 
