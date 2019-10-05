@@ -372,4 +372,19 @@ class Util {
 		return n;
 	}
 
+	public static function makeCamelName(n:String): String {
+		return ~/(\-\w)/g.map(n, function(re:EReg): String {
+			return n.substr(re.matchedPos().pos + 1, 1).toUpperCase();
+		});
+	}
+
+	public static function makeHyphenName(n:String): String {
+		return ~/([0-9a-z][A-Z])/g.map(n, function(re:EReg): String {
+			var p = re.matchedPos().pos;
+			return n.substr(p, 1).toLowerCase()
+			+ '-'
+			+ n.substr(p + 1, 1).toLowerCase();
+		});
+	}
+
 }

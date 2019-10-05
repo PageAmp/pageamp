@@ -84,7 +84,7 @@ class Element extends Node {
 	override public function set(key:String, val:Dynamic, push=true): Value {
 		var ret = null;
 		if (key.startsWith(ATTRIBUTE_PREFIX) && !isDynamicValue(key, val)) {
-			key = Node.makeHyphenName(key.substr(ATTRIBUTE_PREFIX.length));
+			key = Util.makeHyphenName(key.substr(ATTRIBUTE_PREFIX.length));
 			attributeValueCB(e, key, val);
 		} else {
 			scope == null ? makeScope() : null;
@@ -390,7 +390,7 @@ class Element extends Node {
 
 	#if !debug inline #end
 	function makeNativeName(n:String, off=0) {
-		return Node.makeHyphenName(n.substr(off));
+		return Util.makeHyphenName(n.substr(off));
 	}
 
 	// =========================================================================

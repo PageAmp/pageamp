@@ -20,34 +20,19 @@ class ReElement extends ReNode {
 	override public function add(name:String, value:Re<Dynamic>) {
 		super.add(name, value);
 		if (name.startsWith('a_')) {
-			value.key = makeHyphenName(name.substr('a_'.length));
+			value.key = Util.makeHyphenName(name.substr('a_'.length));
 			value.cb = switch (name) {
 				case 'a_innerText': textValueCB;
 				case 'a_innerHTML': htmlValueCB;
 				default: attributeValueCB;
 			}
 		} else if (name.startsWith('c_')) {
-			value.key = makeHyphenName(name.substr('c_'.length));
+			value.key = Util.makeHyphenName(name.substr('c_'.length));
 			value.cb = classValueCB;
 		} else if (name.startsWith('s_')) {
-			value.key = makeHyphenName(name.substr('s_'.length));
+			value.key = Util.makeHyphenName(name.substr('s_'.length));
 			value.cb = styleValueCB;
 		}
-	}
-
-	public static function makeCamelName(n:String): String {
-		return ~/(\-\w)/g.map(n, function(re:EReg): String {
-			return n.substr(re.matchedPos().pos + 1, 1).toUpperCase();
-		});
-	}
-
-	public static function makeHyphenName(n:String): String {
-		return ~/([0-9a-z][A-Z])/g.map(n, function(re:EReg): String {
-			var p = re.matchedPos().pos;
-			return n.substr(p, 1).toLowerCase()
-			+ '-'
-			+ n.substr(p + 1, 1).toLowerCase();
-		});
 	}
 
 	// =========================================================================
