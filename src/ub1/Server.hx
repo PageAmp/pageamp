@@ -201,8 +201,8 @@ class Server {
 			Web.setHeader('Content-type', 'text/html');
 			Lib.print('<html><body><pre>');
 			s = s.split("<").join("&lt;")
-			.split(">").join("&gt;")
-			.split("\t").join("    ");
+				.split(">").join("&gt;")
+				.split("\t").join("    ");
 			Lib.print(s);
 			Lib.print('</pre></body></html>');
 		} catch (e:Dynamic) {
