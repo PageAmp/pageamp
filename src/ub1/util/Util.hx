@@ -372,6 +372,10 @@ class Util {
 		return n;
 	}
 
+	public static inline function toStringOrNull(v:Dynamic) {
+		return v != null ? Std.string(v) : null;
+	}
+
 	public static function makeCamelName(n:String): String {
 		return ~/(\-\w)/g.map(n, function(re:EReg): String {
 			return n.substr(re.matchedPos().pos + 1, 1).toUpperCase();
