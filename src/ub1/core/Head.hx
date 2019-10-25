@@ -34,7 +34,8 @@ class Head extends Element {
 
 	override function init() {
 		var e = page.doc.domGetHead();
-		e != null ? props = props.set(Element.ELEMENT_PROP, e) : null;
+		props = props.set(Element.NAME_PROP, 'head');
+		e != null ? props.set(Element.ELEMENT_PROP, e) : null;
 		super.init();
 		initStylingApi();
 	}
