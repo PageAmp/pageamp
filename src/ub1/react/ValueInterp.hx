@@ -134,13 +134,13 @@ class ValueInterp extends Interp {
 	var resetVars = new Map<String,Dynamic>();
 	var currentScope: ValueScope;
 
-    inline function edef( e : Expr ) {
-        #if hscriptPos
-		return e.e;
-		#else
-        return e;
-        #end
-    }
+//    inline function edef( e : Expr ) {
+//        #if hscriptPos
+//		return e.e;
+//		#else
+//        return e;
+//        #end
+//    }
 
     override function assign(e1:Expr, e2:Expr): Dynamic {
 		var v = expr(e2);
