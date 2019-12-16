@@ -5,6 +5,7 @@
 -D entityDecoder
 -D demo
 -D release
+-D preIE8
 --each
 
 --next

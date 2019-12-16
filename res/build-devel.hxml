@@ -2,6 +2,7 @@
 -cp src
 -lib hscript
 -D resizeMonitor
+-D preIE8
 --each
 
 --next

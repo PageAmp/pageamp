@@ -22,6 +22,7 @@
 
 package ub1.core;
 
+import ub1.util.PropertyTool.Props;
 import ub1.util.ArrayTool;
 import ub1.web.DomTools;
 import ub1.web.ColorTools;
@@ -31,6 +32,22 @@ using ub1.util.PropertyTool;
 using ub1.web.DomTools;
 
 class Head extends Element {
+
+	public function new(parent:Element, props:Props, ?cb:Dynamic->Void) {
+		super(parent, props, cb);
+#if (!client && preIE8)
+		page.createDomComment('[if lte IE 8]>'
+			+ '<script src="/__ub1/res/js/ie/html5shiv.min.js"></script>'
+			+ '<![endif]',
+			e
+		);
+#end
+#if !client
+		page.createDomElement('script', {
+			src: '/__ub1/res/js/scrollIntoViewIfNeeded.js'
+		}, e);
+#end
+	}
 
 	override function init() {
 		var e = page.doc.domGetHead();
