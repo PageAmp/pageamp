@@ -31,6 +31,7 @@ using ub1.util.ArrayTool;
 using ub1.util.PropertyTool;
 using ub1.web.DomTools;
 
+//TODO: adds link tag for google fonts in both the server and the client
 class Head extends Element {
 
 	public function new(parent:Element, props:Props, ?cb:Dynamic->Void) {
