@@ -22,6 +22,7 @@
 
 package ub1.react;
 
+import hscript.Tools;
 import ub1.Ub1Log;
 import hscript.Expr;
 import hscript.Interp;
@@ -82,7 +83,7 @@ class ValueInterp extends Interp {
 
 	public function reset() {
 		mainScope.reset();
-		variables = new Map<String,Dynamic>();
+		variables = cast new Map<String,Dynamic>();
 		resetVars.mapCopy(variables);
 		currentScope = null;
 	}
@@ -134,17 +135,9 @@ class ValueInterp extends Interp {
 	var resetVars = new Map<String,Dynamic>();
 	var currentScope: ValueScope;
 
-//    inline function edef( e : Expr ) {
-//        #if hscriptPos
-//		return e.e;
-//		#else
-//        return e;
-//        #end
-//    }
-
     override function assign(e1:Expr, e2:Expr): Dynamic {
 		var v = expr(e2);
-		switch (edef(e1)) {
+		switch (Tools.expr(e1)) {
 		case EIdent(id):
 		    _resolveWrite(id, v);
 		case EField(e,f):

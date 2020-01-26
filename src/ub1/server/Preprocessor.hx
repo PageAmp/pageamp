@@ -41,8 +41,9 @@ class Preprocessor {
 	public static inline var TRANSPARENT_TAGNAME = 'ub1-group';
 	public static inline var ESCAPED_TAGNAME = 'ub1-escaped';
 	public static inline var ESCAPED_TABSPACESATTR = 'tabspaces';
-	public static inline var INCLUDE_TAGNAME = 'ub1-include';
-	public static inline var INCLUDE_NAMEATTR = 'href';
+    public static inline var IMPORT_TAGNAME = 'ub1-import';
+    public static inline var INCLUDE_TAGNAME = 'ub1-include';
+	public static inline var INCLUDE_NAMEATTR = 'src';
 	public static inline var MACRODEF_TAGNAME = 'ub1-macro';
 	public static inline var MACRODEF_NAMEATTR = 'name';
 	public static inline var SLOTDEF_TAGNAME = 'ub1-slot';
@@ -75,6 +76,7 @@ class Preprocessor {
 	// loading
 	// =========================================================================
 	var basepath: Path;
+    var imported = new Map<String,Bool>();
 
 //#if !js
 	function load(path:Path, nesting=0): HtmlDocument {
@@ -107,9 +109,11 @@ class Preprocessor {
 //		text = normalizeHtml(text);
 		var ret = PreprocessorParser.parseDoc(text);
 
-		var includes = lookupByName(ret, INCLUDE_TAGNAME);
+		var includes = lookupByName(ret, IMPORT_TAGNAME);
+        lookupByName(ret, INCLUDE_TAGNAME, includes);
 		for (include in includes) {
 			processInclude(path, include, nesting);
+            include.remove();
 		}
 		return ret;
 	}
@@ -120,6 +124,13 @@ class Preprocessor {
 			var basepath = path.dir + '/';
 			href.startsWith('/') ? basepath = this.basepath.toString() : null;
 			var pathname = Path.normalize(basepath + href);
+            if (include.name == IMPORT_TAGNAME) {
+                if (imported.exists(pathname)) {
+                    return;
+                } else {
+                    imported.set(pathname, true);
+                }
+            }
 			var path2 = new Path(pathname);
 			//TODO: check against pathnames outside allowed scope
 			var root = load(path2, nesting + 1).children[0];
@@ -135,7 +146,6 @@ class Preprocessor {
 			p.parent.removeChild(e);
 			p.addChild(e, include);
 		}
-		p.removeChild(include);
 		// copy include-level dynamic attributes to include's parent
 		for (a in root.attributes) {
 			if (a.name.startsWith(':') && !p.hasAttribute(a.name)) {
@@ -220,7 +230,7 @@ class Preprocessor {
 		} else {
 			// NOTE: due to HtmlParser's limitations, newly added elements don't
 			// always appear in HtmlNodeElement.children array, so we scan the
-			// nodes array and ignored non elements here
+			// nodes array and ignore non-elements here
 			var nn:Array<HtmlNode> = p.nodes.slice(0);
 			for (n in nn) {
 				if (Std.is(n, HtmlNodeElement)) {
@@ -428,8 +438,9 @@ class Preprocessor {
 	}
 
 	function lookupByName(root:HtmlNodeElement,
-	                      name:String): Array<HtmlNodeElement> {
-		var ret = new Array<HtmlNodeElement>();
+	                      name:String,
+                          ?ret:Array<HtmlNodeElement>): Array<HtmlNodeElement> {
+		ret = (ret != null ? ret : new Array<HtmlNodeElement>());
 		var f = null;
 		f = function(p:HtmlNodeElement) {
 			if (p.name == name) {
