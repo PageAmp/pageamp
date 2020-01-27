@@ -368,6 +368,7 @@ class Page extends Element implements ServerPage {
 			}
 		}).unlink();
 		set('pageMail', php.Lib.mail);
+        set('server', true);
 #end
 		set('Xml', Xml).unlink();
 		set('pageCommandKey', commandKey).unlink();

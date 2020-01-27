@@ -77,6 +77,7 @@ class Head extends Element {
 
 		// e.g. cssGoogleFont('Lato:300,400,700') adds link and returns '"Lato"'
 		set('cssGoogleFont', function(name:String) {
+#if (server || builder)
 			if (!fonts.exists(name)) {
 				var styles = page.domGetByTagName('style');
 				var before = ArrayTool.peek(untyped styles);
@@ -87,6 +88,7 @@ class Head extends Element {
 				}, e, before);
 				fonts.set(name, link);
 			}
+#end
 			return '"' + name.split(":")[0] + '"';
 		}).unlink();
 
