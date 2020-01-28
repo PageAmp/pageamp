@@ -76,6 +76,8 @@ class ValueInterp extends Interp {
 			return v != null ? new EReg(Std.string(v), opt) : null;
 		});
 		variables.set('stringSort', ub1.util.ArrayTool.stringSort);
+        variables.set('Date', Date);
+        variables.set('dateNow', Date.now());
 		variables.set('Math', Math);
 		variables.set('String', String);
 		variables.mapCopy(resetVars);
