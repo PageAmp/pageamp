@@ -38,14 +38,14 @@ class Head extends Element {
 		super(parent, props, cb);
 #if (!client && preIE8)
 		page.createDomComment('[if lte IE 8]>'
-			+ '<script src="/__ub1/res/js/ie/html5shiv.min.js"></script>'
+			+ '<script src="/${Const.getFrameworkName()}/res/js/ie/html5shiv.min.js"></script>'
 			+ '<![endif]',
 			e
 		);
 #end
 #if !client
 		page.createDomElement('script', {
-			src: '/__ub1/res/js/scrollIntoViewIfNeeded.js'
+			src: '/${Const.getFrameworkName()}/res/js/scrollIntoViewIfNeeded.js'
 		}, e);
 #end
 	}

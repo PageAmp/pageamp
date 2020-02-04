@@ -41,9 +41,7 @@ class Server {
 		public static inline var SOURCEOUT_ARG = 'ub1_source_out';
 		public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
 	#end
-//	public static inline var DOMAINS_ROOT = '__ub1/domains/';
-//	public static inline var SITES_ROOT = '__ub1/sites/';
-	public static inline var RESOURCES_ROOT = '__ub1/res/';
+	public static var RESOURCES_ROOT = Const.getFrameworkName() + '/res/';
 
 	public static function main() {
 		var params = Web.getParams();
@@ -77,7 +75,7 @@ class Server {
 		}
 	}
 
-	// =========================================================================
+    // =========================================================================
 	// outputFile()
 	// =========================================================================
 

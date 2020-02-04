@@ -67,7 +67,7 @@ class Page extends Element implements ServerPage {
 		super(null, props, cb);
 #if (!client && preIE8)
 		createDomComment('[if lte IE 8]>'
-			+ '<script src="/__ub1/res/js/ie/respond.min.js"></script>'
+			+ '<script src="/${Const.getFrameworkName()}/res/js/ie/respond.min.js"></script>'
 			+ '<![endif]',
 			doc.domGetBody()
 		);
@@ -291,10 +291,10 @@ class Page extends Element implements ServerPage {
 #end
 		createDomElement('script', {
 #if release
-			src:'/__ub1/client/bin/ub1.min.js',
+			src:'/${Const.getFrameworkName()}/client/bin/${Const.getFrameworkName()}.min.js',
 			async: 'async',
 #else
-			src:'/__ub1/client/bin/ub1.js',
+			src:'/${Const.getFrameworkName()}/client/bin/${Const.getFrameworkName()}.js',
 #end
 		}, body);
 		createDomTextNode('\n', body);

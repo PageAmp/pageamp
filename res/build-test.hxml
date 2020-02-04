@@ -1,7 +1,12 @@
+-D frameworkName=pageamp
+--each
+
+-cmd cp res/docroot/pageamp_test/index.html ../web2/docroot/pageamp_test
+-cmd cp res/docroot/pageamp_test/client/index.html ../web2/docroot/pageamp_test/client
 
 # client test
 --next
--js ../web/docroot/__ub1_test/client/bin/test.js
+-js ../web2/docroot/pageamp_test/client/bin/test.js
 -cp exp
 -cp ext
 -cp src
@@ -15,7 +20,7 @@
 
 # php test
 --next
--php ../web/docroot/__ub1_test/php
+-php ../web2/docroot/pageamp_test/php
 -cp exp
 -cp ext
 -cp src
@@ -28,14 +33,14 @@
 
 # test page collapsible listss
 --next
--js ../web/docroot/__ub1_test/bin/testpage.js
+-js ../web2/docroot/pageamp_test/bin/testpage.js
 -cp src
 -main ub1.util.TestPage
 -D client
 
 # ub1 client
 --next
--js ../web/docroot/__ub1/client/bin/ub1.js
+-js ../web2/docroot/pageamp/client/bin/ub1.js
 -cp ext
 -cp src
 -main ub1.Client
@@ -43,11 +48,11 @@
 -lib feffects
 -D client
 -dce full
-#-cmd uglifyjs ../web/docroot/__ub1/client/bin/ub1.js > ../web/docroot/__ub1/client/bin/ub1.min.js
+#-cmd uglifyjs ../web2/docroot/pageamp/client/bin/ub1.js > ../web2/docroot/pageamp/client/bin/ub1.min.js
 
 # php ub1 server
 --next
--php ../web/docroot/__ub1/php
+-php ../web2/docroot/pageamp/php
 -cp ext
 -cp src
 -main ub1.Server

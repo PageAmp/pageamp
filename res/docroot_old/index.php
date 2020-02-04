@@ -7,7 +7,7 @@ if(version_compare(PHP_VERSION, '5.1.0', '<')) {
 }
 ;
 
-require_once dirname(__FILE__).'/pageamp/php/lib/php/Boot.class.php';
+require_once dirname(__FILE__).'/__ub1/php/lib/php/Boot.class.php';
 ub1_Server::main();
 
 ?>

@@ -1,8 +1,16 @@
 SetEnv PHP_VER 5
 
+AddType video/mp4 mp4 m4v
+AddType audio/mp4 m4a
+AddType video/ogg ogv
+AddType audio/ogg ogg oga
+AddType video/webm webm
+
 AddOutputFilterByType DEFLATE text/html text/xml application/xml application/xhtml+xml text/plain application/javascript text/css
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L,QSA]
+RewriteRule ^([^\.]*)$ index.php [L,QSA]
+RewriteRule ^(.*?\.htm)$ index.php [L,QSA]
+RewriteRule ^(.*?\.html)$ index.php [L,QSA]
