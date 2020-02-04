@@ -145,11 +145,11 @@ class Element extends Node {
 	var def: Define;
 
 	override function init() {
-		var tagname = props.get(Element.TAG_PROP);
-		if ((def = page.defines.get(tagname)) != null) {
-			props.remove(Element.TAG_PROP);
-			props = props.ensureWith(def.props);
-		}
+		var tagname:String = props.get(Element.TAG_PROP);
+        if ((def = page.defines.get(tagname)) != null) {
+            props.remove(Element.TAG_PROP);
+            props = props.ensureWith(def.props);
+        }
 		init2();
 		var f = null;
 		f = function(p:Element, src:Element) {
@@ -449,7 +449,7 @@ class Element extends Node {
 	#if resizeMonitor
 		if (key == Page.RESIZE_CLASS && flag && !resizeMonitor) {
 			resizeMonitor = true;
-			//TODO: these should be defined earlier in case ub1-resize class is
+			//TODO: these should be defined earlier in case pageamp-resize class is
 			//set, so other values can reliably depend on them; they should also
 			//be reliably initializated with the actual clientWidth/Height after
 			//the first refresh

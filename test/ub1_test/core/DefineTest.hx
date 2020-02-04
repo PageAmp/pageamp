@@ -39,7 +39,7 @@ class DefineTest extends Test {
 					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
 					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
 				});
-				e = new Element(p, {n_tag:'foo'});
+				e = new Element(p, {n_tag:':foo'});
 			});
 			assert(doc.domToString(), '<html>'
 			+ '<head></head><body>'
@@ -64,7 +64,7 @@ class DefineTest extends Test {
 					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
 					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
 				});
-				e = new Element(p, {n_tag:'foo', title:'X', text:'Y'});
+				e = new Element(p, {n_tag:':foo', title:'X', text:'Y'});
 			});
 			assert(doc.domToString(), '<html>'
 			+ '<head></head><body>'
@@ -94,7 +94,7 @@ class DefineTest extends Test {
 					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
 					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
 				});
-				e = new Element(p, {n_tag:'foo'});
+				e = new Element(p, {n_tag:':foo'});
 			});
 			assert(doc.domToString(), '<html>'
 			+ '<head></head><body>'
@@ -124,7 +124,7 @@ class DefineTest extends Test {
 					new Element(p, {n_tag:'b', innerText:"title: ${title}"});
 					new Element(p, {n_tag:'i', innerText:"text: ${text}"});
 				});
-				e = new Element(p, {n_tag:'foo', title:'X', text:'Y'});
+				e = new Element(p, {n_tag:':foo', title:'X', text:'Y'});
 			});
 			assert(doc.domToString(), '<html>'
 			+ '<head></head><body>'
@@ -148,7 +148,7 @@ class DefineTest extends Test {
 				new Define(p, {n_def:'item', n_ext:'li'}, function(p:Define) {
 					new Element(p, {n_tag:'span', n_slot:'title'});
 				});
-				e = new Element(p, {n_tag:'item'}, function(p:Element) {
+				e = new Element(p, {n_tag:':item'}, function(p:Element) {
 					new Element(p, {n_tag:'i', n_plug:'title', innerText:'x'});
 				});
 			});
@@ -168,10 +168,10 @@ class DefineTest extends Test {
 				new Define(p, {n_def:'item', n_ext:'li'}, function(p:Define) {
 					new Element(p, {n_tag:'span', n_slot:'title'});
 				});
-				new Define(p, {n_def:'bold', n_ext:'item'}, function(p:Define) {
+				new Define(p, {n_def:'bold', n_ext:':item'}, function(p:Define) {
 					new Element(p, {n_tag:'b', n_plug:'title', n_slot:'title'});
 				});
-				e = new Element(p, {n_tag:'bold'}, function(p:Element) {
+				e = new Element(p, {n_tag:':bold'}, function(p:Element) {
 					new Element(p, {n_tag:'i', n_plug:'title', innerText:'x'});
 				});
 			});
@@ -189,7 +189,7 @@ class DefineTest extends Test {
 			var e:Element = null;
 			var page = new Page(doc, null, function(p:Page) {
 				new Define(p, {n_def:'input', n_ext:'input', c_myClass:1});
-				new Element(p, {n_tag:'input', a_type:'text'});
+				new Element(p, {n_tag:':input', a_type:'text'});
 			});
 			var s = doc.domToString();
 			s = ~/(\s?\/>)/g.replace(s, '>');
@@ -207,8 +207,8 @@ class DefineTest extends Test {
 			var e:Element = null;
 			var page = new Page(doc, null, function(p:Page) {
 				new Define(p, {n_def:'input', n_ext:'input', c_myClass:1});
-				new Define(p, {n_def:'input', n_ext:'input', c_otherClass:1});
-				new Element(p, {n_tag:'input', a_type:'button'});
+				new Define(p, {n_def:'input', n_ext:':input', c_otherClass:1});
+				new Element(p, {n_tag:':input', a_type:'button'});
 			});
 			var s = doc.domToString();
 			s = ~/(\s?\/>)/g.replace(s, '>');

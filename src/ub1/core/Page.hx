@@ -123,8 +123,8 @@ class Page extends Element implements ServerPage {
 	// =========================================================================
 
 #if resizeMonitor
-	public static inline var RESIZE_OBSERVER = 'ub1ResizeObserver';
-	public static inline var RESIZE_CLASS = 'ub1-resize';
+	public static inline var RESIZE_OBSERVER = 'pageampResizeObserver';
+	public static inline var RESIZE_CLASS = 'pageamp-resize';
 	public static inline var RESIZE_SM = 'SM';
 	public static inline var RESIZE_MD = 'MD';
 	public static inline var RESIZE_LG = 'LG';

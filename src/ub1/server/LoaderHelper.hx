@@ -46,13 +46,13 @@ class LoaderHelper {
 	}
 
 	public static function loadDefineProps(p:Props): Props {
-		var tagname = p.getString('a_tag', '');
-		var parts = tagname.split(':');
+		var tagname = p.getString('tag', '');
+		var parts = tagname.split('->');
 		var name1 = parts.length > 0 ? parts[0].trim() : '';
 		var name2 = parts.length > 1 ? parts[1].trim() : '';
 		~/^([a-zA-Z0-9_\-]+)$/.match(name1) ? null : name1 = '_';
 		~/^([a-zA-Z0-9_\-]+)$/.match(name2) ? null : name2 = 'div';
-		p.remove('a_tag');
+		p.remove('tag');
 		p.remove(Element.TAG_PROP);
 		p = p.set(Define.DEFNAME_PROP, name1);
 		p = p.set(Define.EXTNAME_PROP, name2);

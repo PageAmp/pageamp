@@ -36,7 +36,7 @@ import ub1.util.Util;
 // https://stackoverflow.com/questions/12712101/embedding-xml-in-html#12712221
 // restrictions-for-contents-of-script-elements: https://tinyurl.com/yaaeg5rt
 class Dataset extends Element implements DataProvider implements DataDelegate {
-	public static inline var TAGNAME = 'ub1-dataset';
+	public static inline var TAGNAME = ':dataset';
 	// static data
 	public static inline var XML_PROP = 'xml';
 	public static inline var TEXT_PROP = 'text';

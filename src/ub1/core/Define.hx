@@ -33,7 +33,7 @@ using ub1.util.PropertyTool;
 	TODO: slots
 **/
 class Define extends Element {
-	public static inline var TAGNAME = 'ub1-define';
+	public static inline var TAGNAME = ':define';
 	public static inline var DEFNAME_PROP = Element.NODE_PREFIX + 'def';
 	public static inline var EXTNAME_PROP = Element.NODE_PREFIX + 'ext';
 	public var ext(default,null): Define;
@@ -65,7 +65,7 @@ class Define extends Element {
 		var defname = props.getString(DEFNAME_PROP, '_');
 		var extname = props.getString(EXTNAME_PROP, 'div');
 		ext = page.defines.get(extname);
-		page.defines.set(defname, this);
+		page.defines.set(':' + defname, this);
 		if (ext != null) {
 			props.remove(Element.NAME_PROP);
 			props = inherit(this, {});

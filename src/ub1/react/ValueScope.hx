@@ -303,7 +303,9 @@ class ValueScope {
 #if server
 		var value:Value = values.get(key);
 		if (value != null) {
-			context.delayedSet(value.uid, this, key, val, cb);
+		    if (secs <= 0) {
+    			context.delayedSet(value.uid, this, key, val, cb);
+			}
 		}
 #else
 		Timer.delay(function() {
