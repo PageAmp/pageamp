@@ -6,7 +6,7 @@
 
 --next
 -js ../web2/docroot/pageamp/client/bin/pageamp.js
--main ub1.Client
+-main pageamp.Client
 -lib feffects
 -D client
 -D entityDecoder
@@ -18,7 +18,7 @@
 
 --next
 -php ../web2/docroot/pageamp/php
--main ub1.Server
+-main pageamp.Server
 -lib HtmlParser
 -resource res/js/resize-observer.js@resize-observer.js
 -D server

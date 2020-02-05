@@ -1,10 +1,10 @@
 package reapp1.core;
 
 import reapp1.core.IsoSource;
-import ub1.util.PropertyTool;
-import ub1.web.DomTools;
-using ub1.util.PropertyTool;
-using ub1.web.DomTools;
+import pageamp.util.PropertyTool;
+import pageamp.web.DomTools;
+using pageamp.util.PropertyTool;
+using pageamp.web.DomTools;
 
 /**
 * Represents the document's root element and provides the reactive context.

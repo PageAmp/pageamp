@@ -1,6 +1,6 @@
 package reapp1.core;
 
-import ub1.util.BaseNode;
+import pageamp.util.BaseNode;
 
 class ReNode extends BaseNode {
 	public var app(get,null): ReApp;

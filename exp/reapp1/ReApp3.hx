@@ -1,8 +1,8 @@
 package reapp1;
 
 import haxe.macro.Expr;
-import ub1.util.PropertyTool;
-using ub1.util.PropertyTool;
+import pageamp.util.PropertyTool;
+using pageamp.util.PropertyTool;
 
 class ReApp3 {
 

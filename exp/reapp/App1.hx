@@ -3,8 +3,8 @@ package reapp;
 import reapp.app.*;
 import reapp.core.*;
 import reapp.macro.RE;
-import ub1.web.DomTools;
-using ub1.web.DomTools;
+import pageamp.web.DomTools;
+using pageamp.web.DomTools;
 
 class App1 {
 

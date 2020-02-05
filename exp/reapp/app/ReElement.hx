@@ -1,9 +1,9 @@
 package reapp.app;
 
 import reapp.core.Re;
-import ub1.util.Util;
-import ub1.web.DomTools;
-using ub1.web.DomTools;
+import pageamp.util.Util;
+import pageamp.web.DomTools;
+using pageamp.web.DomTools;
 using StringTools;
 
 class ReElement extends ReNode {

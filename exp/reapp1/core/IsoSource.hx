@@ -1,10 +1,10 @@
 package reapp1.core;
 
 #if isoclient
-	import ub1.web.DomTools;
+	import pageamp.web.DomTools;
 	typedef IsoElement = DomElement;
 #else
-	import ub1.util.PropertyTool;
+	import pageamp.util.PropertyTool;
 	using StringTools;
 	typedef IsoElement = Props;
 #end

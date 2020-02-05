@@ -1,8 +1,8 @@
 package reapp1.core;
 
 import reapp1.core.IsoSource;
-import ub1.web.DomTools;
-using ub1.web.DomTools;
+import pageamp.web.DomTools;
+using pageamp.web.DomTools;
 
 class ReElement extends ReNode {
 	public var e: DomElement;

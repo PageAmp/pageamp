@@ -1,7 +1,7 @@
 package reapp1;
 
-import ub1.util.PropertyTool;
-using ub1.util.PropertyTool;
+import pageamp.util.PropertyTool;
+using pageamp.util.PropertyTool;
 
 // https://github.com/andyli/hxAnonCls
 //@:build(hxAnonCls.Macros.build())

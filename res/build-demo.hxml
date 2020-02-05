@@ -8,16 +8,16 @@
 --each
 
 --next
--js ../web/docroot/__ub1/client/bin/ub1.js
--main ub1.Client
+-js ../web/docroot/pageamp/client/bin/pageamp.js
+-main pageamp.Client
 -lib feffects
 -D client
 -dce full
-#-cmd uglifyjs ../web/docroot/__ub1/client/bin/ub1.js > ../web/docroot/__ub1/client/bin/ub1.min.js
+#-cmd uglifyjs ../web/docroot/pageamp/client/bin/pageamp.js > ../web/docroot/pageamp/client/bin/pageamp.min.js
 
 --next
--php ../web/docroot/__ub1/php
--main ub1.Server
+-php ../web/docroot/pageamp/php
+-main pageamp.Server
 -lib HtmlParser
--resource ../web/docroot/__ub1/client/res/resize-observer.js@resize-observer.js
+-resource ../web/docroot/pageamp/client/res/resize-observer.js@resize-observer.js
 -D server

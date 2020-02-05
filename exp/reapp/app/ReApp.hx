@@ -1,8 +1,8 @@
 package reapp.app;
 
 import reapp.core.*;
-import ub1.web.DomTools;
-using ub1.web.DomTools;
+import pageamp.web.DomTools;
+using pageamp.web.DomTools;
 
 class ReApp extends ReElement {
 	public var doc: DomDocument;

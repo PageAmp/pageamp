@@ -6,9 +6,9 @@ package reapp1.core;
 	import feffects.Tween;
 	import feffects.easing.Cubic;
 #end
-import ub1.Ub1Log;
-import ub1.util.Observable;
-using ub1.util.ArrayTool;
+import pageamp.Log;
+import pageamp.util.Observable;
+using pageamp.util.ArrayTool;
 
 /**
 * Reactive parametrized value.
@@ -179,7 +179,7 @@ class Re<T> implements Applicable {
 
 	// called only at `push` time (i.e. outside of refreshes)
 	function observer(s:Re<Dynamic>, oldValue:Dynamic) {
-		Ub1Log.value('observer() old: "$oldValue", new: "${s.value}"');
+		Log.value('observer() old: "$oldValue", new: "${s.value}"');
 		get();
 	}
 

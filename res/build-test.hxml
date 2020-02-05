@@ -10,7 +10,7 @@
 -cp src
 -cp test
 -D test
--main ub1_test.Ub1Suite
+-main pageamp_test.PageAmpSuite
 -lib htmlparser
 -lib hscript
 -D client
@@ -24,7 +24,7 @@
 -cp src
 -cp test
 -D test
--main ub1_test.Ub1Suite
+-main pageamp_test.PageAmpSuite
 -lib htmlparser
 -lib hscript
 -D server
@@ -33,27 +33,27 @@
 --next
 -js ../web2/docroot/pageamp_test/bin/testpage.js
 -cp src
--main ub1.util.TestPage
+-main pageamp.util.TestPage
 -D client
 
-# ub1 client
+# pageamp client
 --next
--js ../web2/docroot/pageamp/client/bin/ub1.js
+-js ../web2/docroot/pageamp/client/bin/pageamp.js
 -cp ext
 -cp src
--main ub1.Client
+-main pageamp.Client
 -lib hscript
 -lib feffects
 -D client
 -dce full
-#-cmd uglifyjs ../web2/docroot/pageamp/client/bin/ub1.js > ../web2/docroot/pageamp/client/bin/ub1.min.js
+#-cmd uglifyjs ../web2/docroot/pageamp/client/bin/pageamp.js > ../web2/docroot/pageamp/client/bin/pageamp.min.js
 
-# php ub1 server
+# php pageamp server
 --next
 -php ../web2/docroot/pageamp/php
 -cp ext
 -cp src
--main ub1.Server
+-main pageamp.Server
 -lib hscript
 -lib htmlparser
 -D server
