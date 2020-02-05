@@ -37,11 +37,11 @@ using StringTools;
 
 class Server {
 	#if demo
-		public static inline var SOURCEIN_ARG = 'ub1_source_in';
-		public static inline var SOURCEOUT_ARG = 'ub1_source_out';
-		public static inline var SOURCECOMPILE_ARG = 'ub1_source_compile';
+		public static inline var SOURCEIN_ARG = 'pa_source_in';
+		public static inline var SOURCEOUT_ARG = 'pa_source_out';
+		public static inline var SOURCECOMPILE_ARG = 'pa_source_compile';
 	#end
-	public static var RESOURCES_ROOT = Const.getFrameworkName() + '/res/';
+	public static var RESOURCES_ROOT = Const.FRAMEWORK_NAME + '/res/';
 
 	public static function main() {
 		var params = Web.getParams();

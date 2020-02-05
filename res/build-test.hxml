@@ -1,5 +1,3 @@
--D frameworkName=pageamp
---each
 
 -cmd cp res/docroot/pageamp_test/index.html ../web2/docroot/pageamp_test
 -cmd cp res/docroot/pageamp_test/client/index.html ../web2/docroot/pageamp_test/client

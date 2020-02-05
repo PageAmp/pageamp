@@ -36,16 +36,16 @@ class Head extends Element {
 
 	public function new(parent:Element, props:Props, ?cb:Dynamic->Void) {
 		super(parent, props, cb);
-#if (!client && preIE8)
-		page.createDomComment('[if lte IE 8]>'
-			+ '<script src="/${Const.getFrameworkName()}/res/js/ie/html5shiv.min.js"></script>'
-			+ '<![endif]',
-			e
-		);
-#end
+//#if (!client && preIE8)
+//		page.createDomComment('[if lte IE 8]>'
+//			+ '<script src="/${Const.FRAMEWORK_NAME}/res/js/ie/html5shiv.min.js"></script>'
+//			+ '<![endif]',
+//			e
+//		);
+//#end
 #if !client
 		page.createDomElement('script', {
-			src: '/${Const.getFrameworkName()}/res/js/scrollIntoViewIfNeeded.js'
+			src: '/${Const.FRAMEWORK_NAME}/res/js/scrollIntoViewIfNeeded.js'
 		}, e);
 #end
 	}

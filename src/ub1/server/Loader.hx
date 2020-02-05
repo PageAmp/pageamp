@@ -110,14 +110,14 @@ class Loader {
 		for (a in e.attributes) {
 			var key = a.name;
 			var val = a.value;
-			if (key.startsWith(Element.CLASS_PREFIX) && val == null) {
-				val = '1';
-			}
 			if (key.startsWith(':')) {
 				key = key.substr(1);
 			} else if (!~/^\w_/.match(key)) {
 				key = Element.ATTRIBUTE_PREFIX + key;
 			}
+            if (key.startsWith(Element.CLASS_PREFIX) && val == null) {
+                val = '1';
+            }
 			props.set(key, val);
 		}
 		return props;

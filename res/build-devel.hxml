@@ -1,7 +1,6 @@
 -cp ext
 -cp src
 -lib hscript
--D frameworkName=pageamp
 -D resizeMonitor
 -D preIE8
 --each

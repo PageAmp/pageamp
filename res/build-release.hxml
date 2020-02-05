@@ -1,4 +1,5 @@
 -cp src
+-cp ext
 -lib hscript
 -D resizeMonitor
 -D release
@@ -6,16 +7,16 @@
 --each
 
 --next
--js docroot/__ub1/client/bin/ub1.js
+-js ../web2/docroot/pageamp/client/bin/pageamp.js
 -main ub1.Client
 -lib feffects
 -D client
 -dce full
--cmd uglifyjs docroot/__ub1/client/bin/ub1.js > docroot/__ub1/client/bin/ub1.min.js
+-cmd uglifyjs ../web2/docroot/pageamp/client/bin/pageamp.js > ../web2/docroot/pageamp/client/bin/pageamp.min.js
 
 --next
--php docroot/__ub1/php
+-php ../web2/docroot/pageamp/php
 -main ub1.Server
 -lib HtmlParser
--resource docroot/__ub1/client/res/resize-observer.js@resize-observer.js
+-resource res/js/resize-observer.js@resize-observer.js
 -D server
