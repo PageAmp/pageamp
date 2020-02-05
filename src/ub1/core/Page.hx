@@ -65,13 +65,6 @@ class Page extends Element implements ServerPage {
 		this.doc = doc;
 		props = props.set(Element.ELEMENT_PROP, doc.domGetBody());
 		super(null, props, cb);
-#if (!client && preIE8)
-		createDomComment('[if lte IE 8]>'
-			+ '<script src="/${Const.FRAMEWORK_NAME}/res/js/ie/respond.min.js"></script>'
-			+ '<![endif]',
-			doc.domGetBody()
-		);
-#end
 		set('pageInit', "");
 //#if client
 //		set(URI_PROP, new ub1.util.Url(js.Browser.window.location.href));
