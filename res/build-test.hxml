@@ -38,7 +38,7 @@
 
 # pageamp client
 --next
--js ../web2/docroot/pageamp/client/bin/pageamp.js
+-js ../web2/docroot/.pageamp/client/bin/pageamp.js
 -cp ext
 -cp src
 -main pageamp.Client
@@ -46,11 +46,11 @@
 -lib feffects
 -D client
 -dce full
-#-cmd uglifyjs ../web2/docroot/pageamp/client/bin/pageamp.js > ../web2/docroot/pageamp/client/bin/pageamp.min.js
+#-cmd uglifyjs ../web2/docroot/.pageamp/client/bin/pageamp.js > ../web2/docroot/.pageamp/client/bin/pageamp.min.js
 
 # php pageamp server
 --next
--php ../web2/docroot/pageamp/php
+-php ../web2/docroot/.pageamp/php
 -cp ext
 -cp src
 -main pageamp.Server

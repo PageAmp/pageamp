@@ -38,7 +38,7 @@ class Head extends Element {
 		super(parent, props, cb);
 #if !client
 		page.createDomElement('script', {
-			src: '/${Const.FRAMEWORK_NAME}/res/js/scrollIntoViewIfNeeded.js'
+			src: '/.${Const.FRAMEWORK_NAME}/res/js/scrollIntoViewIfNeeded.js'
 		}, e);
 #end
 	}
