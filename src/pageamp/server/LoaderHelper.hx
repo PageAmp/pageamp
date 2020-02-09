@@ -31,10 +31,10 @@ class LoaderHelper {
 		var ee = new Array<SrcElement>();
 		for (child in e.srcElements()) {
 			if (child.srcName() == 'xml') {
-				p = p.set(Dataset.XML_PROP, child.srcInnerHTML());
+				p = p.set(Datasource.XML_PROP, child.srcInnerHTML());
 				ee.push(child);
 			} else if (child.srcName() == 'json') {
-				p = p.set(Dataset.JSON_PROP, child.srcInnerText());
+				p = p.set(Datasource.JSON_PROP, child.srcInnerText());
 				ee.push(child);
 			}
 		}

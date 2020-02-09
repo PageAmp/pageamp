@@ -93,8 +93,8 @@ class Loader {
 				new Head(p, props);
 			case 'body':
 				new Body(p, props);
-			case Dataset.TAGNAME:
-				new Dataset(p, LoaderHelper.loadDataProps(e, props));
+			case Datasource.TAGNAME:
+				new Datasource(p, LoaderHelper.loadDataProps(e, props));
 			case Define.TAGNAME:
 				new Define(p, LoaderHelper.loadDefineProps(props));
 			default:

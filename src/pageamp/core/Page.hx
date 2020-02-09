@@ -198,11 +198,11 @@ class Page extends Element implements ServerPage {
 				t.props.remove(Element.TAG_PROP);
 
 				//TODO: client shouldn't reload dynamic data we already store here
-				if (Std.is(t, Dataset)) {
-					var s = t.get(Dataset.DOC_VALUE, false);
+				if (Std.is(t, Datasource)) {
+					var s = t.get(Datasource.DOC_VALUE, false);
 					s != null ? t.e.domSetInnerHTML(s) : null;
-					t.props.remove(Dataset.XML_PROP);
-					t.props.remove(Dataset.JSON_PROP);
+					t.props.remove(Datasource.XML_PROP);
+					t.props.remove(Datasource.JSON_PROP);
 				}
 
 				children1.push(t.props);

@@ -68,8 +68,8 @@ class Client {
 						case 'BODY': new Body(p, props);
 						case 'SCRIPT':
 							var s = e.innerHTML.trim();
-							s != '' ? props.set(Dataset.XML_PROP, s) : null;
-							new Dataset(p, props);
+							s != '' ? props.set(Datasource.XML_PROP, s) : null;
+							new Datasource(p, props);
 						default: new Element(p, props);
 					}
 					ids.set((tag.id = id), tag);
