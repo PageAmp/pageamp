@@ -110,7 +110,9 @@ class Loader {
 		for (a in e.attributes) {
 			var key = a.name;
 			var val = a.value;
-			if (key.startsWith(':')) {
+            if (key.startsWith('::')) {
+                continue;
+            } else if (key.startsWith(':')) {
 				key = key.substr(1);
 			} else if (!~/^\w_/.match(key)) {
 				key = Element.ATTRIBUTE_PREFIX + key;
