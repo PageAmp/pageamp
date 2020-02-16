@@ -57,14 +57,16 @@ class Preprocessor {
 	public function new() {}
 
 //#if !js
-	public function loadFile(pathname:String, basepath:String) {
+	public function loadFile(pathname:String, basepath:String): HtmlDocument {
 		this.basepath = new Path(basepath);
 		doc = load(new Path(pathname));
 		process();
 		return doc;
 	}
 
-	public function loadText(pathname:String, basepath:String, text:String) {
+	public function loadText(pathname:String,
+                             basepath:String,
+                             text:String): HtmlDocument {
 		this.basepath = new Path(basepath);
 		doc = load2(new Path(pathname), text);
 		process();
