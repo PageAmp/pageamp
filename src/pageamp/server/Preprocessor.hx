@@ -126,7 +126,7 @@ class Preprocessor {
 	function processInclude(path:Path, include:HtmlNodeElement, nesting:Int) {
 		var href = include.getAttribute(INCLUDE_NAMEATTR);
 		if (href != null) {
-			var basepath = path.dir + '/';
+			var basepath = (path.dir != null ? path.dir + '/' : '');
 			href.startsWith('/') ? basepath = this.basepath.toString() : null;
 			var pathname = Path.normalize(basepath + href);
             if (include.name == IMPORT_TAGNAME) {
