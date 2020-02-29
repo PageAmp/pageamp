@@ -41,9 +41,10 @@ class Loader {
 	                                dst:DomDocument,
 	                                rootpath:String,
 	                                domain:String,
-	                                uri:String): ServerPage {
+	                                uri:String,
+                                    ?cb:Page->Void): ServerPage {
 		dst == null ? dst = DomTools.defaultDocument() : null;
-		var ret = loadRoot(dst, src, rootpath, domain, uri);
+		var ret = loadRoot(dst, src, rootpath, domain, uri, cb);
 		return ret;
 	}
 
@@ -72,7 +73,8 @@ class Loader {
 	                         src:HtmlDocument,
 	                         rootpath:String,
 	                         domain:String,
-	                         uri='/'): Page {
+	                         uri='/',
+                             ?cb:Page->Void): Page {
 		var e = src.children[0];
 		var url = new Url(uri);
 		url.domain = domain;
@@ -81,6 +83,7 @@ class Loader {
 		props.set(Page.URI_PROP, url);
 		var ret = new Page(doc, props, function(p:Page) {
 			loadChildren(p, e);
+            cb != null ? cb(p) : null;
 		});
 		return ret;
 	}
