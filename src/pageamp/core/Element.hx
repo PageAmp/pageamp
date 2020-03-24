@@ -81,6 +81,8 @@ class Element extends Node {
 		return props.get(key, defval);
 	}
 
+    //TODO: setValues(props:Props)
+
 	override public function set(key:String, val:Dynamic, push=true): Value {
 		var ret = null;
 		if (key.startsWith(ATTRIBUTE_PREFIX) && !isDynamicValue(key, val)) {
