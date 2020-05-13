@@ -115,7 +115,11 @@ class Element extends Node {
 		return Util.toFloat2(get(key, pull), defv);
 	}
 
-	// =========================================================================
+    function exists(valueName: String) {
+        return (scope != null && scope.values.exists(valueName));
+    }
+
+    // =========================================================================
 	// abstract methods
 	// =========================================================================
 
@@ -305,6 +309,7 @@ class Element extends Node {
 		set('this', scope);
 		set('dom', e);
 		set('outer', scope.parent).unlink();
+        set('exists', exists).unlink();
 		set('animate', scope.animate).unlink();
 		set('delayedSet', scope.delayedSet).unlink();
 		set('domGet', domGet).unlink();

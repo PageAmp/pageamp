@@ -363,10 +363,14 @@ class Page extends Element implements ServerPage {
 		set('pageMail', php.Lib.mail);
         set('server', true);
 #end
-		set('Xml', Xml).unlink();
+        set('Xml', Xml).unlink();
+        set('StringTools', StringTools).unlink();
 		set('pageCommandKey', commandKey).unlink();
 		set('domPreventDefault', DomTools.domPreventDefault).unlink();
 		set('domStopPropagation', DomTools.domStopPropagation).unlink();
+        set('StringTools', StringTools).unlink();
+        set('urlEncode', function(s:String) return s.urlEncode()).unlink();
+        set('urlDecode', function(s:String) return s.urlDecode()).unlink();
 		set('setState', setState).unlink();
 		set('pushState', pushState).unlink();
 		set('popState', popState).unlink();
