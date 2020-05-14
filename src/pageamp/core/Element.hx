@@ -101,8 +101,8 @@ class Element extends Node {
 
 	#if !debug inline #end
 	public function getBool(key:String, defval:Bool, pull=true): Bool {
-		var ret = get(key, pull);
-		return ret != null ? ret == 'true' : defval;
+		var ret:Dynamic = get(key, pull);
+		return ret != null ? (ret == 'true' || ret == true) : defval;
 	}
 
 	#if !debug inline #end
