@@ -82,7 +82,7 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 		set(XML_PROP, null, false);
 		set(JSON_PROP, null, false);
 		set(TEXT_PROP, null, false);
-		set(DOC_VALUE, null);
+		set(DOC_VALUE, null).valueFn = docValueFn;
 	}
 
 	// =========================================================================
@@ -129,7 +129,7 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 		if (doc != null) {
 			//TODO: optimize
 			var d = Xml.parse(doc.toString());
-			set(DOC_VALUE, d);
+			set(DOC_VALUE, d).valueFn = docValueFn;
 		}
 	}
 
@@ -317,7 +317,7 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 			}
 
 			http.onData = function(text:String) {
-				Log.data('$uid onData: $text');
+				Log.data('$id onData: $text');
 				clearHttp();
 #if entityDecoder
 				// we escape '${' to keep it literal and prevent it from being
@@ -346,7 +346,7 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 
 #if logData
 			http.onStatus = function(status:Int) {
-				Log.data('$uid onStatus: $status');
+				Log.data('$id onStatus: $status');
 			}
 #end
 
