@@ -66,7 +66,7 @@ class ValueScope {
 			var pos = (before != null ? parent._children.indexOf(before) : -1);
 			pos = (pos < 0 ? parent._children.length : pos);
 			parent._children.insert(pos, this);
-		}
+        }
 	}
 
 	public inline function refresh() {
@@ -224,7 +224,12 @@ class ValueScope {
 	                        secs=.0,
 	                        delay=.0,
 	                        ?cb:Void->Void,
-	                        ?easing:Dynamic): Void {
+	                        ?easingName:String): Void {
+//        if (key.indexOf(':') >= 0) {
+//            var p = key.split(':');
+//            key = p[0];
+//            easingName = p[1];
+//        }
 		var scope = this;
 		var s = scope;
 		while (s != null) {
@@ -235,6 +240,11 @@ class ValueScope {
 			s = s.parent;
 		}
 #if feffects
+        var easing = switch(easingName) {
+            case 'easeIn': feffects.easing.Cubic.easeIn;
+            case 'easeOut': feffects.easing.Cubic.easeOut;
+            default: feffects.easing.Cubic.easeInOut;
+        }
 		var animation:ValueScopeAnimation = animations.get(key);
 		if (animation != null) {
 			// prevent starting
@@ -249,7 +259,7 @@ class ValueScope {
 			delay: function() startAnimation(animation),
 			val: val,
 			secs: secs,
-			easing: (easing != null ? easing : feffects.easing.Cubic.easeInOut),
+			easing: easing,
 			tween: null,
 			cb: cb
 		};
