@@ -380,12 +380,13 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 #if logData
 			http.onStatus = function(i:Int) {};
 #end
-			http = null;
 #if !php
+            http.cancel();
 			if (timer != null) {
 				timer.stop();
 				timer = null;
 			}
+            http = null;
 #end
 		}
 	}
