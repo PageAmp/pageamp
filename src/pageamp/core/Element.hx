@@ -198,7 +198,7 @@ class Element extends Node {
 	function init2() {
 		super.init();
 		makeDomElement();
-		props.get(NAME_PROP) != null ? makeScope() : null;
+		scope == null && props.get(NAME_PROP) != null ? makeScope() : null;
 		for (k in props.keys()) {
 			if (!k.startsWith(NODE_PREFIX)) {
 				set(k, props.get(k));
@@ -304,23 +304,23 @@ class Element extends Node {
 	// =========================================================================
 
 	override public function makeScope(?name:String) {
-		name == null ? name = props.get(NAME_PROP) : null;
-		super.makeScope(name);
-		set('this', scope);
-		set('dom', e);
-		set('outer', scope.parent).unlink();
+        name == null ? name = props.get(NAME_PROP) : null;
+        super.makeScope(name);
+        set('this', scope);
+        set('dom', e);
+        set('outer', scope.parent).unlink();
         set('exists', exists).unlink();
-		set('animate', scope.animate).unlink();
-		set('delayedSet', scope.delayedSet).unlink();
-		set('domGet', domGet).unlink();
-		set('getBrothers', getBrotherScopes).unlink();
-		set('send', send).unlink();
-		set('computedStyle', getComputedStyle).unlink();
-		set('childrenCount', "${dom.children.length}");
-		set('getChildren', getChildScopes).unlink();
-		set('remove', remove).unlink();
-		initDatabinding();
-		initReplication();
+        set('animate', scope.animate).unlink();
+        set('delayedSet', scope.delayedSet).unlink();
+        set('domGet', domGet).unlink();
+        set('getBrothers', getBrotherScopes).unlink();
+        set('send', send).unlink();
+        set('computedStyle', getComputedStyle).unlink();
+        set('childrenCount', "${dom.children.length}");
+        set('getChildren', getChildScopes).unlink();
+        set('remove', remove).unlink();
+        initDatabinding();
+        initReplication();
 	}
 
 	override public function addChild(child:BaseNode,

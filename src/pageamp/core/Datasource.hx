@@ -151,7 +151,7 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 #end
 
 	override function init() {
-		makeScope();
+		scope == null ? makeScope() : null;
 		super.init();
 		scope.setValueFn(DOC_VALUE, docValueFn);
 		set('dataAdd', dataAdd);
@@ -160,7 +160,8 @@ class Datasource extends Element implements DataProvider implements DataDelegate
 		set('dataAssign', dataAssign);
 		set('dataTrigger', dataTrigger);
 		set('isRequesting', false);
-		set('needsSpinner', false);
+        set('needsSpinner', false);
+        set('abortRequest', abortRequest);
 #if client
 		observable.addObserver(function(_, n:DataNotification) {
 			switch (n) {
