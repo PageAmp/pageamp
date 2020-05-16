@@ -27,7 +27,7 @@ using StringTools;
 class Url {
 	// http://tools.ietf.org/html/rfc3986#page-50
 	static var urlMatchRegex = ~/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/i;
-	static var paramsSplitRegex = ~/[&;]/;
+	static var paramsSplitRegex = ~/[&;]/g;
 	public var protocol: String;
 	public var domain: String;
 	public var path: String;

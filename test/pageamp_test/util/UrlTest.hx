@@ -155,6 +155,28 @@ class UrlTest extends Test {
 		}
 	}
 
+    public function testUrl8() {
+        #if js js.Lib.debug(); #end
+        var url = new Url('login.php?user=asdas&pass=asdasd&remember=true&count=1');
+        assert(url.path, 'login.php');
+        assert(url.params.get('user'), 'asdas');
+        assert(url.params.get('pass'), 'asdasd');
+        assert(url.params.get('remember'), 'true');
+        assert(url.params.get('count'), '1');
+        var p1 = url.toString().split('?');
+        var p2 = p1[1].split('&');
+        var pp = new Map<String,String>();
+        for (s in p2) {
+            var p3 = s.split('=');
+            pp.set(p3[0], p3[1]);
+        }
+        assert(p1[0], 'login.php');
+        assert(pp.get('user'), 'asdas');
+        assert(pp.get('pass'), 'asdasd');
+        assert(pp.get('remember'), 'true');
+        assert(pp.get('count'), '1');
+    }
+
 	public function testCompare() {
 		assert(Url.urlsAreEqual(null, null), true);
 
