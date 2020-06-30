@@ -21,7 +21,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docroot/__ub1_test/php" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Haxe 3.4.7" jdkType="Haxe toolkit" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="feffects" level="project" />
     <orderEntry type="library" name="hscript" level="project" />
