@@ -4,7 +4,7 @@
 
 Ub1 is a groundbreaking framework for Web developers. It augments HTML to make it:
 
-* [isomprphic](https://en.wikipedia.org/wiki/Isomorphic_JavaScript), capable of working unmodified on both the server and the client, _without requiring a JavaScript back-end (1)_
+* [isomorphic](https://en.wikipedia.org/wiki/Isomorphic_JavaScript), capable of working unmodified on both the server and the client, _without requiring a JavaScript back-end (1)_
 * [reactive](https://en.wikipedia.org/wiki/Reactive_programming), as popularized by [React](https://reactjs.org/), but inspired by the simplicity of the venerable [OpenLaszlo](http://www.openlaszlo.org) framework
 * [data-bound](https://en.wikipedia.org/wiki/Data_binding)
 * [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
