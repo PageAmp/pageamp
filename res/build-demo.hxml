@@ -11,6 +11,7 @@
 -js ../web/docroot/pageamp/client/bin/pageamp.js
 -main pageamp.Client
 -lib feffects
+-lib html-entities
 -D client
 -dce full
 #-cmd uglifyjs ../web/docroot/pageamp/client/bin/pageamp.js > ../web/docroot/pageamp/client/bin/pageamp.min.js

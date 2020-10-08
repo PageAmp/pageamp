@@ -279,7 +279,7 @@ class DataPath {
 	}
 
 	//TODO: implementare come iteratore ad hoc
-	function getIterator(node:Xml, recur:Bool=false) {
+	function getIterator(node:Xml, recur:Bool=false): Iterator<Xml> {
 		if (recur) {
 			var ret = new Array<Xml>();
 			collectElements(node, ret);

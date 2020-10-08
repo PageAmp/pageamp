@@ -159,7 +159,7 @@ class Page extends Element implements ServerPage {
 	public static function getUserAgent() : String {
 		var ua = null;
 		try {
-			ua = untyped __php__("$_SERVER['HTTP_USER_AGENT']");
+			ua = php.Syntax.code("$_SERVER['HTTP_USER_AGENT']");
 		} catch (ignored:Dynamic) {}
 		return ua;
 	}
@@ -315,7 +315,7 @@ class Page extends Element implements ServerPage {
 		}).unlink();
 		var isMac = ~/^(Mac)/i.match(js.Browser.navigator.platform);
 		isMac ? commandKey = 'CMD' : null;
-		set('log', function(s) untyped __js__("console.log(s)")).unlink();
+		set('log', function(s) js.Syntax.plainCode("console.log(s)")).unlink();
 		set('window', Browser.window).unlink();
 		set(Element.EVENT_PREFIX + 'keydown',
 			"${pageKeydown=pageKeydownPatch(ev)}").unlink();
@@ -364,7 +364,6 @@ class Page extends Element implements ServerPage {
         set('server', true);
 #end
         set('Xml', Xml).unlink();
-        set('StringTools', StringTools).unlink();
 		set('pageCommandKey', commandKey).unlink();
 		set('domPreventDefault', DomTools.domPreventDefault).unlink();
 		set('domStopPropagation', DomTools.domStopPropagation).unlink();

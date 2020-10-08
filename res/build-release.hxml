@@ -9,7 +9,9 @@
 -js ../web2/docroot/.pageamp/client/bin/pageamp.js
 -main pageamp.Client
 -lib feffects
+-lib html-entities
 -D client
+-D entityDecoder
 -dce full
 -cmd uglifyjs ../web2/docroot/.pageamp/client/bin/pageamp.js > ../web2/docroot/.pageamp/client/bin/pageamp.min.js
 
