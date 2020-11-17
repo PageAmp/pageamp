@@ -1,10 +1,10 @@
 
--cmd cp res/docroot/pageamp_test/index.html ../web2/docroot/pageamp_test
--cmd cp res/docroot/pageamp_test/client/index.html ../web2/docroot/pageamp_test/client
+-cmd cp res/docroot/.pageamptest/index.html ../web2/docroot/.pageamptest
+-cmd cp res/docroot/.pageamptest/client/index.html ../web2/docroot/.pageamptest/client
 
 # client test
 --next
--js ../web2/docroot/pageamp_test/client/bin/test.js
+-js ../web2/docroot/.pageamptest/client/bin/test.js
 -cp exp
 -cp ext
 -cp src
@@ -18,7 +18,7 @@
 
 # php test
 --next
--php ../web2/docroot/pageamp_test/php
+-php ../web2/docroot/.pageamptest/php
 -cp exp
 -cp ext
 -cp src
@@ -31,7 +31,7 @@
 
 # test page collapsible listss
 --next
--js ../web2/docroot/pageamp_test/bin/testpage.js
+-js ../web2/docroot/.pageamptest/bin/testpage.js
 -cp src
 -main pageamp.util.TestPage
 -D client

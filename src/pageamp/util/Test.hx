@@ -454,6 +454,7 @@ class TestRoot extends Test {
 			out(ret);
 		} else {
 			var head = '<meta charset="UTF-8">\n' +
+					   '<meta name="color-scheme" content="light dark" />' +
 					   '<style>\n' +
 					   'body{font-family:Arial,Helvetica,sans-serif;' +
 					   'padding-bottom:8px}\n' +

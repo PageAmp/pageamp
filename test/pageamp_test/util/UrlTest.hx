@@ -156,7 +156,7 @@ class UrlTest extends Test {
 	}
 
     public function testUrl8() {
-        #if js js.Lib.debug(); #end
+        //#if js js.Lib.debug(); #end
         var url = new Url('login.php?user=asdas&pass=asdasd&remember=true&count=1');
         assert(url.path, 'login.php');
         assert(url.params.get('user'), 'asdas');
