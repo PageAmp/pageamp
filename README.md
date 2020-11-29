@@ -41,11 +41,11 @@ RewriteRule ^(.*)$ index.php [L,QSA]
 
 Requests of files with no extension or with extension `.html` are considered page requests, and loaded in the _same environment the client will have_, only working on a simulated browser DOM, which is then turned into a textual HTML page and sent to the client.
 
-On the client side, the page is immediately displayed while, asynchronously, ub1's client runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client, which is now ready to interact with the user.
+On the client side, the page is immediately displayed while, asynchronously, ub1's runtime is loaded. When it's ready, the latter reads the applications state stored by the server code, and restores it in the client, which is now ready to interact with the user.
 
 ## Reactivity
 
-> Ub1 keeps your pages up to date in the simplest possible way
+> Ub1 keeps your pages up to date in the simplest way possible
 
 Just as React.js and Vue.js, ub1 is a _reactive framework_, where changes to logical values automatically propagate.
 
