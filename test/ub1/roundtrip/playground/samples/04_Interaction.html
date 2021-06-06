@@ -1,0 +1,17 @@
+<html :color="blue">
+<head>
+	<style>
+		body {
+			color: [[color]];
+			font-family: sans-serif;
+			[[cssVendorize('user-select: none')]];
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body :ev_click="[[color = (color == 'red' ? 'blue' : 'red')]]">
+
+	Click this [[color]] text
+
+</body>
+</html>

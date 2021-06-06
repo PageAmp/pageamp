@@ -1,3 +1,19 @@
-# -cmd haxe res/build-devel.hxml
--cmd haxe res/build-test.hxml
-#-cmd haxe res/build-release.hxml
+--interp
+
+#--java bin/java
+
+#--php bin/php
+
+# --js bin/nodejs/tests.js
+# --library hxnodejs
+# #--debug
+
+--class-path src
+--class-path test
+--class-path ../feffects
+--main ub1.TestAll
+--library utest
+--define HTML_EXTENSIONS
+--library hscript
+--define hscriptPos
+--macro patchTypes('src/ub1/hscript/interpTypePatch')

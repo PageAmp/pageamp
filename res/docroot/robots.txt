@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: pageamp/
-Disallow: pageamp_test/
