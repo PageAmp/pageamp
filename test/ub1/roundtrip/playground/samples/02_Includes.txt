@@ -1,6 +1,6 @@
 <html>
 <head>
-	<:include src="../inc/style.htm"/>
+	<:include src="../inc/style.txt"/>
 </head>
 <body>
 

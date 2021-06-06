@@ -4882,7 +4882,7 @@
                 _.me = function(a, b) {
                     _.La(b, function(c, d) {
                         c && "object" == typeof c && c.Wb && (c = c.Lb());
-                        "style" == d ? a.style.cssText = c : "class" == d ? a.className = c : "for" == d ? a.htmlFor = c : le.hasOwnProperty(d) ? a.setAttribute(le[d], c) : _.Od(d, "aria-") || _.Od(d, "data-") ? a.setAttribute(d, c) : a[d] = c
+                        "style" == d ? a.style.cssText = c : "class" == d ? a.className = c : "for" == d ? a.txtFor = c : le.hasOwnProperty(d) ? a.setAttribute(le[d], c) : _.Od(d, "aria-") || _.Od(d, "data-") ? a.setAttribute(d, c) : a[d] = c
                     })
                 };
                 le = {

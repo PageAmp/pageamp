@@ -187,7 +187,7 @@ class HtmlParserTest extends Test {
 	}
 
 	function test301() {
-		var html = File.getContent(rootPath + '/google.html');
+		var html = File.getContent(rootPath + '/google.txt');
 		Assert.notNull(html);
 		var doc = HtmlParser.parse(html);
 		Assert.notNull(doc);
@@ -195,19 +195,7 @@ class HtmlParserTest extends Test {
 		Assert.equals(148, counts.elements);
 		Assert.equals(268, counts.texts);
 		Assert.equals(0, counts.comments);
-		// File.saveContent(rootPath + '/google-out.html', doc.toString());
-	}
-
-	function test302() {
-		var html = File.getContent(rootPath + '/maltasupermarket.html');
-		Assert.notNull(html);
-		var doc = HtmlParser.parse(html);
-		Assert.notNull(doc);
-		var counts = countNodes(doc);
-		Assert.equals(14567, counts.elements);
-		Assert.equals(24646, counts.texts);
-		Assert.equals(1363, counts.comments);
-		// File.saveContent(rootPath + '/maltasupermarket-out.html', doc.toString());
+		// File.saveContent(rootPath + '/google-out.txt', doc.toString());
 	}
 
 	// ===================================================================================
