@@ -7,6 +7,7 @@ package ub1.lib;
 	import js.html.Event;
 	import js.html.Node;
 	import js.html.NodeList;
+	using StringTools;
 
 	typedef DomDocument = Document;
 	typedef DomElement = Element;
@@ -224,7 +225,16 @@ class DomTools {
 	#if !debug inline #end
 	public static function domSetNodeText(t:DomTextNode, v:Dynamic) {
 		#if client
-			t.nodeValue = (v != null ? '' + v : '');
+			var s = (v != null ? '$v' : '');
+			if (~/(&\w{2,30};)/g.match(s)) {
+				var e = t.ownerDocument.createElement('span');
+				// we use `innerHTML` to convert html entities into plain text
+				// as required by `textContent`
+				e.innerHTML = s.replace('<', '&lt;').replace('>', '&gt;');
+				t.textContent = e.firstChild.textContent;
+			} else {
+				t.textContent = s;
+			}
 		#else
 			t.text = (v != null ? '' + v : '');
 		#end
