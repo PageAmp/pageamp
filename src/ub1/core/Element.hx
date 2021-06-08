@@ -229,6 +229,10 @@ class Element extends ReScope {
 	public static inline var DATALENGTH_VALUE = 'dataLength';
 	var clones: Array<Element>;
 
+	public inline function setClones(clones:Array<Element>) {
+		this.clones = clones;
+	}
+
 	inline function initData() {
 		if (values.exists(DATA_VALUE)) {
 			values.get(DATA_VALUE).callback = dataCallback;

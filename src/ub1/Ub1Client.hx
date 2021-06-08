@@ -1,6 +1,5 @@
 package ub1;
 
-// import js.Syntax;
 import ub1.core.Body;
 import ub1.core.Element;
 import ub1.core.Head;
@@ -25,10 +24,12 @@ class Ub1Client {
 
 	static function loadChildren(pageProps:Array<ElementProps>,
 				p:Element, dom:DomElement) {
+		var s: String;
+		var clones: Array<Element> = null;
+
 		var child = dom.domFirstElementChild();
 		while (child != null) {
-			var s = child.domGet(Element.ID_ATTR);
-			if (s != null) {
+			if ((s = child.domGet(Element.ID_ATTR)) != null) {
 				var id = Std.parseInt(s);
 				var props = pageProps[id];
 				props.id = id;
@@ -39,6 +40,17 @@ class Ub1Client {
 					default: new Element(p, props);
 				};
 				loadChildren(pageProps, e, child);
+
+				// handle clones
+				if ((s = child.domGet(Element.CLONE_ATTR)) != null) {
+					// this is a clone
+					clones == null ? clones = [] : null;
+					clones.push(e);
+				} else if (clones != null) {
+					// this is a clones origin
+					e.setClones(clones);
+					clones = null;
+				}
 			} else {
 				loadChildren(pageProps, p, child);
 			}

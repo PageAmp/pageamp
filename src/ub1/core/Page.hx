@@ -40,6 +40,7 @@ class Page extends Element {
 				if (!k.startsWith('-')
 						&& !Std.isOfType(v, ReConst)
 						&& !v.isFunction) {
+					//TODO: values that weren't `set()` shouldn't need state entry
 					p._v == null ? p._v = {} : null;
 					p._v.set2(k, v.v);
 				}
