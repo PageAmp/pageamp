@@ -133,6 +133,7 @@ class HtmlParser {
 					i1 = parseValue(a, s, i1 + 2, quote, ']]', origin);
 			#end
 				} else {
+					// we don't support unquoted attribute values
 					throw new HtmlException(
 						'Missing attribute value', origins[origin], i1, s
 					);

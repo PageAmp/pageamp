@@ -36,6 +36,7 @@ class Ub1Server {
 		// client code
 		var e = p.doc.domCreateElement('script');
 		e.domSet('src', clientUrlPrefix + CLIENT_JS_PATHNAME);
+		e.setAttribute('defer', '');
 		p.doc.domGetBody().domAddChild(e);
 	}
 

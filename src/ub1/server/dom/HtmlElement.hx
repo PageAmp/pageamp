@@ -96,11 +96,13 @@ class HtmlElement extends HtmlNode {
 		for (key in attributes.keys()) {
 	#end
 			var a = attributes.get(key);
-			var q = a.quote == "'" ? "'" : '"';
 			sb.add(' '); sb.add(key);
-			sb.add('='); sb.add(q);
-			sb.add(escape(a.value, "\r\n" + q));
-			sb.add(q);
+			if (a.value != '' || a.quote != null) {
+				var q = a.quote == "'" ? "'" : '"';
+				sb.add('='); sb.add(q);
+				sb.add(escape(a.value, "\r\n" + q));
+				sb.add(q);
+			}
 		}
 		if (isVoid()) {
 			sb.add(' />');
