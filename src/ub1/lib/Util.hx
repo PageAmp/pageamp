@@ -6,7 +6,8 @@ class Util {
 	}
 
 	public static inline function isTrue(v:Dynamic):Bool {
-		return !(v == null || v == false || v == 'false');
+		return (Std.isOfType(v, String) && v != 'false')
+				|| !(v == null || v == false || v == 'false');
 	}
 
 	public static inline function orEmpty(v:Dynamic):String {

@@ -1,0 +1,15 @@
+--main ub1.TestAll
+-cp src
+-cp test
+-cp ../feffects
+--library utest
+--define HTML_EXTENSIONS
+--library hscript
+--define hscriptPos
+--macro patchTypes('src/ub1/hscript/interpTypePatch')
+--each
+
+--next
+--java bin/java-test
+
+--cmd "java -jar bin/java-test/TestAll.jar"

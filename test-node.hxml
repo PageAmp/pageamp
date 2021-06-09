@@ -1,0 +1,16 @@
+--main ub1.TestAll
+-cp src
+-cp test
+-cp ../feffects
+--library utest
+--define HTML_EXTENSIONS
+--library hscript
+--define hscriptPos
+--macro patchTypes('src/ub1/hscript/interpTypePatch')
+--each
+
+--next
+--js bin/node-test/index.js
+--library hxnodejs
+
+--cmd "node bin/node-test/index.js"
