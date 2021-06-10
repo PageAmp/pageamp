@@ -1,0 +1,17 @@
+<html>
+<head>
+	<style>
+		body {font-family: sans-serif}
+	</style>
+</head>
+<body>
+	<pageamp-dataset :name="dset" :src="http://pageampdevel.net/playground/data/employees.json"/>
+
+	<table :datapath="dset:/root">
+		<tr :foreach="item">
+			<td>$data{@name}</td>
+			<td>&bull; tel: $data{@phone}</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,15 @@
+// To be used with:
+//      --macro patchTypes('src/pageamp/react/interpTypePatch')
+// in the build hxml file.
+//
+// It adds this metadata:
+//      @:build(pageamp.react.InterpPatch.patch())
+// to the hscript.Interp class, so the InterpPatch build macro can change
+// the type of `variables` in the class to `Dynamic`.
+//
+// This is needed because the original type was `Map<String,Dynamic>`,
+// whose `get()` and `set()` methods are inlined. We want to use instances
+// of ReScope as value of `variables`, and calls to its own `get()` and `set()`
+// methods wouldn't work.
+
+@:build(pageamp.hscript.InterpPatch.patch()) hscript.Interp

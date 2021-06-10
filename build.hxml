@@ -11,9 +11,9 @@
 --class-path src
 --class-path test
 --class-path ../feffects
---main ub1.TestAll
+--main pageamp.TestAll
 --library utest
 --define HTML_EXTENSIONS
 --library hscript
 --define hscriptPos
---macro patchTypes('src/ub1/hscript/interpTypePatch')
+--macro patchTypes('src/pageamp/hscript/interpTypePatch')

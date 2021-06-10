@@ -1,4 +1,4 @@
---main ub1.TestAll
+--main pageamp.TestAll
 -cp src
 -cp test
 -cp ../feffects
@@ -6,7 +6,7 @@
 --define HTML_EXTENSIONS
 --library hscript
 --define hscriptPos
---macro patchTypes('src/ub1/hscript/interpTypePatch')
+--macro patchTypes('src/pageamp/hscript/interpTypePatch')
 --each
 
 --next
