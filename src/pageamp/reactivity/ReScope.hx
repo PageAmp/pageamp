@@ -54,12 +54,34 @@ class ReScope extends BaseNode {
 #end
 			}));
 			new ReConst(this, 'log', function(s) {
+				//TODO: server-side logging
 #if client
 				js.Syntax.code('console.log(s)');
 #end
 			});
 			new ReConst(this, NOTNULL_FUNCTION, Util.orEmpty);
 			new ReConst(this, 'int', (v) -> Std.parseInt(v+''));
+			new ReConst(this, 'string', (v) -> Std.string(v));
+			new ReConst(this, 'trim', function(v:Dynamic): String {
+				return v != null ? StringTools.trim(Std.string(v)) : '';
+			});
+			new ReConst(this, 'upperCase', function(v:Dynamic): String {
+				return v != null ? '$v'.toUpperCase() : '';
+			});
+			new ReConst(this, 'lowerCase', function(v:Dynamic): String {
+				return v != null ? '$v'.toLowerCase() : '';
+			});
+			new ReConst(this, 'capitalize', function(s:String): String {
+				s == null ? s = '' : s;
+				return ~/((^\w)|(\s+\w))/g.map(s, function(re:EReg): String {
+					return re.matched(1).toUpperCase();
+				});
+			});
+			new ReConst(this, 'regex', (v, opt='') -> {
+				return v != null ? new EReg(Std.string(v), opt) : null;
+			});
+			new ReConst(this, 'Date', Date);
+			new ReConst(this, 'Math', Math);
 		}
 		new ReConst(this, 'this', this);
 		super(parent, plug, index, cb);

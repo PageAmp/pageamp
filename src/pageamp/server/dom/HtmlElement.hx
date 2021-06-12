@@ -153,7 +153,7 @@ class HtmlElement extends HtmlNode {
 
 	// from haxe-htmlparser: htmlparser.HtmlTools.hx
 	static function escape(text:String, chars=""): String {
-		var r = text.split("&").join("&amp;");
+		var r = text; //text.split("&").join("&amp;");
 		r = r.split("<").join("&lt;");
 		r = r.split(">").join("&gt;");
 		if (chars.indexOf('"') >= 0) r = r.split('"').join("&quot;");

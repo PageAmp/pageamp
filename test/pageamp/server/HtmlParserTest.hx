@@ -198,6 +198,24 @@ class HtmlParserTest extends Test {
 		// File.saveContent(rootPath + '/google-out.txt', doc.toString());
 	}
 
+	function testEntityAmpersandNotEscapedInAttributeValue() {
+		var doc = HtmlParser.parse('<html v="&lt;tag>"></html>');
+		Assert.notNull(doc);
+		var root = doc.getFirstElementChild();
+		Assert.notNull(root);
+		Assert.equals('&lt;tag>', root.getAttribute('v'));
+		Assert.equals('<html v="&lt;tag&gt;"></html>', doc.toString());
+	}
+
+	function testLessThanSymbolAcceptedInAttributeValue() {
+		var doc = HtmlParser.parse('<html v="<tag>"></html>');
+		Assert.notNull(doc);
+		var root = doc.getFirstElementChild();
+		Assert.notNull(root);
+		Assert.equals('<tag>', root.getAttribute('v'));
+		Assert.equals('<html v="&lt;tag&gt;"></html>', doc.toString());
+	}
+
 	// ===================================================================================
 	// util
 	// ===================================================================================
