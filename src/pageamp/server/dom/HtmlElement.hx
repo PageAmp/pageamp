@@ -11,6 +11,11 @@ class HtmlElement extends HtmlNode {
 	public var attributes: Map<String, HtmlAttribute>;
 	public var children: Array<HtmlNode>;
 	public var selfclose: Bool;
+	public var innerHTML(get,set): String;
+	public inline function get_innerHTML() return getInnerHTML();
+	public inline function set_innerHTML(s:String) return setInnerHTML(s);
+	public var innerText(null,set): String;
+	public inline function set_innerText(s:String) return setInnerText(s);
 
 	public function new(parent:HtmlElement, name:String, i1:Int, i2:Int, origin:Int) {
 		super(parent, HtmlNode.ELEMENT_NODE, i1, i2, origin);
@@ -84,6 +89,25 @@ class HtmlElement extends HtmlNode {
 			n.output(sb);
 		}
 		return sb.toString();
+	}
+
+	public function setInnerHTML(s:String): String {
+		while (children.length > 0) children[children.length - 1].remove();
+		var doc = HtmlParser.parse(s);
+		for (c in doc.children) {
+			addChild(c);
+		}
+		return s;
+	}
+
+	public function setInnerText(s:String): String {
+		if (children.length == 1 || children[0].type == HtmlNode.TEXT_NODE) {
+			cast(children[0], HtmlText).text = s;
+		} else {
+			while (children.length > 0) children[children.length - 1].remove();
+			new HtmlText(this, s, 0, 0, 0);
+		}
+		return s;
 	}
 
 	override public function output(sb:StringBuf): StringBuf {

@@ -1,5 +1,6 @@
 package pageamp.core;
 
+import pageamp.reactivity.ReConst;
 import pageamp.lib.Util;
 import pageamp.reactivity.ReParser;
 import pageamp.reactivity.ReScope;
@@ -98,6 +99,7 @@ class Element extends ReScope {
 				value.callback = textCallback;
 			}
 		}
+		new ReConst(this, 'dom', dom);
 		dom.domSet(ID_ATTR, '' + this.id);
 		initData();
 		props._e = this;

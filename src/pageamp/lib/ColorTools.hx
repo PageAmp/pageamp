@@ -168,5 +168,5 @@ typedef Rgba = {
 	r: Int,
 	g: Int,
 	b: Int,
-	a: Float
+	a: Null<Float>
 }

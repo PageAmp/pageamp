@@ -215,4 +215,20 @@ class ElementTest extends Test {
 		+ '</div>', doc.toString());
 	}
 
+	// ===================================================================================
+	// handlers
+	// ===================================================================================
+
+	function testHandler1() {
+		var doc = HtmlParser.parse('<html>'
+		+ '<body :v1="1" :v2="" :on_v1=[[v2 = v1]]>[[v2]]</body>'
+		+ '</html>');
+		var p = ServerLoader.loadRoot(doc);
+		p.context.refresh();
+		Assert.equals('<html data-id="0"><body data-id="1"></body></html>', doc.toString());
+		var body:Element = p.get('body');
+		body.set('v1', '2');
+		Assert.equals('<html data-id="0"><body data-id="1">2</body></html>', doc.toString());
+	}
+
 }

@@ -252,30 +252,13 @@ class DomTools {
 	#if !debug inline #end
 	public static function domSetText(e:DomElement, v:Dynamic) {
 		v = (v != null ? Std.string(v) : '');
-		#if client
-			e.innerText = v;
-		#else
-			if (e.children.length == 1 || e.children[0].type == HtmlNode.TEXT_NODE) {
-				cast(e.children[0], HtmlText).text = v;
-			} else {
-				while (e.children.length > 0) e.children[e.children.length - 1].remove();
-				new HtmlText(e, v, 0, 0, 0);
-			}
-		#end
+		e.innerText = v;
 	}
 
 	#if !debug inline #end
 	public static function domSetHtml(e:DomElement, v:Dynamic) {
 		(v != null ? Std.string(v) : '');
-		#if client
-			e.innerHTML = v;
-		#else
-			while (e.children.length > 0) e.children[e.children.length - 1].remove();
-			var doc = HtmlParser.parse(v);
-			for (c in doc.children) {
-				e.addChild(c);
-			}
-		#end
+		e.innerHTML = v;
 	}
 
 	#if !debug inline #end
