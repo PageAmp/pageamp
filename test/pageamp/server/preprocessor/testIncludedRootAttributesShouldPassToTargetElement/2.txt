@@ -1,0 +1,3 @@
+<lib :attribute2="mate" :attribute3="2">
+
+</lib>

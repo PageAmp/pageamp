@@ -13,6 +13,8 @@ using pageamp.lib.PropertyTools;
 
 
 class ServerLoader {
+	public static inline var LOGIC_ATTR_PREFIX = ':';
+	public static inline var LOGIC_NAME_ATTR = LOGIC_ATTR_PREFIX + 'name';
 	
 	public static function loadRoot(doc:DomDocument): Page {
 		var root = doc.domGetRootElement();
@@ -30,8 +32,8 @@ class ServerLoader {
 		}
 		for (k in dom.domAttributeNames()) {
 			var v = dom.domGet(k);
-			if (k.startsWith(':')) {
-				if (k == ':name') {
+			if (k.startsWith(LOGIC_ATTR_PREFIX)) {
+				if (k == LOGIC_NAME_ATTR) {
 					ret.name = v;
 				} else {
 					ret.values = ret.values.set(k.substr(1), v);

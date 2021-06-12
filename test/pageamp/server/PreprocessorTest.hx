@@ -4,6 +4,7 @@ import haxe.io.Path;
 import utest.Assert;
 import utest.Test;
 
+using pageamp.lib.DomTools;
 using pageamp.lib.Util;
 
 class PreprocessorTest extends Test {
@@ -74,6 +75,15 @@ class PreprocessorTest extends Test {
 	function test005() {
 		var doc = new Preprocessor(rootPath).read('test005.txt');
 		Assert.equals('<html><div>Test 5</div></html>', doc.toString());
+	}
+
+	function testIncludedRootAttributesShouldPassToTargetElement() {
+		var doc = new Preprocessor(rootPath).read('testIncludedRootAttributesShouldPassToTargetElement.txt');
+		var head = doc.domGetHead();
+		Assert.equals('1', head.getAttribute(':overriddenAttribute'));
+		Assert.equals('hi', head.getAttribute(':attribute1'));
+		Assert.equals('there', head.getAttribute(':attribute2'));
+		Assert.equals('2', head.getAttribute(':attribute3'));
 	}
 
 	// ===================================================================================

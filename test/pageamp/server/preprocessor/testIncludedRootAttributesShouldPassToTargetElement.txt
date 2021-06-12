@@ -1,0 +1,7 @@
+<html>
+<head :overriddenAttribute="1">
+	<:include src="testIncludedRootAttributesShouldPassToTargetElement/1.txt"/>
+</head>
+<body>
+</body>
+</html>

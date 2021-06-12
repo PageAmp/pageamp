@@ -1,12 +1,12 @@
 package pageamp.server;
 
 import haxe.io.Path;
-import sys.io.File;
 import pageamp.lib.Set;
 import pageamp.server.HtmlParser.HtmlException;
 import pageamp.server.dom.HtmlDocument;
 import pageamp.server.dom.HtmlElement;
 import pageamp.server.dom.HtmlNode;
+import sys.io.File;
 
 using StringTools;
 using pageamp.lib.DomTools;
@@ -99,6 +99,13 @@ class Preprocessor {
 			var root = doc.domGetRootElement();
 			for (n in root.children.copy()) {
 				parent.domAddChild(n.remove(), before);
+			}
+			// cascade root attributes
+			for (k in root.attributes.keys()) {
+				if (k.startsWith(ServerLoader.LOGIC_ATTR_PREFIX)
+						&& !parent.attributes.exists(k)) {
+					parent.attributes.set(k, root.attributes.get(k));
+				}
 			}
 		}
 	}
