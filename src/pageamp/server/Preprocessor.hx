@@ -150,7 +150,7 @@ class Preprocessor {
 		if (!~/^[_a-zA-Z0-9]+-[-:_a-zA-Z0-9]+$/.match(names[0])
 			|| !~/^[-_a-zA-Z0-9]+$/.match(names[1])) {
 			throw new HtmlException(
-				parser.origins[e.origin], 'Bad "tag" attribute',
+				parser.origins[e.origin], 'Bad "tag" attribute (missing "-" in custom tag name)',
 				e.i1, sources[e.origin]
 			);
 		}
