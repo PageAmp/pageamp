@@ -202,7 +202,23 @@ class ReValueTest extends Test {
 	// function
 	// =========================================================================
 
-	function test2() {
+	function test2a() {
+		var scope = new ReScope(null, null, function(s:ReScope) {
+			s.set('f', "[[function() {return 2;}]]");
+			s.set('v1', "[[f()]]");
+		});
+		Assert.equals(1, scope.context.cycle);
+		// functions are only refreshed once
+		Assert.equals(1, scope.values.get('f').cycle);
+		Assert.notNull(scope.values.get('v1').prev);
+		Assert.equals(2, scope.get('v1'));
+		scope.refresh();
+		// functions are only refreshed once
+		Assert.equals(1, scope.values.get('f').cycle);
+		Assert.equals(2, scope.values.get('v1').cycle);
+	}
+
+	function test2b() {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('f', "[[function(x) {return x * 2;}]]");
 			s.set('v1', "[[f(1)]]");

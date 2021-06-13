@@ -231,4 +231,17 @@ class ElementTest extends Test {
 		Assert.equals('<html data-id="0"><body data-id="1">2</body></html>', doc.toString());
 	}
 
+	// ===================================================================================
+	// functions
+	// ===================================================================================
+
+	function testFunction1() {
+		var doc = HtmlParser.parse('<html>'
+		+ '<body :v=[[f()]] :f=[[function() {return 1;}]]>[[v]]</body>'
+		+ '</html>');
+		var p = ServerLoader.loadRoot(doc);
+		p.context.refresh();
+		Assert.equals('<html data-id="0"><body data-id="1">1</body></html>', doc.toString());
+	}
+
 }
