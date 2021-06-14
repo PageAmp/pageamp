@@ -29,7 +29,7 @@ class PreprocessorTest extends Test {
 
 	function test001() {
 		var doc = new Preprocessor(rootPath).read('test001.txt');
-		Assert.equals('<html></html>', doc.toString());
+		Assert.equals('<html utf8-value="€"></html>', doc.toString());
 	}
 
 	function test002() {
