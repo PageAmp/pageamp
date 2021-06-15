@@ -12,13 +12,13 @@
 </head>
 <body>
 
-	<pageamp-define tag="app-product:div" class="product">
-		<div><span>Name:</span> ${name}</div>
-		<div><span>Price:</span> ${price}</div>
-	</pageamp-define>
+	<:define tag="app-product" class="product">
+		<div><span>Name:</span> [[title]]</div>
+		<div><span>Price:</span> [[price]]</div>
+	</:define>
 
-	<app-product :name="Thingy" :price="1€"/>
-	<app-product :name="Widget" :price="2€"/>
+	<app-product :title="Thingy" :price="1€"/>
+	<app-product :title="Widget" :price="2€"/>
 
 </body>
 </html>

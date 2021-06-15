@@ -1,0 +1,16 @@
+<lib>
+	<style>
+		.lib-product {
+			font-family: sans-serif;
+			display: inline-block;
+			padding: 5px;
+			border: 1px solid #ddd;
+			margin: 3px;
+		}
+	</style>
+
+	<:define tag="lib-product" class="lib-product">
+		<div><span>Name:</span> [[title]]</div>
+		<div><span>Price:</span> [[price]]</div>
+	</:define>
+</lib>

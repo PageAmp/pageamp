@@ -5,18 +5,15 @@
 		body * {margin-bottom: 8px}
 	</style>
 </head>
-<body :text1="-"
-      :text2="-">
+<!-- BUG: if initialized with "" text1 doesn't work -->
+<!-- BUG: server-side page should already have the div populated -->
+<body :text1=" ">
 
-	<div>${text1}</div>
-	<div>${text2}</div>
+	<div>[[text1]]</div>
 
-	<button :count="${0}"
-	        :ev_click="${count++}"
-	        :on_count="${text1 = 'on_count says: ' + count}"
-	        :countHandler="${(count):function() {
-	            text2 = 'countHandler says: ' + count;
-	        }}">
+	<button :count="[[0]]"
+	        :ev_click="[[count++]]"
+	        :on_count="[[text1 = 'on_count says: ' + count]]">
 		Click me
 	</button>
 

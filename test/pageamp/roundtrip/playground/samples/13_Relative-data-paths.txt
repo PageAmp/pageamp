@@ -5,12 +5,12 @@
 	</style>
 </head>
 <body :datapath="dset:">
-	<pageamp-dataset :name="dset">
+	<:dataset :name="dset">
 		<json>{
 			"name": "John Smith",
 			"phone": "617-536-7855"
 		}</json>
-	</pageamp-dataset>
+	</:dataset>
 
 	<span :datapath="root">$data{@name}</span>
 	<span :datapath="root">$data{@phone}</span>

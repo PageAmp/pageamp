@@ -6,7 +6,7 @@
 </head>
 <body>
 
-	<pageamp-dataset :name="list"
+	<:dataset :name="list"
 	         :server="${makeData()}"
 	         :makeData="${function() {
 	            var names = pageReadDirectory(pageFSPath);

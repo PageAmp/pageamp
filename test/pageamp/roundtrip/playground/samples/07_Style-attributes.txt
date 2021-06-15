@@ -1,4 +1,4 @@
-<html :selection="${1}">
+<html :selection="[[1]]">
 <head>
 	<style>
 		.box {
@@ -13,12 +13,12 @@
 <body>
 
 	<div class="box"
-	     s_backgroundColor="${selection == 1 ? 'red' : null}"
-	     :ev_click="${selection = 1}"/>
+	     :s_backgroundColor="[[selection == 1 ? 'red' : null]]"
+	     :ev_click="[[selection = 1]]"/>
 
 	<div class="box"
-	     s_backgroundColor="${selection == 2 ? 'red' : null}"
-	     :ev_click="${selection = 2}"/>
+	     :s_backgroundColor="[[selection == 2 ? 'red' : null]]"
+	     :ev_click="[[selection = 2]]"/>
 
 </body>
 </html>

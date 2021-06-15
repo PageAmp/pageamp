@@ -11,16 +11,16 @@
 		}
 	</style>
 </head>
-<body :left="${0}">
+<body :left="[[0]]">
 
-	<button :ev_click="${
+	<button :ev_click="[[
 	           animate('left', (left > 100 ? 0 : 150), .5)
-	        }">
+	        ]]">
 		Animate
 	</button>
 
-	<div class="box" s_top="40px" s_left="${left}px"/>
-	<div class="box" s_top="150px" s_left="${left / 2}px"/>
+	<div class="box" :s_top="40px" :s_left="[[left]]px"/>
+	<div class="box" :s_top="150px" :s_left="[[left / 2]]px"/>
 
 </body>
 </html>

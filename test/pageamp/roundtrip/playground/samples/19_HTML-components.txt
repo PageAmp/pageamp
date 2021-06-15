@@ -1,26 +1,11 @@
 <html>
 <head>
-	<style>
-		body {font-family: sans-serif}
-	</style>
+	<:include src="19_HTML-components_include.htm"/>
 </head>
 <body>
 
-	<pageamp-define tag="lib-product:div" class="lib-product">
-		<style>
-			.lib-product {
-				display: inline-block;
-				padding: 5px;
-				border: 1px solid #ddd;
-				margin: 3px;
-			}
-		</style>
-		<div><span>Name:</span> ${name}</div>
-		<div><span>Price:</span> ${price}</div>
-	</pageamp-define>
-
-	<lib-product :name="Thingy" :price="1€"/>
-	<lib-product :name="Widget" :price="2€"/>
+	<lib-product :title="Thingy" :price="1€"/>
+	<lib-product :title="Widget" :price="2€"/>
 
 </body>
 </html>
