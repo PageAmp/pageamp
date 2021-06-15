@@ -1,5 +1,7 @@
 package pageamp;
 
+import js.Syntax;
+
 import pageamp.core.Body;
 import pageamp.core.Element;
 import pageamp.core.Head;
@@ -9,6 +11,12 @@ using pageamp.lib.DomTools;
 
 
 class Client {
+
+	public static function main() {
+		var doc = DomTools.domDefaultDoc();
+		var pageProps = Syntax.code('window.pageampProps');
+		Client.load(doc, pageProps);
+	}
 
 	public static function load(doc:DomDocument, pageProps:Array<ElementProps>): Page {
 		for (i in 0...pageProps.length) {
