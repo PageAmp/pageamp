@@ -1,13 +1,22 @@
+# requires project ../feffects for animations
+--js bin/client/pageamp.js
+--class-path src
+--class-path ../pageamp/src
+--main pageamp.Client
+--define client
+--define HTML_EXTENSIONS
+--library hscript
+--define hscriptPos
+--macro patchTypes('../pageamp/src/pageamp/hscript/interpTypePatch')
+--dce std
+
+# if uncommented, enable animations
+--class-path ../feffects
+--define feffects
+
+--next
+
 --interp
-
-#--java bin/java
-
-#--php bin/php
-
-# --js bin/nodejs/tests.js
-# --library hxnodejs
-# #--debug
-
 --class-path src
 --class-path test
 --class-path ../feffects

@@ -1,7 +1,7 @@
 package pageamp;
 
-#if js
-import js.Syntax;
+#if client
+	import js.Syntax;
 #end
 
 import pageamp.core.Body;
@@ -14,7 +14,7 @@ using pageamp.lib.DomTools;
 
 class Client {
 
-#if js
+#if client
 	public static function main() {
 		var doc = DomTools.domDefaultDoc();
 		var pageProps = Syntax.code('window.pageampProps');
