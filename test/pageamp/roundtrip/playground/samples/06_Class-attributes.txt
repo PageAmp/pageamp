@@ -14,12 +14,12 @@
 </head>
 <body>
 	<ul>
-		<li :c_listItem
-		    :c_selected="[[selection == 1]]"
-		    :event_click="[[selection = 1]]">First</li>
-		<li :c_listItem
-		    :c_selected="[[selection == 2]]"
-		    :event_click="[[selection = 2]]">Second</li>
+		<li :class-listItem
+		    :class-selected="[[selection == 1]]"
+		    :event-click="[[selection = 1]]">First</li>
+		<li :class-listItem
+		    :class-selected="[[selection == 2]]"
+		    :event-click="[[selection = 2]]">Second</li>
 	</ul>
 </body>
 </html>

@@ -221,7 +221,7 @@ class ElementTest extends Test {
 
 	function testHandler1() {
 		var doc = HtmlParser.parse('<html>'
-		+ '<body :v="1" :on_v=[[dom.innerHTML = v]]></body>'
+		+ '<body :v="1" :on-v=[[dom.innerHTML = v]]></body>'
 		+ '</html>');
 		var p = ServerLoader.loadRoot(doc);
 		p.context.refresh();

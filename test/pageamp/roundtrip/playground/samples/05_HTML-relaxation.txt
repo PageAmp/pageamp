@@ -10,7 +10,7 @@
 </style>
 </head>
 <body :count=[[1]]
-      :event_click=[[
+      :event-click=[[
         color = (count++ < 2 ? 'blue' : 'red')
       ]]>
 

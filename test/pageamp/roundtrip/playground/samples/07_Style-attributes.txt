@@ -13,12 +13,12 @@
 <body>
 
 	<div class="box"
-	     :s_backgroundColor="[[selection == 1 ? 'red' : null]]"
-	     :event_click="[[selection = 1]]"/>
+	     :style-backgroundColor="[[selection == 1 ? 'red' : null]]"
+	     :event-click="[[selection = 1]]"/>
 
 	<div class="box"
-	     :s_backgroundColor="[[selection == 2 ? 'red' : null]]"
-	     :event_click="[[selection = 2]]"/>
+	     :style-backgroundColor="[[selection == 2 ? 'red' : null]]"
+	     :event-click="[[selection = 2]]"/>
 
 </body>
 </html>
