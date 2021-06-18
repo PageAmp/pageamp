@@ -10,11 +10,11 @@
 	</style>
 </head>
 <body>
-	<div :c_box :c_sel="[[false]]" :ev_click="[[c_sel = !c_sel]]">
+	<div :c_box :c_sel="[[false]]" :event_click="[[c_sel = !c_sel]]">
 
-		<!-- BUG: `handleClick()` gets old `ev_click` value? -->
+		<!-- BUG: `handleClick()` gets old `event_click` value? -->
 		<div :c_box :c_sel="[[false]]"
-		     :ev_click="[[handleClick(ev_click)]]"
+		     :event_click="[[handleClick(event_click)]]"
 		     :handleClick="[[function(ev) {
 		        c_sel = !c_sel;
 		        ev.stopPropagation();

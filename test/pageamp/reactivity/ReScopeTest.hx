@@ -7,7 +7,7 @@ import utest.Test;
 @:access(pageamp.reactivity.ReValue)
 class ReScopeTest extends Test {
 	function testScope1() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		scope.set('v', 3);
 		Assert.equals(3, scope.get('v'));
 		scope.refresh();
@@ -19,7 +19,7 @@ class ReScopeTest extends Test {
 	}
 
 	function testScope2() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		scope.set('v', "[[3]]");
 		Assert.equals(null, scope.values.get('v').v);
 		Assert.equals(3, scope.get('v'));
@@ -35,8 +35,8 @@ class ReScopeTest extends Test {
 	}
 
 	function testConsts1() {
-		var scope1 = new ReScope(null, null);
-		var scope2 = new ReScope(scope1, null);
+		var scope1 = new ReScope(null, null).refresh();
+		var scope2 = new ReScope(scope1, null).refresh();
 		Assert.isNull(scope1.get('null'));
 		Assert.isNull(scope2.get('null'));
 		Assert.isTrue(scope1.get('true'));
@@ -48,8 +48,8 @@ class ReScopeTest extends Test {
 	}
 
 	function test1() {
-		var scope1 = new ReScope(null, null);
-		var scope2 = new ReScope(scope1, null);
+		var scope1 = new ReScope(null, null).refresh();
+		var scope2 = new ReScope(scope1, null).refresh();
 		var interp = new ReInterp();
 		Assert.equals(scope2, interp.run(scope2, ReParser.parse("[[this]]")));
 		Assert.equals(scope1, interp.run(scope2, ReParser.parse("[[parent]]")));

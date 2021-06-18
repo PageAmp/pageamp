@@ -1,0 +1,78 @@
+<lib
+	:pk_base_lightBg="#ffffff"
+	:pk_base_lightFg="#202124"
+	:pk_base_lightBd="rgba(0,0,0,.15)"
+	:pk_base_lightH="#155799"
+	:pk_base_lightP="[[cssColorOffset(pk_base_lightFg, 0, 1, .85)]]"
+	:pk_base_lightA="#0e8bbf"
+	:pk_base_darkBg="[[cssColorOffset('#202124', -10)]]"
+	:pk_base_darkFg="#e8eaed"
+	:pk_base_darkBd="rgba(255,255,255,.1)"
+	:pk_base_darkH="[[cssColorOffset(pk_base_lightH, 110)]]"
+	:pk_base_darkP="[[cssColorOffset(pk_base_darkFg, 0, 1, .95)]]"
+	:pk_base_darkA="[[cssColorOffset(pk_base_lightA, 50)]]"
+	:pk_base_fontSizePx=[[17]]
+	:pk_base_roundnessPx=[[3]]
+>
+	<style data-name="base">
+		body {
+			padding: 0;
+			margin: 0;
+			font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-size: [[pk_base_fontSizePx]]px;
+			line-height: 1.5;
+			background: [[pk_base_lightBg]];
+			color: [[pk_base_lightFg]];
+		}
+		* {
+			box-sizing: border-box;
+		}
+		h1, h2, h3, h4 {
+			font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-weight: 300;
+			color: [[pk_base_lightH]];
+		}
+		/* h3 {
+			color: #054789;
+		} */
+		h4 {
+			font-weight: 400;
+			opacity: .75;
+		}
+		p {
+			color: [[pk_base_lightP]];
+		}
+		/* https://www.w3schools.com/Css/css_link.asp */
+		a {
+			font-weight: 300;
+			color: [[pk_base_lightA]];
+			white-space: nowrap;
+		}
+		code {
+			font-family: 'Inconsolata', 'Courier New', Courier, monospace;
+			font-size: 15px;
+			padding: .15em .5em .2em .5em;
+			margin: 0 .2em;
+			border-radius: 3px;
+			color: #fff;
+			background: #203E5A;
+			vertical-align: 5%;
+		}
+		@media (prefers-color-scheme: dark) {
+			body {
+				background: [[pk_base_darkBg]];
+				color: [[pk_base_darkFg]];
+			}
+			h1, h2, h3, h4 {
+				color: [[pk_base_darkH]];
+			}
+			p {
+				color: [[pk_base_darkP, 10]];
+				font-weight: 300;
+			}
+			a {
+				color: [[pk_base_darkA]];
+			}
+		}
+	</style>
+</lib>

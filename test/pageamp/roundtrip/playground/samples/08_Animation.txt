@@ -13,7 +13,7 @@
 </head>
 <body :left="[[0]]">
 
-	<button :ev_click="[[
+	<button :event_click="[[
 	           animate('left', (left > 100 ? 0 : 150), .5)
 	        ]]">
 		Animate

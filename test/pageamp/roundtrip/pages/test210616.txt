@@ -1,0 +1,6 @@
+<html>
+	<head>
+		<:include src="test210616_include.txt"/>
+	</head>
+	<body></body>
+</html>

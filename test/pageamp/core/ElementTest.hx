@@ -40,24 +40,24 @@ class ElementTest extends Test {
 	// ===================================================================================
 
 	function testClass1() {
-		var doc = HtmlParser.parse('<html :c_app="true"></html>');
+		var doc = HtmlParser.parse('<html :class-app="true"></html>');
 		var root = doc.domGetRootElement();
 		var e = new Page(doc, ServerLoader.getElementProps(root));
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 		e.context.refresh();
 		Assert.equals('<html class="app" data-id="0"></html>', doc.toString());
-		e.set('c_app', false);
+		e.set('class-app', false);
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 	}
 
 	function testClass2() {
-		var doc = HtmlParser.parse('<html :c_appSection="true"></html>');
+		var doc = HtmlParser.parse('<html :class-appSection="true"></html>');
 		var root = doc.domGetRootElement();
 		var e = new Page(doc, ServerLoader.getElementProps(root));
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 		e.context.refresh();
 		Assert.equals('<html class="app-section" data-id="0"></html>', doc.toString());
-		e.set('c_appSection', false);
+		e.set('class-appSection', false);
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 	}
 
@@ -66,32 +66,32 @@ class ElementTest extends Test {
 	// ===================================================================================
 
 	function testStyle1() {
-		var doc = HtmlParser.parse('<html :s_display="block"></html>');
+		var doc = HtmlParser.parse('<html :style-display="block"></html>');
 		var root = doc.domGetRootElement();
 		var e = new Page(doc, ServerLoader.getElementProps(root));
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 		e.context.refresh();
 		Assert.equals(
 			'<html data-id="0" style="display:block"></html>', doc.toString());
-		e.set('s_display', 'none');
+		e.set('style-display', 'none');
 		Assert.equals(
 			'<html data-id="0" style="display:none"></html>', doc.toString());
-		e.set('s_display', null);
+		e.set('style-display', null);
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 	}
 
 	function testStyle2() {
-		var doc = HtmlParser.parse('<html :s_paddingBottom="1em"></html>');
+		var doc = HtmlParser.parse('<html :style-paddingBottom="1em"></html>');
 		var root = doc.domGetRootElement();
 		var e = new Page(doc, ServerLoader.getElementProps(root));
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 		e.context.refresh();
 		Assert.equals(
 			'<html data-id="0" style="padding-bottom:1em"></html>', doc.toString());
-		e.set('s_paddingBottom', '0');
+		e.set('style-paddingBottom', '0');
 		Assert.equals(
 			'<html data-id="0" style="padding-bottom:0"></html>', doc.toString());
-		e.set('s_paddingBottom', null);
+		e.set('style-paddingBottom', null);
 		Assert.equals('<html data-id="0"></html>', doc.toString());
 	}
 

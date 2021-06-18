@@ -37,13 +37,13 @@ typedef CloneProps = {
  */
 class Element extends ReScope {
 	public static inline var DOMATTR_PREFIX = 'a_';
-	public static inline var CLASSATTR_PREFIX = 'c_';
-	public static inline var CLASSATTR_PREFIXLEN = 2;
-	public static inline var STYLEATTR_PREFIX = 's_';
-	public static inline var STYLEATTR_PREFIXLEN = 2;
-	public static inline var EVENTATTR_PREFIX = 'ev_';
-	public static inline var EVENTATTR_PREFIXLEN = 3;
-	public static inline var HANDLERATTR_PREFIX = 'on_';
+	public static inline var CLASSATTR_PREFIX = 'class-';
+	public static inline var CLASSATTR_PREFIXLEN = 6;
+	public static inline var STYLEATTR_PREFIX = 'style-';
+	public static inline var STYLEATTR_PREFIXLEN = 6;
+	public static inline var EVENTATTR_PREFIX = 'event-';
+	public static inline var EVENTATTR_PREFIXLEN = 6;
+	public static inline var HANDLERATTR_PREFIX = 'on-';
 	public static inline var HANDLERATTR_PREFIXLEN = 3;
 	public static inline var ID_ATTR = 'data-id';
 	public static inline var CLONE_ATTR = 'data-clone';
@@ -58,7 +58,7 @@ class Element extends ReScope {
 	public var clone: CloneProps;
 	
 	public function new(parent:Element, props:ElementProps) {
-		super(parent, props.clone != null ? null : props.name);
+		super(parent, (props.clone != null ? null : props.name));
 		this.id = props.id != null ? props.id : root.registerElement(props);
 		this.dom = props.dom;
 		props.set('dom', null);

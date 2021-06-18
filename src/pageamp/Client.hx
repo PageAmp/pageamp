@@ -1,7 +1,9 @@
 package pageamp;
 
+import pageamp.reactivity.ReConst;
 #if client
-	import js.Syntax;
+import js.Syntax;
+import js.Browser;
 #end
 
 import pageamp.core.Body;
@@ -29,6 +31,9 @@ class Client {
 		pageProps[0].id = 0;
 		pageProps[0].dom = doc.domGetRootElement();
 		var ret = new Page(doc, pageProps[0], pageProps);
+		#if client
+			new ReConst(ret, 'window', Browser.window);
+		#end
 		loadChildren(pageProps, ret, ret.dom);
 		ret.context.refresh();
 		return ret;

@@ -142,6 +142,9 @@ class ReValue extends DoubleLinkedItem {
 					}
 					_set(v);
 				} catch (ex:Dynamic) {
+					#if utest
+						trace('ReValue($k).refresh() ERROR: ' + ex);
+					#end
 					// TODO
 				}
 				if (scope.context.isRefreshing) {

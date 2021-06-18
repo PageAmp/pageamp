@@ -12,7 +12,7 @@
 	<div>[[text1]]</div>
 
 	<button :count="[[0]]"
-	        :ev_click="[[count++]]"
+	        :event_click="[[count++]]"
 	        :on_count="[[text1 = 'on_count says: ' + count]]">
 		Click me
 	</button>

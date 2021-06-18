@@ -19,8 +19,17 @@ class ReParser {
 	}
 
 	public static function parse(s:String, ?origin:String):Expr {
-		var code = prepare(s);
-		var ret = parser.parseString(code, origin);
+		var ret = null;
+		try {
+			var code = prepare(s);
+			//trace('ReParser.parse[[$s]]: ' + code);//tempdebug
+			ret = parser.parseString(code, origin);
+		} catch (ex:Dynamic) {
+			#if utest
+				trace('ReParser.parse[[$s]] ERROR: ' + ex);
+			#end
+			//TODO
+		}
 		return ret;
 	}
 

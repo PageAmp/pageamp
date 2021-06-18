@@ -181,7 +181,7 @@ class PlaygroundTest extends Test {
 		+ '</html>', clientPage.doc.toString());
 		
 		var body:Element = clientPage.get('body');
-		body.set('ev_click', {});
+		body.set('event-click', {});
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
 		+ '\t<style data-id="2">\n'

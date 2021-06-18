@@ -9,7 +9,7 @@
 		}
 	</style>
 </head>
-<body :ev_click="[[color = (color == 'red' ? 'blue' : 'red')]]">
+<body :event-click="[[color = (color == 'red' ? 'blue' : 'red')]]">
 
 	Click this [[color]] text
 

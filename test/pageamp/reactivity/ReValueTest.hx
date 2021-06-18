@@ -8,7 +8,7 @@ import utest.Test;
 class ReValueTest extends Test {
 
 	public function testValue1a() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		var count = 0;
 		var v = new ReValue(scope, 'v1', 'foo');
 		v.callback = (v, k, _) -> {
@@ -23,7 +23,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testValue1b() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		var count = 0;
 		var v = new ReValue(scope, 'v1', 'foo');
 		v.callback = (v, k, _) -> {
@@ -41,7 +41,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testValue2() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		var count = 0;
 		var v = new ReValue(scope, 'v1', 'foo');
 		v.callback = (v, k, _) -> {
@@ -59,7 +59,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testValue3() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		var count = 0;
 		var v = new ReValue(scope, 'v1', 1);
 		v.callback = function(v, k, _) {
@@ -76,7 +76,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testValue4() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 		var count = 0;
 		var v = new ReValue(scope, 'v1', "[['foo']]");
 		v.callback = function(v, k, _) {
@@ -103,7 +103,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testDependency1() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 
 		var v1Count = 0;
 		var v2Count = 0;
@@ -140,7 +140,7 @@ class ReValueTest extends Test {
 	}
 
 	public function testDependency2() {
-		var scope = new ReScope(null, null);
+		var scope = new ReScope(null, null).refresh();
 
 		var v1Count = 0;
 		var v2Count = 0;
@@ -181,7 +181,7 @@ class ReValueTest extends Test {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('x', 1);
 			s.set('y', "[[x * 2]]");
-		});
+		}).refresh();
 		Assert.equals(2, scope.get('y'));
 
 		scope.set('x', 2);
@@ -206,7 +206,7 @@ class ReValueTest extends Test {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('f', "[[function() {return 2;}]]");
 			s.set('v1', "[[f()]]");
-		});
+		}).refresh();
 		Assert.equals(1, scope.context.cycle);
 		// functions are only refreshed once
 		Assert.equals(1, scope.values.get('f').cycle);
@@ -223,7 +223,7 @@ class ReValueTest extends Test {
 			s.set('f', "[[function(x) {return x * 2;}]]");
 			s.set('v1', "[[f(1)]]");
 			s.set('v2', "[[f(2)]]");
-		});
+		}).refresh();
 		Assert.equals(1, scope.context.cycle);
 		// functions are only refreshed once
 		Assert.equals(1, scope.values.get('f').cycle);
@@ -241,7 +241,7 @@ class ReValueTest extends Test {
 			s.set('f', "[[(x) -> x * 2]]");
 			s.set('v1', "[[f(1)]]");
 			s.set('v2', "[[f(2)]]");
-		});
+		}).refresh();
 		Assert.equals(1, scope.context.cycle);
 		// functions are only refreshed once
 		Assert.equals(1, scope.values.get('f').cycle);
@@ -258,7 +258,7 @@ class ReValueTest extends Test {
 			s.set('f', (x) -> x * 2);
 			s.set('v1', "[[f(1)]]");
 			s.set('v2', "[[f(2)]]");
-		});
+		}).refresh();
 		Assert.equals(1, scope.context.cycle);
 		// functions are only refreshed once
 		Assert.equals(1, scope.values.get('f').cycle);
@@ -274,7 +274,7 @@ class ReValueTest extends Test {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('f', (x, y) -> x * y);
 			s.set('v', "[[f(1, 2)]]");
-		});
+		}).refresh();
 		Assert.equals(2, scope.get('v'));
 	}
 
@@ -282,7 +282,7 @@ class ReValueTest extends Test {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('f', "[[function(x, y) {return x * y;}]]");
 			s.set('v', "[[f(1, 3)]]");
-		});
+		}).refresh();
 		Assert.equals(3, scope.get('v'));
 	}
 
@@ -290,7 +290,7 @@ class ReValueTest extends Test {
 		var scope = new ReScope(null, null, function(s:ReScope) {
 			s.set('f', "[[(x, y) -> x * y]]");
 			s.set('v', "[[f(1, 4)]]");
-		});
+		}).refresh();
 		Assert.equals(4, scope.get('v'));
 	}
 
@@ -300,7 +300,7 @@ class ReValueTest extends Test {
                 return x * y;
             }]]");
 			s.set('v', "[[f(1, 100)]]");
-		});
+		}).refresh();
 		Assert.equals(100, scope.get('v'));
 	}
 
@@ -317,7 +317,7 @@ class ReValueTest extends Test {
 				"[[v1]]", // when v1 changes...
 				"[[count++]]" // ...increment count
 			);
-		});
+		}).refresh();
 		Assert.equals(1, scope.get('v1'));
 		// handler was executed once during initial refresh since v1 was set
 		Assert.equals(1, scope.get('count'));
@@ -341,7 +341,7 @@ class ReValueTest extends Test {
 				true,
 				false // doesn't execute handler on initial refresh
 			);
-		});
+		}).refresh();
 		Assert.equals(1, scope.get('v1'));
 		// handler was executed once during initial refresh since v1 was set
 		Assert.equals(0, scope.get('count'));
@@ -364,7 +364,7 @@ class ReValueTest extends Test {
 				"[[v1+v2]]", // when v1 or v2 changes...
 				"[[count++]]" // ...increment count
 			);
-		});
+		}).refresh();
 		Assert.equals(1, scope.get('v1'));
 		// handler was executed once during initial refresh since v1 and v2 were
 		// both set during the same refresh cycle
@@ -407,7 +407,7 @@ class ReValueTest extends Test {
 			s.set('v1', 0);
 			new ReConst(s, 'k4', "[[k2 * v2]]");
 			s.set('v2', 5);
-		});
+		}).refresh();
 		Assert.equals(1, scope.get('k1'));
 		Assert.equals(2, scope.get('k2'));
 		Assert.equals(0, scope.get('k3'));

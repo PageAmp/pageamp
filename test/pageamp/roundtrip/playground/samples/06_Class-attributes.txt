@@ -16,10 +16,10 @@
 	<ul>
 		<li :c_listItem
 		    :c_selected="[[selection == 1]]"
-		    :ev_click="[[selection = 1]]">First</li>
+		    :event_click="[[selection = 1]]">First</li>
 		<li :c_listItem
 		    :c_selected="[[selection == 2]]"
-		    :ev_click="[[selection = 2]]">Second</li>
+		    :event_click="[[selection = 2]]">Second</li>
 	</ul>
 </body>
 </html>

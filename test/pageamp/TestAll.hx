@@ -26,6 +26,7 @@ class TestAll {
 		runner.addCase(new PreprocessorTest());
 		// roundtrip
 		runner.addCase(new PlaygroundTest());
+		// runner.addCase(new PagesTest());
 	}
 
 	public static function main() {

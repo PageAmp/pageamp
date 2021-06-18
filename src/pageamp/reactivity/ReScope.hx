@@ -36,6 +36,7 @@ class ReScope extends BaseNode {
 			name != null ? new ReConst(parent, name, this) : null;
 			context = parent.context;
 			new ReConst(this, 'animate', animate);
+			new ReConst(this, 'delayedSet', delayedSet);
 		} else {
 			new ReConst(this, 'root', this);
 			name != null ? new ReConst(this, name, this) : null;
@@ -59,7 +60,22 @@ class ReScope extends BaseNode {
 				js.Syntax.code('console.log(s)');
 #end
 			});
-			new ReConst(this, NOTNULL_FUNCTION, Util.orEmpty);
+			// new ReConst(this, NOTNULL_FUNCTION, Util.orEmpty);
+			//#if (js || php)
+				// NOTE: a logic expression like "msg [[1, 0]]" is wrong, but
+				// it turns into "'msg ' + __nn__(1, 0)"' so hscript's parser
+				// sees nothing wrong with it.
+				// In JS and PHP __nn__() simply ignores the second argument,
+				// but this fails in Haxe interp and in Java.
+				// To mitigate the problem we implement __nn__() as a vararg function
+				// in targets other than JS and PHP.
+				new ReConst(this, NOTNULL_FUNCTION, Util.orEmpty);
+			// #else
+			// 	// Ooops, we cannot do that...
+			// 	// we may replace the __nn__ call with an inline conditional expression
+			// 	// in ReParser so hscript's will pick up the error
+			// 	new ReConst(this, NOTNULL_FUNCTION, Util.orEmptyVararg);
+			// #end
 			new ReConst(this, 'int', (v) -> Std.parseInt(v+''));
 			new ReConst(this, 'string', (v) -> Std.string(v));
 			new ReConst(this, 'trim', function(v:Dynamic): String {
@@ -85,9 +101,9 @@ class ReScope extends BaseNode {
 		}
 		new ReConst(this, 'this', this);
 		super(parent, plug, index, cb);
-		if (parent == null) {
-			context.refresh();
-		}
+		// if (parent == null) {
+		// 	context.refresh();
+		// }
 	}
 
 	override public function removeChild(child:BaseNode):BaseNode {
@@ -154,8 +170,9 @@ class ReScope extends BaseNode {
 		refreshable ? value.linkAfter(ensureRefreshableList()) : null;
 	}
 
-	public inline function refresh() {
+	public inline function refresh(): ReScope {
 		context.refresh(this);
+		return this;
 	}
 
 #if utest
