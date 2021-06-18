@@ -1,4 +1,4 @@
-<lib note="styles for Includes.txt">
+<lib>
 	<style>
 	body {
 		color: red;

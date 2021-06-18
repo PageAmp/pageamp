@@ -120,6 +120,7 @@ class HtmlParser {
 	function parseAttributes(e:HtmlElement, s:String, i2:Int, origin:Int) {
 		var i1 = skipBlanks(s, i2);
 		while ((i2 = skipName(s, i1)) > i1) {
+			//TODO: ignore `::<attributes>`, used for comments
 			var name = s.substring(i1, i2);
 			var a = e.setAttribute(name, '', null, i1, i2, origin);
 			i1 = skipBlanks(s, i2);

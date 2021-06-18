@@ -102,8 +102,8 @@ class Preprocessor {
 			}
 			// cascade root attributes
 			for (k in root.attributes.keys()) {
-				if (k.startsWith(ServerLoader.LOGIC_ATTR_PREFIX)
-						&& !parent.attributes.exists(k)) {
+				if (/*k.startsWith(ServerLoader.LOGIC_ATTR_PREFIX)
+						&&*/ !parent.attributes.exists(k)) {
 					parent.attributes.set(k, root.attributes.get(k));
 				}
 			}
