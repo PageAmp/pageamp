@@ -241,6 +241,8 @@ class Element extends ReScope {
 		}
 	}
 
+	//TODO: on-add-clone, on-remove-clone special handlers
+	//TODO: auto-hide if data is null
 	function dataCallback(v:Dynamic, k:String, userData:Dynamic): Dynamic {
 		// dependencies
 		var offset:Null<Int> = getLocal(DATAOFFSET_VALUE);
@@ -280,6 +282,8 @@ class Element extends ReScope {
 				return ret;
 			}
 		} else {
+			//TODO: remove possible clones
+			//TODO: automatic hiding of element when v == null
 			return v;
 		}
 	}

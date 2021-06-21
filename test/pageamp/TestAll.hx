@@ -20,6 +20,7 @@ class TestAll {
 		runner.addCase(new ReValueTest());
 		// core
 		runner.addCase(new ElementTest());
+		runner.addCase(new DatasourceTest());
 		// server
 		runner.addCase(new HtmlParserTest());
 		runner.addCase(new ServerLoaderTest());

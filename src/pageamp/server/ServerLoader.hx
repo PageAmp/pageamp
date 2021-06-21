@@ -1,5 +1,6 @@
 package pageamp.server;
 
+import pageamp.core.Datasource;
 import pageamp.core.Body;
 import pageamp.core.Element;
 import pageamp.core.Head;
@@ -44,17 +45,20 @@ class ServerLoader {
 				dom.domSet(k, '');
 			}
 		}
-		var i = 0;
-		for (n in dom.children) {
-			if (n.type == HtmlNode.TEXT_NODE) {
-				var v = cast(n, DomTextNode).domGetNodeText();
-				if (ReParser.isDynamic(v)) {
-					ret.texts == null ? ret.texts = [] : null;
-					ret.texts.push({index: i, text: v});
-					cast(n, DomTextNode).domSetNodeText(' ');
+		// <:datasource>'s text must not be interpolated
+		if (!dom.name.startsWith(':')) {
+			var i = 0;
+			for (n in dom.children) {
+				if (n.type == HtmlNode.TEXT_NODE) {
+					var v = cast(n, DomTextNode).domGetNodeText();
+					if (ReParser.isDynamic(v)) {
+						ret.texts == null ? ret.texts = [] : null;
+						ret.texts.push({index: i, text: v});
+						cast(n, DomTextNode).domSetNodeText(' ');
+					}
 				}
+				i++;
 			}
-			i++;
 		}
 		return ret;
 	}
@@ -64,7 +68,15 @@ class ServerLoader {
 			if (n.type == HtmlNode.ELEMENT_NODE) {
 				var child:DomElement = cast n;
 				var props = getElementProps(child);
-				if (props.name != null
+				if (child.name.startsWith(':')) {
+					switch (child.name) {
+						case ':DATASOURCE':
+							child.name = 'SCRIPT';
+							child.setAttribute('type', 'application/json');
+							new Datasource(p, props);
+						default: null;
+					};
+				} else if (props.name != null
 					|| props.values != null
 					|| props.attr != null
 					|| props.texts != null

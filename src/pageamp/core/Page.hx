@@ -1,5 +1,6 @@
 package pageamp.core;
 
+import pageamp.lib.Url;
 import pageamp.core.Element;
 import pageamp.reactivity.ReConst;
 
@@ -10,7 +11,9 @@ using pageamp.lib.PropertyTools;
 
 class Page extends Element {
 	public var doc: DomDocument;
+	public var refreshURL: Url;
 	var propsRegistry: Array<ElementProps>;
+	var refreshCB: Page->Void;
 
 	public function new(doc:DomDocument, props:ElementProps, ?pageProps:Array<ElementProps>) {
 		this.doc = doc;
@@ -25,6 +28,14 @@ class Page extends Element {
 		props.id = ret;
 		propsRegistry.push(props);
 		return ret;
+	}
+
+	//TODO: use in Client, PhpServer, JavaServer and NodeServer
+	public function pageRefresh(url:Url, ?cb:Page->Void) {
+		//TODO: url must be a predeclared value in Page
+		this.refreshURL = url;
+		this.refreshCB = cb;
+		context.refresh();
 	}
 
 	/**

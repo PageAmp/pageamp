@@ -1,3 +1,16 @@
+--interp
+--class-path src
+--class-path test
+--class-path ../feffects
+--main pageamp.TestAll
+--library utest
+--define HTML_EXTENSIONS
+--library hscript
+--define hscriptPos
+--macro patchTypes('src/pageamp/hscript/interpTypePatch')
+
+--next
+
 # requires project ../feffects for animations
 --js bin/client/pageamp.js
 --class-path src
@@ -13,16 +26,3 @@
 # if uncommented, enable animations
 --class-path ../feffects
 --define feffects
-
---next
-
---interp
---class-path src
---class-path test
---class-path ../feffects
---main pageamp.TestAll
---library utest
---define HTML_EXTENSIONS
---library hscript
---define hscriptPos
---macro patchTypes('src/pageamp/hscript/interpTypePatch')
