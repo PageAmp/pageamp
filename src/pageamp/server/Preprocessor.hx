@@ -1,5 +1,6 @@
 package pageamp.server;
 
+import pageamp.server.dom.HtmlText;
 import haxe.io.Path;
 import pageamp.lib.Set;
 import pageamp.server.HtmlParser.HtmlException;
@@ -57,21 +58,33 @@ class Preprocessor {
 		if (once && parser.origins.indexOf(filePath) >= 0) {
 			return null;
 		}
-		var html;
+		var text;
 		try {
-			html = File.getContent(filePath);
+			text = File.getContent(filePath);
 		} catch (ex:Dynamic) {
 			throw new PreprocessorError('Could not read file $fname');
 		}
-		try {
-			sources.push(html);
-			ret = parser.parseDoc(html, filePath);
-			processIncludes(ret, currPath);
-		} catch (ex:HtmlException) {
-			throw new PreprocessorError(ex.msg, ex.fname, rootPath, ex.row, ex.col);
-		} catch (ex:Dynamic) {
-			throw new PreprocessorError('' + ex);
-		}
+		// trace(Path.extension(filePath));//tempdebug
+		// if (Path.extension(filePath).toLowerCase() == '.htm') {
+			// module inclusion
+			try {
+				sources.push(text);
+				ret = parser.parseDoc(text, filePath);
+				processIncludes(ret, currPath);
+			} catch (ex:HtmlException) {
+				throw new PreprocessorError(ex.msg, ex.fname, rootPath, ex.row, ex.col);
+			} catch (ex:Dynamic) {
+				throw new PreprocessorError('' + ex);
+			}
+		// } else {
+		// 	// textual inclusion
+		// 	var origin = parser.origins.length;
+		// 	sources.push(text);
+		// 	parser.origins.push(filePath);
+		// 	ret = new HtmlDocument(origin);
+		// 	var root = new HtmlElement(ret, 'lib', 0, 0, origin);
+		// 	new HtmlText(root, text, 0, 0, origin);
+		// }
 		return ret;
 	}
 

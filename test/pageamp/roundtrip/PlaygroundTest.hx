@@ -20,7 +20,7 @@ class PlaygroundTest extends Test {
 	}
 
 	function test_01() {
-		var page = Server.load(rootPath, '/samples/01_It-starts-with-HTML.txt', null, false);
+		var page = Server.load(rootPath, '/samples/01_It-starts-with-HTML.html', null, false);
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
 		+ '\t<style>\n'
@@ -45,7 +45,7 @@ class PlaygroundTest extends Test {
 	}
 
 	function test_02() {
-		var page = Server.load(rootPath, '/samples/02_Includes.txt', null, false);
+		var page = Server.load(rootPath, '/samples/02_Includes.html', null, false);
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
 		+ '\t\n'
@@ -80,7 +80,7 @@ class PlaygroundTest extends Test {
 		//
 		// server
 		//
-		var serverPage = Server.load(rootPath, '/samples/03_Styling.txt', null, false);
+		var serverPage = Server.load(rootPath, '/samples/03_Styling.html', null, false);
 		serverPage.set('color', 'red');
 		var serverHTML = serverPage.doc.toString();
 		Assert.equals('<html $idAttr="0">\n'
@@ -137,7 +137,7 @@ class PlaygroundTest extends Test {
 		//
 		// server
 		//
-		var serverPage = Server.load(rootPath, '/samples/04_Interaction.txt', null, false);
+		var serverPage = Server.load(rootPath, '/samples/04_Interaction.html', null, false);
 		var serverHTML = serverPage.doc.toString();
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'

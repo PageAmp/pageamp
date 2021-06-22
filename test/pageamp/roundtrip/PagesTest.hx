@@ -15,7 +15,7 @@ class PagesTest extends Test {
 	}
 
 	function test210616() {
-		var page = Server.load(rootPath, '/test210616.txt', null, false);
+		var page = Server.load(rootPath, '/test210616.html', null, false);
 		Assert.equals('', page.doc.toString());
 	}
 

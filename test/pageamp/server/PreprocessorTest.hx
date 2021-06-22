@@ -86,8 +86,9 @@ class PreprocessorTest extends Test {
 		Assert.equals('2', head.getAttribute(':attribute3'));
 	}
 
-	function textTextualInclude() {
-
+	function testTextualInclude() {
+		var doc = new Preprocessor(rootPath).read('testTextualInclude.html');
+		Assert.equals('<html><body>This is a "text"</body></html>', doc.toString());
 	}
 
 	// ===================================================================================
