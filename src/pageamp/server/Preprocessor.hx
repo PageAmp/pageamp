@@ -65,7 +65,8 @@ class Preprocessor {
 			throw new PreprocessorError('Could not read file $fname');
 		}
 		// trace(Path.extension(filePath));//tempdebug
-		// if (Path.extension(filePath).toLowerCase() == '.htm') {
+		var extension = Path.extension(filePath).toLowerCase();
+		if (extension == 'html' || extension == 'htm') {
 			// module inclusion
 			try {
 				sources.push(text);
@@ -76,15 +77,15 @@ class Preprocessor {
 			} catch (ex:Dynamic) {
 				throw new PreprocessorError('' + ex);
 			}
-		// } else {
-		// 	// textual inclusion
-		// 	var origin = parser.origins.length;
-		// 	sources.push(text);
-		// 	parser.origins.push(filePath);
-		// 	ret = new HtmlDocument(origin);
-		// 	var root = new HtmlElement(ret, 'lib', 0, 0, origin);
-		// 	new HtmlText(root, text, 0, 0, origin);
-		// }
+		} else {
+			// textual inclusion
+			var origin = parser.origins.length;
+			sources.push(text);
+			parser.origins.push(filePath);
+			ret = new HtmlDocument(origin);
+			var root = new HtmlElement(ret, 'lib', 0, 0, origin);
+			new HtmlText(root, text, 0, 0, origin);
+		}
 		return ret;
 	}
 
