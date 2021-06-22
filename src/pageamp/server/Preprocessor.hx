@@ -34,6 +34,7 @@ class Preprocessor {
 	public function read(fname:String): HtmlDocument {
 		var ret = readFile(fname);
 		processMacros(ret);
+		//TODO: collapse adjacent text nodes (may result from inclusions)
 		return ret;
 	}
 
