@@ -6,18 +6,22 @@ import haxe.Http;
 import haxe.Json;
 import pageamp.core.Element;
 
+using pageamp.lib.DomTools;
 using pageamp.lib.PropertyTools;
 
 class Datasource extends Element {
 	public static inline var URL_VALUE = 'url';
+	public static inline var TYPE_VALUE = 'type';
 	
 	public function new(parent:Element, props:ElementProps) {
 		props == null ? props = {} : null;
 		props.values == null ? props.values = {} : null;
 		// ensure :data is not defined
 		props.values.set(Element.DATA_VALUE, null);
+		props.values.ensure(TYPE_VALUE, 'application/json');
 		super(parent, props);
 		new ReValue(this, Element.DATA_VALUE, null).valueFn = dataValueFn;
+		values.get(TYPE_VALUE).callback = (v, k, _) -> {dom.domSet('type', v); return v;}
 	}
 
 	function dataValueFn() {
@@ -32,7 +36,7 @@ class Datasource extends Element {
 		} else {
 			// static datasource
 			try {
-				ret = Json.parse(dom.innerHTML);
+				ret = parseText(dom.innerHTML);
 			} catch (ignored:Dynamic) {}
 		}
 		return ret;
@@ -70,13 +74,21 @@ class Datasource extends Element {
 				throw error;
 			}
 			http.request();
-			ret = Json.parse(text);
+			ret = parseText(text);
 			dom.innerHTML = text;
 		} catch (ex:Dynamic) {
 			dom.innerHTML = '';
 			//TODO
 		}
 		return ret;
+	}
+
+	function parseText(text:String): Dynamic {
+		var type = get(TYPE_VALUE, false).split('/').pop().toLowerCase();
+		return switch (type) {
+			case 'json': Json.parse(text);
+			default: text;
+		}
 	}
 
 }

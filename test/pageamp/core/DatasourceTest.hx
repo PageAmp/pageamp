@@ -121,4 +121,17 @@ class DatasourceTest extends Test {
 			+ '</body></html>', doc.toString());
 	}
 
+	function testTypeText() {
+		var doc = HtmlParser.parse('<html><body>'
+			+ '<:datasource :aka="text" :type="text/plain">This is a "text"</:datasource>'
+			+ '<div :data=[[text.data]]>[[data]]</div>'
+			+ '</body></html>');
+		var page = ServerLoader.loadRoot(doc);
+		page.pageRefresh(null);
+		Assert.equals('<html data-id="0"><body data-id="1">'
+			+ '<script data-id="2" type="text/plain">This is a "text"</script>'
+			+ '<div data-id="3">This is a "text"</div>'
+			+ '</body></html>', doc.toString());
+	}
+
 }
