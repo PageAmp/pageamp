@@ -5,12 +5,12 @@
 	</style>
 </head>
 <body>
-	<:dataset :name="dset">
+	<:datasource :aka="dset">
 		<xml>
 			<root phone="617-536-7855"
 			      name="John Smith"/>
 		</xml>
-	</:dataset>
+	</:datasource>
 
 	<span :datapath="dset:/root">$data{@name}</span>
 	<span :datapath="dset:/root">$data{@phone}</span>

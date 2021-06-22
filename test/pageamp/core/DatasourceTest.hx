@@ -41,7 +41,7 @@ class DatasourceTest extends Test {
 
 	function testStaticDatasourceArray() {
 		var doc = HtmlParser.parse('<html><body>'
-			+ '<:datasource :name="people">['
+			+ '<:datasource :aka="people">['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']</:datasource>'
@@ -61,7 +61,7 @@ class DatasourceTest extends Test {
 
 	function testStaticDatasourceObject1() {
 		var doc = HtmlParser.parse('<html><body>'
-			+ '<:datasource :name="people">{"list":['
+			+ '<:datasource :aka="people">{"list":['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']}</:datasource>'
@@ -82,7 +82,7 @@ class DatasourceTest extends Test {
 	function testStaticDatasourceObject2() {
 		// identical to testStaticDatasourceObject2(), but JSON's array is in field "data"
 		var doc = HtmlParser.parse('<html><body>'
-			+ '<:datasource :name="people">{"data":['
+			+ '<:datasource :aka="people">{"data":['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']}</:datasource>'
@@ -105,7 +105,7 @@ class DatasourceTest extends Test {
 	function testDynamicDatasourceRestGet() {
 		var url = "https://ubimate.com/.test/people.json";
 		var doc = HtmlParser.parse('<html><body>'
-			+ '<:datasource :name="people" :url="$url" :dataLength=[[2]]/>'
+			+ '<:datasource :aka="people" :url="$url" :dataLength=[[2]]/>'
 			+ '<div :data=[[people.data.data]]>'
 			+ '[[data.employee_name]]: [[data.employee_age]]</div>'
 			+ '</body></html>');

@@ -13,7 +13,7 @@ using pageamp.lib.PropertyTools;
 typedef ElementProps = {
 	?dom: DomElement,
 	?id: Int,
-	?name: String,
+	?aka: String,
 	?attr: Props,
 	?values: Props,
 	?texts: Array<ElementText>,
@@ -58,7 +58,7 @@ class Element extends ReScope {
 	public var clone: CloneProps;
 	
 	public function new(parent:Element, props:ElementProps) {
-		super(parent, (props.clone != null ? null : props.name));
+		super(parent, (props.clone != null ? null : props.aka));
 		this.id = props.id != null ? props.id : root.registerElement(props);
 		this.dom = props.dom;
 		props.set('dom', null);

@@ -5,12 +5,12 @@
 	</style>
 </head>
 <body :datapath="dset:">
-	<:dataset :name="dset">
+	<:datasource :aka="dset">
 		<json>{
 			"name": "John Smith",
 			"phone": "617-536-7855"
 		}</json>
-	</:dataset>
+	</:datasource>
 
 	<span :datapath="root">$data{@name}</span>
 	<span :datapath="root">$data{@phone}</span>

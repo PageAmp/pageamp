@@ -160,10 +160,10 @@ class Preprocessor {
 		e.domSet(DEFINE_ARG, null);
 		expandMacros(e);
 		macros.set(names[0], {
-			name1:names[0],
-			name2:names[1],
-			e:e,
-			ext:macros.get(names[1])
+			name1: names[0],
+			name2: names[1],
+			e: e,
+			ext: macros.get(names[1])
 		});
 	}
 

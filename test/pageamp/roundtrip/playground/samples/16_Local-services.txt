@@ -6,7 +6,7 @@
 </head>
 <body>
 
-	<:dataset :name="list"
+	<:datasource :aka="list"
 	         :server="${makeData()}"
 	         :makeData="${function() {
 	            var names = pageReadDirectory(pageFSPath);

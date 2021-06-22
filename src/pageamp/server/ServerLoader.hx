@@ -15,7 +15,7 @@ using pageamp.lib.PropertyTools;
 
 class ServerLoader {
 	public static inline var LOGIC_ATTR_PREFIX = ':';
-	public static inline var LOGIC_NAME_ATTR = LOGIC_ATTR_PREFIX + 'name';
+	public static inline var LOGIC_NAME_ATTR = LOGIC_ATTR_PREFIX + 'aka';
 	
 	public static function loadRoot(doc:DomDocument): Page {
 		var root = doc.domGetRootElement();
@@ -35,7 +35,7 @@ class ServerLoader {
 			var v = dom.domGet(k);
 			if (k.startsWith(LOGIC_ATTR_PREFIX)) {
 				if (k == LOGIC_NAME_ATTR) {
-					ret.name = v;
+					ret.aka = v;
 				} else {
 					ret.values = ret.values.set(k.substr(1), v);
 				}
@@ -76,7 +76,7 @@ class ServerLoader {
 							new Datasource(p, props);
 						default: null;
 					};
-				} else if (props.name != null
+				} else if (props.aka != null
 					|| props.values != null
 					|| props.attr != null
 					|| props.texts != null

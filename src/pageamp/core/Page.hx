@@ -19,7 +19,7 @@ class Page extends Element {
 		this.doc = doc;
 		this.propsRegistry = (pageProps != null ? pageProps : []);
 		props == null ? props = {} : null;
-		props.name == null ? props.name = 'page' : null;
+		props.aka == null ? props.aka = 'page' : null;
 		super(null, props);
 	}
 

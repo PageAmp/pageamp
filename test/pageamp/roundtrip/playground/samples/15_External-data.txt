@@ -5,7 +5,7 @@
 	</style>
 </head>
 <body>
-	<:dataset :name="dset" :src="http://pageamp.org/playground/data/employees.json"/>
+	<:datasource :aka="dset" :src="http://pageamp.org/playground/data/employees.json"/>
 
 	<table :datapath="dset:/root">
 		<tr :foreach="item">

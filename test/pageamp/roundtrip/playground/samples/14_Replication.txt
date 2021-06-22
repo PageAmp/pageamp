@@ -5,7 +5,7 @@
 	</style>
 </head>
 <body>
-	<script :name="dset" :data=[[ {"list": [{
+	<script :aka="dset" :data=[[ {"list": [{
 		"name": "John Smith",
 		"phone": "617-536-7855"
 	}, {

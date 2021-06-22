@@ -5,7 +5,7 @@
 * standard attributes w/ dynamic content generate `a_<name>` values
 * `:`-prefixed attributes are values (save for reserved ones)
 * reserved attributes:
-	* `:name`
+	* `:aka`
 * `:c_`-prefixed attributes are class values
 * `:s_`-prefixed attributes are style values
 
