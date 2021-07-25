@@ -39,6 +39,12 @@ class Preprocessor {
 		return ret;
 	}
 
+	public inline function getOrigin(i:Int): String {
+		var fname = (i >= 0 && i < parser.origins.length ? parser.origins[i] : '');
+		fname.startsWith(rootPath) ? fname = fname.substr(rootPath.length) : null;
+		return fname;
+	}
+
 	// ===================================================================================
 	// includes
 	// ===================================================================================
@@ -46,7 +52,7 @@ class Preprocessor {
 	public static inline var IMPORT_TAG = ':IMPORT';
 	public static inline var INCLUDE_ARG = 'src';
 
-	function readFile(fname:String, ?currPath:String, once=false): HtmlDocument {
+	function readFile(fname:String, ?currPath:String, once=false, ?include:HtmlElement): HtmlDocument {
 		var ret = null;
 		fname.startsWith('/') ? currPath = null : null;
 		currPath == null ? currPath = rootPath : null;
@@ -62,9 +68,11 @@ class Preprocessor {
 		try {
 			text = File.getContent(filePath);
 		} catch (ex:Dynamic) {
-			throw new PreprocessorError('Could not read file $fname');
+			var msg = 'Could not read file $fname';
+			var fname = (include != null ? parser.origins[include.origin] : null);
+			var pos = (include != null ? include.i1 : null);
+			throw new PreprocessorError(msg, fname, rootPath, pos);
 		}
-		// trace(Path.extension(filePath));//tempdebug
 		var extension = Path.extension(filePath).toLowerCase();
 		if (extension == 'html' || extension == 'htm') {
 			// module inclusion
@@ -73,7 +81,9 @@ class Preprocessor {
 				ret = parser.parseDoc(text, filePath);
 				processIncludes(ret, currPath);
 			} catch (ex:HtmlException) {
-				throw new PreprocessorError(ex.msg, ex.fname, rootPath, ex.row, ex.col);
+				throw new PreprocessorError(ex.msg, ex.fname, rootPath, ex.pos, ex.row, ex.col);
+			} catch (ex:PreprocessorError) {
+				throw ex;
 			} catch (ex:Dynamic) {
 				throw new PreprocessorError('' + ex);
 			}
@@ -109,7 +119,7 @@ class Preprocessor {
 		var parent = e.domParent();
 		var before = e.domNextSibling();
 		e.remove();
-		var doc = readFile(src, currPath, once);
+		var doc = readFile(src, currPath, once, e);
 		if (doc != null) {
 			var root = doc.domGetRootElement();
 			for (n in root.children.copy()) {
@@ -263,7 +273,7 @@ class Preprocessor {
 					parser.origins[n.origin], null, n.i1, sources[n.origin]
 				);
 				throw new PreprocessorError(
-					'unknown slot "$slotName"', err.fname, rootPath, err.row, err.col
+					'unknown slot "$slotName"', err.fname, rootPath, err.pos, err.row, err.col
 				);
 			}
 			slot.parent.addChild(n, slot);
@@ -300,17 +310,19 @@ class Preprocessor {
 class PreprocessorError {
 	public var msg: String;
 	public var fname: String;
+	public var pos: Int;
 	public var row: Int;
 	public var col: Int;
 
-	public function new(msg:String, ?fname:String, ?rootPath:String, ?row:Int, ?col:Int) {
+	public function new(msg:String, ?fname:String, ?rootPath:String, ?pos:Int, ?row:Int, ?col:Int) {
 		this.msg = msg;
 		this.fname = (rootPath != null && fname != null && fname.startsWith(rootPath)
 			? fname.substr(rootPath.length)
 			: fname);
+		this.pos = (pos != null ? pos : 0);
 		this.row = row;
 		this.col = col;	
-	}
+}
 
 	public function toString() {
 		return fname != null ? '$fname:$row col $col: $msg' : msg;

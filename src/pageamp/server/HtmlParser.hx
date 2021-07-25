@@ -234,6 +234,7 @@ class HtmlParser {
 class HtmlException extends Exception {
 	public var msg: String;
 	public var fname: String;
+	public var pos: Int;
 	public var row: Int;
 	public var col: Int;
 
@@ -241,6 +242,7 @@ class HtmlException extends Exception {
 		super(msg);
 		this.msg = msg;
 		this.fname = fname;
+		this.pos = pos;
 		row = col = 1;
 		var i = 0, j;
 		while ((j = s.indexOf('\n', i)) >= 0 && (j <= pos)) {
