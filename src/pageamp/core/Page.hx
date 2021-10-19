@@ -10,6 +10,8 @@ using pageamp.lib.PropertyTools;
 
 
 class Page extends Element {
+	public static inline var PAGE_SCROLL_Y = 'pageScrollY';
+	public static inline var PAGE_SCROLL_DELTA_Y = 'pageScrollDeltaY';
 	public var doc: DomDocument;
 	public var refreshURL: Url;
 	var propsRegistry: Array<ElementProps>;
@@ -20,7 +22,18 @@ class Page extends Element {
 		this.propsRegistry = (pageProps != null ? pageProps : []);
 		props == null ? props = {} : null;
 		props.aka == null ? props.aka = 'page' : null;
+		props.values = props.values.set(PAGE_SCROLL_Y, 0);
+		props.values = props.values.set(PAGE_SCROLL_DELTA_Y, 0);
 		super(null, props);
+#if client
+		var window = js.Browser.window;
+		haxe.Timer.delay(() -> set(PAGE_SCROLL_Y, window.scrollY), 0);
+		var y:Float = 0;
+		doc.addEventListener('scroll', (ev) -> {
+			set(PAGE_SCROLL_DELTA_Y, window.scrollY - y);
+			set(PAGE_SCROLL_Y, (y = window.scrollY));
+		});
+#end
 	}
 
 	public function registerElement(props:ElementProps): Int {
