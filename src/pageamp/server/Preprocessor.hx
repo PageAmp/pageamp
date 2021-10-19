@@ -281,6 +281,7 @@ class Preprocessor {
 		for (name in slots.keys()) {
 			slots.get(name).remove();
 		}
+		expandMacros(dst);
 	}
 
 	// ===================================================================================

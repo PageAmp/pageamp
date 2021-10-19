@@ -9,6 +9,8 @@
 * `:c_`-prefixed attributes are class values
 * `:s_`-prefixed attributes are style values
 
+haxe version: 4.1.x
+
 ## TODO
 * //reactivity
 * //elements

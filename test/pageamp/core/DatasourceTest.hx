@@ -80,7 +80,7 @@ class DatasourceTest extends Test {
 	}
 
 	function testStaticDatasourceObject2() {
-		// identical to testStaticDatasourceObject2(), but JSON's array is in field "data"
+		// identical to testStaticDatasourceObject1(), but JSON's array is in field "data"
 		var doc = HtmlParser.parse('<html><body>'
 			+ '<:datasource :aka="people">{"data":['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'

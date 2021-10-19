@@ -154,4 +154,19 @@ class PreprocessorTest extends Test {
 		);
 	}
 
+	function test204() {
+		var doc = new Preprocessor(rootPath).read('test204.html');
+		Assert.equals('<html>
+				<head>
+				</head>
+				<body>
+					<div class=\"kit-page\">
+						<div class=\"kit-nav\"></div>
+					</div>
+				</body>
+			</html>'.normalizeText(),
+			doc.toString().normalizeText()
+		);
+	}
+
 }
