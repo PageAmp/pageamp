@@ -198,16 +198,19 @@ class Preprocessor {
 		tags.add(SLOT_TAG);
 		var slots = lookupTags(p, tags);
 		for (e in slots) {
-			var name = e.domGet(SLOT_ARG);
-			if (name == null
-				|| (name = name.trim()).length < 1
-				|| ret.exists(name)) {
-				throw new HtmlException(
-					parser.origins[e.origin], 'Bad "name" attribute',
-					e.i1, sources[e.origin]
-				);
+			var s = e.domGet(SLOT_ARG);
+			var names = (s != null ? s.split(',') : null);
+			for (name in names) {
+				if (name == null
+					|| (name = name.trim()).length < 1
+					|| ret.exists(name)) {
+					throw new HtmlException(
+						parser.origins[e.origin], 'Bad "name" attribute',
+						e.i1, sources[e.origin]
+					);
+				}
+				ret.set(name, e);
 			}
-			ret.set(name, e);
 		}
 		if (!ret.exists('default')) {
 			var e = new HtmlElement(p, SLOT_TAG, p.i1, p.i2, p.origin);
