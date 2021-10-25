@@ -11,6 +11,11 @@
 
 haxe version: 4.1.x
 
+## MISC
+* [jQueryExtern](https://lib.haxe.org/p/jQueryExtern/)
+* [IntersectionObserver Polyfill](https://github.com/que-etc/intersection-observer-polyfill)
+	* needed for built-in value `isVisible`
+
 ## TODO
 * //reactivity
 * //elements

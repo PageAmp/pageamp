@@ -126,10 +126,30 @@ class Element extends ReScope {
 	// ===================================================================================
 	// value handlers
 	// ===================================================================================
+	// build-in pseudo values you can listen to:
+	static inline var IS_VISIBLE = 'isVisible';
 
 	function addValueHandler(k:String, v:Dynamic) {
 		var name = k.substr(HANDLERATTR_PREFIXLEN);
 		new ReValue(this, null, '[[$name]]', v);
+		var ref = name;
+		switch (name) {
+			case IS_VISIBLE:
+				ref = IS_VISIBLE;
+				if (!values.exists(ref)) {
+					var value = new ReValue(this, ref, false);
+#if client
+					new js.html.IntersectionObserver((ee, _) -> {
+						for (e in ee) {
+							if (e.target == dom) {
+								value.set((e.intersectionRatio > 0));
+							}
+						}
+					}).observe(dom);
+#end
+				}
+		}
+		new ReValue(this, null, '[[$ref]]', v);
 	}
 
 	// ===================================================================================
