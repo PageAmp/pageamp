@@ -151,6 +151,16 @@ class DomTools {
 		#end
 	}
 
+	#if !debug inline #end
+	public static function domChildrenCount(e:DomElement): Int {
+		#if client
+			return e.childNodes.length;
+		#else
+			return e.children.length;
+		#end
+	}
+
+	#if !debug inline #end
 	public static function domGetNthChild(e:DomElement, i:Int): DomNode {
 		#if client
 			return (i >= 0 && i < e.childNodes.length ? e.childNodes[i] : null);

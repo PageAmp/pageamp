@@ -48,6 +48,11 @@ class Element extends ReScope {
 	public static inline var ID_ATTR = 'data-id';
 	public static inline var CLONE_ATTR = 'data-clone';
 	public static inline var TEXT_PREFIX = '-tn';
+	// build-in pseudo values:
+	static inline var DOM_VAL = 'dom';
+	static inline var DOM_INDEX_FN = 'domIndex';
+	// build-in pseudo values one can listen to:
+	static inline var IS_VISIBLE_VAL = 'isVisible';
 
 	public var root(get,null): Page;
 	public inline function get_root(): Page { return cast baseRoot; }
@@ -61,9 +66,9 @@ class Element extends ReScope {
 		super(parent, (props.clone != null ? null : props.aka));
 		this.id = props.id != null ? props.id : root.registerElement(props);
 		this.dom = props.dom;
-		props.set('dom', null);
+		props.set(DOM_VAL, null);
 		this.clone = props.clone;
-		props.set('clone', null);
+		// props.set('clone', null);
 		for (k in props.attr.keys()) {
 			var value = new ReValue(this, DOMATTR_PREFIX + k, props.attr.get(k));
 			value.userData = k;
@@ -99,7 +104,25 @@ class Element extends ReScope {
 				value.callback = textCallback;
 			}
 		}
-		new ReConst(this, 'dom', dom);
+		new ReConst(this, DOM_VAL, dom);
+		new ReConst(this, DOM_INDEX_FN, () -> {
+			var ret = -1;
+			var pdom = (parent != null ? parent.dom : null);
+			if (pdom != null) {
+				var n = 0;
+				for (i in 0...pdom.domChildrenCount()) {
+					var child = pdom.domGetNthChild(i);
+					if (Std.is(child, DomElement)) {
+						if (child == dom) {
+							ret = n;
+							break;
+						}
+						n++;
+					}
+				}
+			}
+			return ret;
+		});
 		dom.domSet(ID_ATTR, '' + this.id);
 		initData();
 		props._e = this;
@@ -126,16 +149,14 @@ class Element extends ReScope {
 	// ===================================================================================
 	// value handlers
 	// ===================================================================================
-	// build-in pseudo values you can listen to:
-	static inline var IS_VISIBLE = 'isVisible';
 
 	function addValueHandler(k:String, v:Dynamic) {
 		var name = k.substr(HANDLERATTR_PREFIXLEN);
 		new ReValue(this, null, '[[$name]]', v);
 		var ref = name;
 		switch (name) {
-			case IS_VISIBLE:
-				ref = IS_VISIBLE;
+			case IS_VISIBLE_VAL:
+				ref = IS_VISIBLE_VAL;
 				if (!values.exists(ref)) {
 					var value = new ReValue(this, ref, false);
 #if client
