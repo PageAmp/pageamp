@@ -14,8 +14,8 @@ class DatasourceTest extends Test {
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
 		Assert.equals(
-			'<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="application/json"></script>'
+			'<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json"></script>'
 			+ '</body></html>',
 			doc.toString());
 	}
@@ -30,8 +30,8 @@ class DatasourceTest extends Test {
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
 		Assert.equals(
-			'<html data-id="0"><head data-id="1">'
-			+ '<script data-id="2" type="application/json">['
+			'<html data-pa-id="0"><head data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json">['
 			+ '	{"name":"Ann", "role":"Admin"},'
 			+ '	{"name":"Joe", "role":"Account"}'
 			+']</script>'
@@ -49,13 +49,13 @@ class DatasourceTest extends Test {
 			+ '</body></html>');
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
-		Assert.equals('<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="application/json">['
+		Assert.equals('<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json">['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']</script>'
-			+ '<div data-clone="0" data-id="3">Tiger Nixon: 61</div>'
-			+ '<div data-id="3">Garrett Winters: 63</div>'
+			+ '<div data-pa-clone="0" data-pa-id="3">Tiger Nixon: 61</div>'
+			+ '<div data-pa-id="3">Garrett Winters: 63</div>'
 			+ '</body></html>', doc.toString());
 	}
 
@@ -69,13 +69,13 @@ class DatasourceTest extends Test {
 			+ '</body></html>');
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
-		Assert.equals('<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="application/json">{"list":['
+		Assert.equals('<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json">{"list":['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']}</script>'
-			+ '<div data-clone="0" data-id="3">Tiger Nixon: 61</div>'
-			+ '<div data-id="3">Garrett Winters: 63</div>'
+			+ '<div data-pa-clone="0" data-pa-id="3">Tiger Nixon: 61</div>'
+			+ '<div data-pa-id="3">Garrett Winters: 63</div>'
 			+ '</body></html>', doc.toString());
 	}
 
@@ -92,13 +92,13 @@ class DatasourceTest extends Test {
 			+ '</body></html>');
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
-		Assert.equals('<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="application/json">{"data":['
+		Assert.equals('<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json">{"data":['
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}'
 			+ ']}</script>'
-			+ '<div data-clone="0" data-id="3">Tiger Nixon: 61</div>'
-			+ '<div data-id="3">Garrett Winters: 63</div>'
+			+ '<div data-pa-clone="0" data-pa-id="3">Tiger Nixon: 61</div>'
+			+ '<div data-pa-id="3">Garrett Winters: 63</div>'
 			+ '</body></html>', doc.toString());
 	}
 
@@ -111,13 +111,13 @@ class DatasourceTest extends Test {
 			+ '</body></html>');
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
-		Assert.equals('<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="application/json">{"data":[\n'
+		Assert.equals('<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="application/json">{"data":[\n'
 			+ '	{"employee_name":"Tiger Nixon", "employee_age":61},\n'
 			+ '	{"employee_name":"Garrett Winters", "employee_age":63}\n'
 			+ ']}</script>'
-			+ '<div data-clone="0" data-id="3">Tiger Nixon: 61</div>'
-			+ '<div data-id="3">Garrett Winters: 63</div>'
+			+ '<div data-pa-clone="0" data-pa-id="3">Tiger Nixon: 61</div>'
+			+ '<div data-pa-id="3">Garrett Winters: 63</div>'
 			+ '</body></html>', doc.toString());
 	}
 
@@ -128,9 +128,9 @@ class DatasourceTest extends Test {
 			+ '</body></html>');
 		var page = ServerLoader.loadRoot(doc);
 		page.pageRefresh(null);
-		Assert.equals('<html data-id="0"><body data-id="1">'
-			+ '<script data-id="2" type="text/plain">This is a "text"</script>'
-			+ '<div data-id="3">This is a "text"</div>'
+		Assert.equals('<html data-pa-id="0"><body data-pa-id="1">'
+			+ '<script data-pa-id="2" type="text/plain">This is a "text"</script>'
+			+ '<div data-pa-id="3">This is a "text"</div>'
 			+ '</body></html>', doc.toString());
 	}
 

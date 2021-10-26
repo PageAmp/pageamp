@@ -175,12 +175,12 @@ class PreprocessorTest extends Test {
 		var page = ServerLoader.loadRoot(doc);
 		page.refresh();
 		page.set(Page.PAGE_SCROLL_Y, 44);
-		Assert.equals('<html data-id=\"0\">
-			<head data-id=\"1\">
+		Assert.equals('<html data-pa-id=\"0\">
+			<head data-pa-id=\"1\">
 			</head>
-			<body data-id=\"2\">
+			<body data-pa-id=\"2\">
 				<div class=\"kit-page\">
-					<div class=\"kit-nav\"><div data-id=\"3\">44 (0)</div></div>
+					<div class=\"kit-nav\"><div data-pa-id=\"3\">44 (0)</div></div>
 				</div>
 			</body>
 		</html>'.normalizeText(), doc.toString().normalizeText());

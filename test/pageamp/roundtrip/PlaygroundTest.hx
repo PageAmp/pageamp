@@ -141,7 +141,7 @@ class PlaygroundTest extends Test {
 		var serverHTML = serverPage.doc.toString();
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
-		+ '\t<style data-id="2">\n'
+		+ '\t<style data-pa-id="2">\n'
 		+ '\t\tbody {\n'
 		+ '\t\t\tcolor: blue;\n'
 		+ '\t\t\tfont-family: sans-serif;\n'
@@ -164,7 +164,7 @@ class PlaygroundTest extends Test {
 		var clientPage = Client.load(doc, pageProps);
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
-		+ '\t<style data-id="2">\n'
+		+ '\t<style data-pa-id="2">\n'
 		+ '\t\tbody {\n'
 		+ '\t\t\tcolor: blue;\n'
 		+ '\t\t\tfont-family: sans-serif;\n'
@@ -184,7 +184,7 @@ class PlaygroundTest extends Test {
 		body.set('event-click', {});
 		Assert.equals('<html $idAttr="0">\n'
 		+ '<head $idAttr="1">\n'
-		+ '\t<style data-id="2">\n'
+		+ '\t<style data-pa-id="2">\n'
 		+ '\t\tbody {\n'
 		+ '\t\t\tcolor: red;\n'
 		+ '\t\t\tfont-family: sans-serif;\n'

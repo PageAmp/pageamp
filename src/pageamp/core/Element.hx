@@ -45,8 +45,8 @@ class Element extends ReScope {
 	public static inline var EVENTATTR_PREFIXLEN = 6;
 	public static inline var HANDLERATTR_PREFIX = 'on-';
 	public static inline var HANDLERATTR_PREFIXLEN = 3;
-	public static inline var ID_ATTR = 'data-id';
-	public static inline var CLONE_ATTR = 'data-clone';
+	public static inline var ID_ATTR = 'data-pa-id';
+	public static inline var CLONE_ATTR = 'data-pa-clone';
 	public static inline var TEXT_PREFIX = '-tn';
 	// build-in pseudo values:
 	static inline var DOM_VAL = 'dom';
