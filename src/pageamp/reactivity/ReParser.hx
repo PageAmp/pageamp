@@ -9,9 +9,7 @@ class ReParser {
 	static inline var E1 = '[[';
 	static inline var E2 = ']]';
 
-	#if !debug
-	inline
-	#end
+	#if !debug inline #end
 	public static function isDynamic(s:String) {
 		var i1 = s.indexOf(E1);
 		var i2 = (i1 < 0 ? -1 : s.indexOf(E2, i1 + 2));
