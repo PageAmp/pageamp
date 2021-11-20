@@ -101,7 +101,7 @@ class HtmlElement extends HtmlNode {
 	}
 
 	public function setInnerText(s:String): String {
-		if (children.length == 1 || children[0].type == HtmlNode.TEXT_NODE) {
+		if (children.length == 1 && children[0].type == HtmlNode.TEXT_NODE) {
 			cast(children[0], HtmlText).text = s;
 		} else {
 			while (children.length > 0) children[children.length - 1].remove();
