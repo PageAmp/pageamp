@@ -35,12 +35,12 @@ class ReInterp extends Interp {
 
     override function get(o:Dynamic, f:String ): Dynamic {
         if (!ENABLE_UNKNOWN_VAR_EXCEPTION && o == null) return null;
-        return Std.is(o, ReScope) ? o.get(f) : super.get(o, f);
+        return Std.isOfType(o, ReScope) ? o.get(f) : super.get(o, f);
     }
 
     override function set(o:Dynamic, f:String, v:Dynamic): Dynamic {
         if (!ENABLE_UNKNOWN_VAR_EXCEPTION && o == null) return v;
-        Std.is(o, ReScope) ? o.set(f, v) : super.set(o, f, v);
+        Std.isOfType(o, ReScope) ? o.set(f, v) : super.set(o, f, v);
         return v;
     }
 

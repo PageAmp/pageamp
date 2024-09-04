@@ -26,7 +26,7 @@ class ReValue extends DoubleLinkedItem {
 		this.isFunction = false;
 		this.handleFirst = handleFirst;
 		handler != null ? handlerExpr = ReParser.parse(handler) : null;
-		if (parse && Std.is(v, String) && ReParser.isDynamic(v)) {
+		if (parse && Std.isOfType(v, String) && ReParser.isDynamic(v)) {
 			expr = ReParser.parse(v);
 			#if hscriptPos
 			switch (expr.e) {

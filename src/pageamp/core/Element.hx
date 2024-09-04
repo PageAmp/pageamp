@@ -112,7 +112,7 @@ class Element extends ReScope {
 				var n = 0;
 				for (i in 0...pdom.domChildrenCount()) {
 					var child = pdom.domGetNthChild(i);
-					if (Std.is(child, DomElement)) {
+					if (Std.isOfType(child, DomElement)) {
 						if (child == dom) {
 							ret = n;
 							break;
@@ -289,7 +289,7 @@ class Element extends ReScope {
 		var offset:Null<Int> = getLocal(DATAOFFSET_VALUE);
 		var length:Null<Int> = getLocal(DATALENGTH_VALUE);
 
-		if (Std.is(v, Array)) {
+		if (Std.isOfType(v, Array)) {
 			var a:Array<Dynamic> = cast v;
 
 			if (offset != null || length != null) {

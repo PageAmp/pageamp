@@ -18,7 +18,7 @@ class HtmlParserTest extends Test {
 		var doc = HtmlParser.parse('<html></html>');
 		Assert.notNull(doc);
 		Assert.equals(1, doc.children.length);
-		Assert.isTrue(Std.is(doc.children[0], HtmlElement));
+		Assert.isTrue(Std.isOfType(doc.children[0], HtmlElement));
 		var e:HtmlElement = cast doc.children[0];
 		Assert.equals('HTML', e.name);
 		Assert.equals(0, e.children.length);
@@ -29,7 +29,7 @@ class HtmlParserTest extends Test {
 		var doc = HtmlParser.parse('<html lang="en"></html>');
 		Assert.notNull(doc);
 		Assert.equals(1, doc.children.length);
-		Assert.isTrue(Std.is(doc.children[0], HtmlElement));
+		Assert.isTrue(Std.isOfType(doc.children[0], HtmlElement));
 		var e:HtmlElement = cast doc.children[0];
 		Assert.equals('HTML', e.name);
 		Assert.equals(0, e.children.length);
